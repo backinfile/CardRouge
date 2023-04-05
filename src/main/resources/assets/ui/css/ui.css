@@ -1,0 +1,26 @@
+
+.bc_button {
+    -fx-padding: 5 22 5 22;
+
+    -fx-background-color: rgba(70, 70, 70, 0.98);
+    -fx-text-fill: white;
+}
+
+.bc_button:hover {
+    -fx-background-color: rgba(170, 170, 170, 0.98);
+    -fx-text-fill: white;
+}
+
+.bc_button:pressed, .bc_button:default:hover:pressed {
+    -fx-background-color: rgba(170, 170, 170, 1);
+    -fx-text-fill: white;
+}
+
+.bc_button:focused {
+    -fx-text-fill: white;
+}
+
+.bc_button:disabled, .bc_button:default:disabled {
+    -fx-opacity: 0.4;
+    -fx-text-fill: #a9a9a9;
+}

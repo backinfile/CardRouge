@@ -1,0 +1,42 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+}
+
+group = 'com.backinfile'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url "https://nexus.gluonhq.com/nexus/content/repositories/releases/"
+    }
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
+    implementation 'com.github.almasb:fxgl:17.3'
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+//kotlin {
+//    jvmToolchain(11)
+//}
+
+javafx {
+    version = "18"
+    modules = [ 'javafx.controls'] // , 'javafx.graphics', 'javafx.fxml', 'javafx.media'
+}
+
+application {
+    mainClassName = 'MainKt'
+}
