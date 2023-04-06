@@ -1,4 +1,4 @@
-package com.backinfile.cardRouge.async
+package com.backinfile.support.async
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.future.asCompletableFuture

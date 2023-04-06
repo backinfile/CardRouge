@@ -1,4 +1,4 @@
-package com.backinfile.cardRouge.async
+package com.backinfile.support.async
 
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
