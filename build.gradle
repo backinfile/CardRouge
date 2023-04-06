@@ -4,6 +4,9 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.8.10'
 }
 
+sourceCompatibility     = 11
+targetCompatibility     = 11
+
 group = 'com.backinfile'
 version = '1.0-SNAPSHOT'
 

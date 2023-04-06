@@ -1,6 +1,5 @@
-import kotlinx.coroutines.*
-import kotlinx.coroutines.future.asCompletableFuture
-import java.util.concurrent.CompletableFuture
+package com.backinfile.cardRouge.async
+
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -22,22 +21,18 @@ fun main(args: Array<String>) {
     updateCheck()
 }
 
-class Card
-class HumanOper(val continuation: Continuation<Card>)
+private class Card
+private class HumanOper(val continuation: Continuation<Card>)
 
 private val queue = ArrayDeque<HumanOper>()
 
-suspend fun selectCard() = suspendCoroutine {
+private suspend fun selectCard() = suspendCoroutine {
     println("in select")
     queue.add(HumanOper(it))
 }
 
-@OptIn(DelicateCoroutinesApi::class)
-fun runAsync(block: suspend CoroutineScope.() -> Unit) {
-    GlobalScope.async(PureDispatcher) { block() }.asCompletableFuture()
-}
 
-fun updateCheck() {
+private fun updateCheck() {
     println("check start------------")
     while (queue.isNotEmpty()) {
         val humanOper = queue.removeFirst()

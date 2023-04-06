@@ -1,5 +1,13 @@
+package com.backinfile.cardRouge.async
+
 import kotlinx.coroutines.*
+import kotlinx.coroutines.future.asCompletableFuture
 import kotlin.coroutines.CoroutineContext
+
+@OptIn(DelicateCoroutinesApi::class)
+fun runAsync(block: suspend CoroutineScope.() -> Unit) {
+    GlobalScope.async(PureDispatcher) { block() }.asCompletableFuture()
+}
 
 object PureDispatcher: CoroutineDispatcher() {
     @ExperimentalCoroutinesApi
@@ -10,9 +18,7 @@ object PureDispatcher: CoroutineDispatcher() {
     override fun isDispatchNeeded(context: CoroutineContext): Boolean = false
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        throw UnsupportedOperationException("Dispatchers.PureDispatcher.dispatch function can only be used by the yield function. " +
-                "If you wrap Unconfined dispatcher in your code, make sure you properly delegate " +
-                "isDispatchNeeded and dispatch calls.")
+        throw UnsupportedOperationException("Dispatchers.PureDispatcher not dispatched")
     }
 
     override fun toString(): String = "Dispatchers.PureDispatcher"
