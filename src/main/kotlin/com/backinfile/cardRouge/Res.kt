@@ -45,7 +45,10 @@ object Res {
     const val IMG_ROOM_ICON_CHANGE = "room/room_change.png"
     const val IMG_ROOM_ICON_SHOP = "room/room_shop.png"
     const val IMG_ROOM_ICON_SNATCH = "room/room_snatch.png"
+
+
     const val FONT_FAMILY_DEFAULT = "System Regular"
+    const val FONT_SIZE_DEFAULT = 24;
 
     val Cursor_Magnifier: Cursor = ImageCursor(loadImage("magnifying-glass.png"))
 
