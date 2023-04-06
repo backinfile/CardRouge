@@ -10,6 +10,7 @@ class App : GameApplication() {
             height = 640
             title = "Kotlin Game - Target Practice"
         }
+        Log.game.info("init")
     }
 }
 

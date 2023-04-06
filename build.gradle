@@ -1,11 +1,15 @@
 plugins {
+    id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
     id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.25.0'
 }
 
-sourceCompatibility     = 11
-targetCompatibility     = 11
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
 
 group = 'com.backinfile'
 version = '1.0-SNAPSHOT'
@@ -25,21 +29,69 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 
-}
 
-test {
-    useJUnitPlatform()
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.4'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.4'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.0'
+
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.4'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.4'
 }
 
 //kotlin {
 //    jvmToolchain(11)
 //}
 
-javafx {
-    version = "18"
-    modules = [ 'javafx.controls'] // , 'javafx.graphics', 'javafx.fxml', 'javafx.media'
+application {
+    mainModule = 'CardRouge.main'
+    mainClass = 'com.backinfile.cardRouge.AppKt'
 }
 
-application {
-    mainClassName = 'MainKt'
+javafx {
+    version = "18"
+    modules = ['javafx.controls', 'javafx.graphics', 'javafx.media', 'javafx.fxml'] //
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+[compileKotlin, compileTestKotlin].forEach {
+    it.kotlinOptions.jvmTarget = '17'
+}
+
+
+//jlink {
+//    imageZip.set(project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip"))
+//    options.set { ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages'] }
+//    launcher {
+//        name = 'app'
+//    }
+//}
+//
+//jlinkZip {
+//    group = 'distribution'
+//}
+
+ext {
+    mainClassName = 'com.backinfile.cardRouge.App'
+    exportPath = 'export'
+}
+
+//task run(dependsOn: [build], type: JavaExec) {
+//    main = project.mainClassName
+//    classpath = sourceSets.main.runtimeClasspath
+//    workingDir = new File('.') // ./src/main/resources
+//    standardInput = System.in
+//}
+
+//task dist(dependsOn: JavaExec, type: Jar) {
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    archiveFileName = project.name + ".jar"
+//    manifest.attributes 'Main-Class': project.mainClassName
+//    dependsOn configurations.runtimeClasspath
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//    with jar
+//}
