@@ -3,8 +3,11 @@ package com.backinfile.cardRouge
 import com.almasb.fxgl.app.ApplicationMode
 import com.almasb.fxgl.app.GameApplication
 import com.almasb.fxgl.app.GameSettings
+import com.almasb.fxgl.dsl.runOnce
 import com.almasb.fxgl.localization.Language
+import com.backinfile.cardRouge.scene.DungeonScene
 import com.backinfile.cardRouge.scene.GameSceneFactory
+import javafx.util.Duration
 import java.awt.Toolkit
 import java.util.*
 
@@ -45,6 +48,16 @@ class App : GameApplication() {
 
     override fun initGame() {
         super.initGame()
+        runOnce({ Game.switchScene(DungeonScene()) }, Duration.ZERO)
+    }
+
+    override fun initUI() {
+        super.initUI()
+
+    }
+
+    override fun onUpdate(tpf: Double) {
+        super.onUpdate(tpf)
     }
 }
 

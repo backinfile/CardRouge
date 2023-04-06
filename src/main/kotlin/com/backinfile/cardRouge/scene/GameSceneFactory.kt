@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.scene
 
 import com.almasb.fxgl.app.scene.*
+import com.almasb.fxgl.app.scene.IntroScene
 
 class GameSceneFactory : SceneFactory() {
     override fun newGameMenu(): FXGLMenu {
@@ -17,5 +18,9 @@ class GameSceneFactory : SceneFactory() {
 
     override fun newStartup(width: Int, height: Int): StartupScene {
         return super.newStartup(width, height)
+    }
+
+    override fun newIntro(): IntroScene {
+        return super.newIntro()
     }
 }
