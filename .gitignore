@@ -1,7 +1,4 @@
 
-/system
-/.idea
-/logs
 
 .gradle
 build/
@@ -45,3 +42,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+
+/export
+/system
+/.idea
+/logs

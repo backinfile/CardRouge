@@ -1,3 +1,8 @@
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
+
 plugins {
     id 'java'
     id 'application'
@@ -17,25 +22,25 @@ version = '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     jcenter()
-    maven {
-        url "https://nexus.gluonhq.com/nexus/content/repositories/releases/"
-    }
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url "https://nexus.gluonhq.com/nexus/content/repositories/releases/" }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
+    implementation 'com.github.almasb:fxgl:17.3'
+
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
-    implementation 'com.github.almasb:fxgl:17.3'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 
+    implementation 'com.github.backinfile:support:v1.1.3'
 
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.4'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.4'
     implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.0'
 
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.12.4'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.4'
 }
 
 //kotlin {
@@ -43,7 +48,7 @@ dependencies {
 //}
 
 application {
-    mainModule = 'CardRouge.main'
+//    mainModule = 'CardRouge.main'
     mainClass = 'com.backinfile.cardRouge.AppKt'
 }
 
@@ -74,7 +79,7 @@ tasks.withType(JavaCompile).configureEach {
 //}
 
 ext {
-    mainClassName = 'com.backinfile.cardRouge.App'
+    mainClassName = 'com.backinfile.cardRouge.AppKt'
     exportPath = 'export'
 }
 
@@ -85,13 +90,32 @@ ext {
 //    standardInput = System.in
 //}
 
-//task dist(dependsOn: JavaExec, type: Jar) {
-//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//    archiveFileName = project.name + ".jar"
-//    manifest.attributes 'Main-Class': project.mainClassName
-//    dependsOn configurations.runtimeClasspath
-//    from {
-//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//    with jar
-//}
+tasks.register('dist', Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName = project.name + ".jar"
+    manifest.attributes 'Main-Class': project.mainClassName
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+tasks.register('copyMyJson', Copy) {
+    from 'json'
+    into project.exportPath + '/json'
+}
+tasks.register('copyMyJar', Copy) {
+    dependsOn dist
+    from dist.archiveFile.get().asFile
+    into project.exportPath
+}
+tasks.register('distDesktop') {
+    dependsOn copyMyJson, copyMyJar
+    doLast {
+        String path = project.exportPath;
+        String content = "start .\\jdk-17\\bin\\javaw.exe -jar " + project.name + ".jar"
+        def filePath = Paths.get(projectDir.getPath(), path, "run.bat")
+        Files.delete(filePath)
+        Files.writeString(filePath, content, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
+    }
+}
