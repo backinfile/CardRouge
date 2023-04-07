@@ -4,6 +4,10 @@ import com.almasb.fxgl.dsl.FXGL
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Res
 import com.backinfile.support.func.Action0
+import javafx.beans.binding.DoubleBinding
+import javafx.beans.binding.ObjectBinding
+import javafx.beans.value.ObservableObjectValue
+import javafx.beans.value.ObservableValue
 import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.Node

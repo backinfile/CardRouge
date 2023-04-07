@@ -58,7 +58,10 @@ class App : GameApplication() {
 
     override fun onUpdate(tpf: Double) {
         super.onUpdate(tpf)
+
     }
+
+
 }
 
 fun main(args: Array<String>) {

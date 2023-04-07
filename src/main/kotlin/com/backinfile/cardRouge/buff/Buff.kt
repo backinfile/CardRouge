@@ -18,7 +18,7 @@ abstract class Buff() {
         get() = ""
 
     val source: String
-        get() = sourceCard?.getConf()?.title ?: ""
+        get() = sourceCard?.confCard?.title ?: ""
 
 
     fun source(source: Card) = this.also { sourceCard = source }

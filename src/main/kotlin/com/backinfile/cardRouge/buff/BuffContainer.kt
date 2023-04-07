@@ -61,4 +61,5 @@ abstract class BuffContainer {
     fun getAllKeywordBuff(): List<KeywordBuff> {
         return getAllBuffs().filterIsInstance<KeywordBuff>()
     }
+
 }
