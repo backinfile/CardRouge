@@ -5,16 +5,20 @@ import com.backinfile.cardRouge.cardView.*
 import javafx.scene.image.ImageView
 
 
-@CardViewModLayer(CardViewModLayer.ModLayer.Image)
+@CardViewModLayer(CardViewModLayer.Layer.Image)
 class ModMainImage(cardView: CardView) : CardViewBaseMod(cardView) {
-    override fun onCreate(): Unit = with(CardSize) {
+    private val imageView = ImageView()
 
-        val imageView = ImageView()
+    override fun onCreate(): Unit = with(CardSize) {
         imageView.image = Res.loadCardImage(cardView.card.confCard, true)
         imageView.fitWidth = inner_width
         imageView.fitHeight = inner_height
         imageView.x = -card_width_half + edge_size
         imageView.y = -card_height_half + edge_size
         cardView.controlGroup.children.add(imageView)
+    }
+
+    override fun onShape(minion: Boolean, turnBack: Boolean) {
+        imageView.image = Res.loadCardImage(cardView.card.confCard, !turnBack);
     }
 }

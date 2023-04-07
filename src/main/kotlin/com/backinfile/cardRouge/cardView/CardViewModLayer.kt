@@ -1,8 +1,8 @@
 package com.backinfile.cardRouge.cardView
 
-annotation class CardViewModLayer(val layer: ModLayer = ModLayer.Default) {
+annotation class CardViewModLayer(val layer: Layer = Layer.Default) {
 
-    enum class ModLayer {
+    enum class Layer {
         Bottom,
         Image,
         Border,

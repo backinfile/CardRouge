@@ -41,6 +41,12 @@ public class CardViewModules {
         }
     }
 
+    public ModMainImage getModMainImage() {
+        return (ModMainImage) modules[E.ModMainImage.ordinal()];
+    }
+    public ModBorder getModBorder() {
+        return (ModBorder) modules[E.ModBorder.ordinal()];
+    }
 
     private enum E {
         ModMainImage,

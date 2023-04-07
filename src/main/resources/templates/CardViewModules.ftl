@@ -43,6 +43,11 @@ public class CardViewModules {
         }
     }
 
+<#list classes as name>
+    public ${name} get${name}() {
+        return (${name}) modules[E.${name}.ordinal()];
+    }
+</#list>
 
     private enum E {
 <#list classes as name>

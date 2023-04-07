@@ -31,7 +31,7 @@ public class GenCardViewModules {
         for (var clazz : reflection.getSubTypesOf(CardViewBaseMod.class)) {
             imports.add(clazz.getName());
 
-            int priority = CardViewModLayer.ModLayer.Default.ordinal();
+            int priority = CardViewModLayer.Layer.Default.ordinal();
 
             var annotation = clazz.getAnnotation(CardViewModLayer.class);
             if (annotation != null) {
