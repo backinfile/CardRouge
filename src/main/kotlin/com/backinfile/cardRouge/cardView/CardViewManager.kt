@@ -7,6 +7,8 @@ import javafx.scene.Group
 
 object CardViewManager :
     CardViewContainer("Global", { getGameScene().addUINode(it) }, { getGameScene().removeUINode(it) }) {
+
+
 }
 
 

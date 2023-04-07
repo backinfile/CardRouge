@@ -16,6 +16,9 @@ public class Config {
     public static final boolean LOG_GAME_ACTION = true; // 打印action执行信息
     public static final boolean LOG_VIEW_GROUP_SHOW_HIDE = true; // 打印viewGroup显示log
 
+
+    public static final String PACKAGE_NAME = "com.backinfile.cardRouge";
+
     public static boolean FULL_SCREEN = false;
     public static int SCREEN_WIDTH = 1280;
     public static int SCREEN_HEIGHT = 768;
