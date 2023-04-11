@@ -1,11 +1,11 @@
 package com.backinfile.support.fxgl
 
-import com.almasb.fxgl.core.math.Vec2
+import com.backinfile.support.kotlin.d
 import javafx.beans.binding.DoubleBinding
-import javafx.beans.binding.FloatBinding
 import javafx.beans.binding.ObjectBinding
 import javafx.beans.value.ObservableObjectValue
 import javafx.beans.value.ObservableValue
+import javafx.scene.shape.Rectangle
 
 class FxUtils {
 }
