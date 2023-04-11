@@ -55,6 +55,13 @@ object Res {
     private const val IMG_DEFAULT_CARD_IMG = "fire_tmp_1.png"
     private const val IMG_DEFAULT_CARD_IMG_BACK = "default_back.jpg"
 
+
+    val TEXT_BATTLE_START = "战斗开始"
+    val TEXT_TURN_END = "回合结束"
+    val TEXT_OPPONENT_TURN = "对手回合"
+    val TEXT_CONFIRM = "确认"
+    val TEXT_CANCEL = "取消"
+
     fun loadAll() {
         Log.game.info("res load start")
 

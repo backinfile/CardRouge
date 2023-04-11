@@ -5,20 +5,23 @@ import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Log
 import kotlin.reflect.KClass
 
-object ViewGroupManager {
+object Views {
 
     private val instanceMap: HashMap<KClass<out BaseViewGroup>, MutableList<BaseViewGroup>> = hashMapOf()
 
     private val cacheInstanceMap: HashMap<KClass<out BaseViewGroup>, BaseViewGroup> = hashMapOf()
 
+    inline fun <reified T : BaseViewGroup> show() = show(T::class)
+    inline fun <reified T : BaseViewGroup> hide() = hide(T::class)
 
-    fun show(viewGroupClass: KClass<out BaseViewGroup>) {
+    @Suppress("UNCHECKED_CAST")
+    fun <T : BaseViewGroup> show(viewGroupClass: KClass<T>): T {
         if (viewGroupClass in instanceMap) {
             val anyInstance = instanceMap[viewGroupClass]!![0]
             if (!anyInstance.multiInstance) {
                 Log.viewGroup.error("create multiInstance of {}", viewGroupClass.simpleName)
             }
-            return
+            return anyInstance as T
         }
 
         val instance =
@@ -33,6 +36,7 @@ object ViewGroupManager {
         if (instance.multiInstance) {
             cacheInstanceMap[viewGroupClass] = instance
         }
+        return instance as T
     }
 
     fun hide(viewGroupClass: KClass<out BaseViewGroup>) {
