@@ -1,12 +1,7 @@
 package com.backinfile.cardRouge;
 
-import com.backinfile.cardRouge.viewGroup.BaseViewGroup;
-import kotlin.reflect.KClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class Log {
 

@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.viewGroups
 
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.viewGroup.Param
 import com.backinfile.cardRouge.viewGroup.BaseViewGroup
 import com.backinfile.support.func.Action0
 import com.backinfile.support.kotlin.d
@@ -10,11 +11,29 @@ import javafx.scene.control.Button
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 
+class ButtonInfo(val type: String, val onClick: Action0? = null)
+class ButtonsParam(val buttons: List<ButtonInfo>) : Param() {
+    constructor(button: ButtonInfo) : this(listOf(button))
+    constructor(vararg button: ButtonInfo) : this(listOf(*button))
+    constructor(block: () -> List<ButtonInfo>) : this(block())
+}
 
-class BoardButtonsUIGroup : BaseViewGroup() {
+class BoardButtonsUIGroup : BaseViewGroup<ButtonsParam>() {
 
     private val buttonsContainer = initContainer()
     private val buttons = ArrayList<Button>()
+    override fun onShow(param: ButtonsParam) {
+        super.onShow(param)
+
+        val buttonInfoList = param.buttons
+
+        for ((i, info) in buttonInfoList.withIndex()) {
+            setButton(i, info.type, info.onClick)
+        }
+        for (i in getButtonSize() downTo buttonInfoList.size) {
+            removeButton(i)
+        }
+    }
 
     fun addButton(text: String, onClick: Action0? = null): Int {
         val button: Button = createButton()

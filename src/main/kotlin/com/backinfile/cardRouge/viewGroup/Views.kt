@@ -7,15 +7,12 @@ import kotlin.reflect.KClass
 
 object Views {
 
-    private val instanceMap: HashMap<KClass<out BaseViewGroup>, MutableList<BaseViewGroup>> = hashMapOf()
+    private val instanceMap: HashMap<KClass<out BaseViewGroup<*>>, MutableList<BaseViewGroup<*>>> = hashMapOf()
 
-    private val cacheInstanceMap: HashMap<KClass<out BaseViewGroup>, BaseViewGroup> = hashMapOf()
-
-    inline fun <reified T : BaseViewGroup> show() = show(T::class)
-    inline fun <reified T : BaseViewGroup> hide() = hide(T::class)
+    private val cacheInstanceMap: HashMap<KClass<out BaseViewGroup<*>>, BaseViewGroup<*>> = hashMapOf()
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : BaseViewGroup> show(viewGroupClass: KClass<T>): T {
+    fun <T : BaseViewGroup<Param>, Param : com.backinfile.cardRouge.viewGroup.Param> show(viewGroupClass: KClass<T>, param: Param? = null): T {
         if (viewGroupClass in instanceMap) {
             val anyInstance = instanceMap[viewGroupClass]!![0]
             if (!anyInstance.multiInstance) {
@@ -23,11 +20,10 @@ object Views {
             }
         }
 
-        val instance =
-            cacheInstanceMap[viewGroupClass] ?: viewGroupClass.java.getConstructor().newInstance() as BaseViewGroup
+        val instance: T = (cacheInstanceMap[viewGroupClass] ?: viewGroupClass.java.getConstructor().newInstance()) as T
         instanceMap.computeIfAbsent(viewGroupClass) { arrayListOf() }.add(instance)
         FXGL.getGameScene().addUINode(instance)
-        instance.onShow()
+        instance.onShow(param ?: Param() as Param)
         if (Config.LOG_VIEW_GROUP_SHOW_HIDE) {
             Log.viewGroup.info("{} show", viewGroupClass.simpleName)
         }
@@ -35,10 +31,10 @@ object Views {
         if (!instance.multiInstance) {
             cacheInstanceMap[viewGroupClass] = instance
         }
-        return instance as T
+        return instance
     }
 
-    fun hide(viewGroupClass: KClass<out BaseViewGroup>) {
+    fun <T : BaseViewGroup<Param>, Param : com.backinfile.cardRouge.viewGroup.Param> hide(viewGroupClass: KClass<T>) {
         val instance = instanceMap[viewGroupClass]?.let { if (it.isNotEmpty()) it.removeLast() else null }
         if (instance == null) {
             Log.viewGroup.warn("hide a not existed viewGroup {}", viewGroupClass.simpleName)
