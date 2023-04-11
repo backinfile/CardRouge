@@ -19,9 +19,8 @@ object Views {
         if (viewGroupClass in instanceMap) {
             val anyInstance = instanceMap[viewGroupClass]!![0]
             if (!anyInstance.multiInstance) {
-                Log.viewGroup.error("create multiInstance of {}", viewGroupClass.simpleName)
+                return anyInstance as T
             }
-            return anyInstance as T
         }
 
         val instance =
@@ -33,7 +32,7 @@ object Views {
             Log.viewGroup.info("{} show", viewGroupClass.simpleName)
         }
 
-        if (instance.multiInstance) {
+        if (!instance.multiInstance) {
             cacheInstanceMap[viewGroupClass] = instance
         }
         return instance as T

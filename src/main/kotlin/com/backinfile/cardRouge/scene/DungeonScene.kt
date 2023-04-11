@@ -27,7 +27,7 @@ class DungeonScene : SubScene() {
 //        cardView.moveInfo.move(Point2D(1000.0, 300.0), duration = Duration.seconds(0.2))
 
 
-        Views.showButtons { button(Res.TEXT_CONFIRM); button(Res.TEXT_CANCEL) }
+        Views.showButtons { button(Res.TEXT_CONFIRM); button(Res.TEXT_CANCEL); }
     }
 
     override fun onDestroy() {
