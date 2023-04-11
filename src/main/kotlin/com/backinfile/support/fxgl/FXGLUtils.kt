@@ -21,14 +21,13 @@ import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 
 
-fun font(
-    size: Int = Res.FONT_SIZE_DEFAULT,
-    family: String = Res.FONT_FAMILY_DEFAULT,
-    weight: FontWeight = FontWeight.NORMAL,
-) = Font.font(family, weight, size.toDouble())
-
 
 object FXGLUtils {
+    fun font(
+        size: Int = Res.FONT_SIZE_DEFAULT,
+        weight: FontWeight = FontWeight.NORMAL,
+        family: String = Res.FONT_FAMILY_DEFAULT,
+    ) = Font.font(family, weight, size.toDouble())
 
 
     fun btn(text: String = "", onClick: Action0? = null): Button {
