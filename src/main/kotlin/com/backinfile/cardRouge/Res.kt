@@ -61,6 +61,7 @@ object Res {
     val TEXT_OPPONENT_TURN = "对手回合"
     val TEXT_CONFIRM = "确认"
     val TEXT_CANCEL = "取消"
+    val TEXT_CLOSE = "关闭"
 
     fun loadAll() {
         Log.game.info("res load start")
