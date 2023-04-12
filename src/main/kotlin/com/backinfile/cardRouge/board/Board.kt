@@ -5,11 +5,13 @@ import com.backinfile.cardRouge.dungeon.Dungeon
 import com.backinfile.cardRouge.human.Human
 import com.backinfile.cardRouge.human.Player
 import com.backinfile.support.func.Action1
+import com.backinfile.support.kotlin.once
+import kotlin.properties.Delegates
 
 class Board {
-    lateinit var dungeon: Dungeon
+    var dungeon: Dungeon by Delegates.once()
 
-    private lateinit var startHuman: Human // 本次对战先手玩家
+    private var startHuman: Human by Delegates.once() // 本次对战先手玩家
 
     private val humans = ArrayList<Human>() // 对战双方
     private val turnCurHuman: Human? = null // 当前玩家

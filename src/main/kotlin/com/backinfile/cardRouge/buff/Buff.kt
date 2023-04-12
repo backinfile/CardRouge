@@ -1,10 +1,12 @@
 package com.backinfile.cardRouge.buff
 
 import com.backinfile.cardRouge.card.Card
+import com.backinfile.support.kotlin.once
+import kotlin.properties.Delegates
 
 // 所有卡牌效果
 abstract class Buff() {
-    lateinit var container: BuffContainer
+    var container: BuffContainer by Delegates.once()
 
     var count = -1
     var value = -1

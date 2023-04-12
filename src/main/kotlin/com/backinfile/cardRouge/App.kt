@@ -9,7 +9,6 @@ import com.backinfile.cardRouge.scene.DungeonScene
 import com.backinfile.cardRouge.scene.GameSceneFactory
 import javafx.util.Duration
 import java.awt.Toolkit
-import java.util.*
 
 class App : GameApplication() {
     override fun initSettings(settings: GameSettings) {
