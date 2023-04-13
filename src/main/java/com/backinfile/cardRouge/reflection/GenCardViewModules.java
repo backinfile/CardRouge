@@ -47,5 +47,9 @@ public class GenCardViewModules {
 
         FreeMarkerUtils.formatFile("templates", "CardViewModules.ftl",
                 rootMap, PROJECT_PATH + GEN_PACKAGE_PATH, "CardViewModules.java");
+
+
+        FreeMarkerUtils.formatFile("templates", "CardViewModulesInterface.ftl",
+                rootMap, PROJECT_PATH + GEN_PACKAGE_PATH, "CardViewModulesInterface.java");
     }
 }

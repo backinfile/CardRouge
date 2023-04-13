@@ -43,6 +43,7 @@ class App : GameApplication() {
         settings.isMainMenuEnabled = false
         settings.isGameMenuEnabled = false
         settings.cssList = mutableListOf("fxgl_dark.css", "ui.css")
+//        settings.is3D = true
     }
 
     override fun initGame() {

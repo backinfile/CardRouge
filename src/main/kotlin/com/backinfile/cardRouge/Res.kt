@@ -93,7 +93,7 @@ object Res {
         return FXGL.getAssetLoader().loadTexture(path)
     }
 
-    fun loadCardImage(confCard: ConfCard, front: Boolean): Image {
+    fun loadCardImage(confCard: ConfCard, front: Boolean = true): Image {
         return if (front) {
             if (!confCard.image.isEmpty()) {
                 val image = FXGL.getAssetLoader().loadImage(confCard.image)
@@ -113,7 +113,7 @@ object Res {
         }
     }
 
-    fun loadCardTexture(confCard: ConfCard, front: Boolean): Texture {
+    fun loadCardTexture(confCard: ConfCard, front: Boolean = true): Texture {
         return Texture(loadCardImage(confCard, front))
     }
 
