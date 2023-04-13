@@ -3,6 +3,7 @@ package com.backinfile.cardRouge.cardView.mods
 import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.dsl.getInput
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
@@ -111,7 +112,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             }
         }
         controlGroup.addEventHandler(MouseEvent.MOUSE_MOVED) {
-            val positionUI = getInput().mousePositionUI
+            val positionUI = GameConfig.getMouseUIPos()
             val x = it.sceneX
             val y = it.sceneY
             cardView.moveInfo.move(Point2D(x, y))

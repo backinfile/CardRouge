@@ -1,5 +1,9 @@
 package com.backinfile.cardRouge;
 
+import com.almasb.fxgl.dsl.FXGL;
+import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
+
 // 对战逻辑配置
 public class GameConfig {
     // 职业
@@ -34,4 +38,8 @@ public class GameConfig {
     public static final int CARD_ID_LAVA = 1100101; // 熔岩元素
     public static final int CARD_ID_TIME = 1100111; // 时元素
     public static final int CARD_ID_SPACE = 1100121; // 空元素
+
+    public static Point2D getMouseUIPos() {
+        return FXGL.getInput().getMousePositionUI();
+    }
 }

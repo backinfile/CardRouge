@@ -17,7 +17,7 @@ public class GenCardViewModules {
     private static final String PROJECT_PATH = "src\\main\\java\\";
 
     public static void main(String[] args) {
-        var reflection = new Reflections(Config.PACKAGE_NAME, new SubTypesScanner(false));
+        var reflection = new Reflections(Config.PACKAGE_NAME);
 
         var rootMap = new HashMap<String, Object>();
         rootMap.put("package", GEN_PACKAGE);
