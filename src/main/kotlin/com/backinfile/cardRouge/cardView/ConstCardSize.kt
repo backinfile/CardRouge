@@ -1,9 +1,14 @@
 package com.backinfile.cardRouge.cardView
 
 import com.backinfile.cardRouge.Config
+import javafx.scene.layout.Background
+import javafx.scene.layout.BackgroundFill
 import javafx.scene.paint.Color
+import javafx.scene.paint.CycleMethod
+import javafx.scene.paint.LinearGradient
+import javafx.scene.paint.Stop
 
-object CardSize {
+object ConstCardSize {
     val card_width: Double = Config.CARD_WIDTH
     val card_height: Double = Config.CARD_HEIGHT
     val card_width_half: Double = Config.CARD_WIDTH / 2f
@@ -23,6 +28,16 @@ object CardSize {
     val mark_size: Double = card_height / 10f
     val selected_mark_size = mark_size * 4
 
-
+    val FILL_DARK_MASK = Color(0.0, 0.0, 0.0, 0.2)
+    val FILL_TEXT_BACKGROUND = Color(0.0, 0.0, 0.0, 0.5)
+    val FILL_TITLE_BACKGROUND = Color(0.0, 0.0, 0.0, 0.4)
     val STROKE_EDGE_DARK = Color(0.0, 0.0, 0.0, 0.3)
+
+    val BACKGROUND_GROUP_NUMBER = Background(BackgroundFill(Color.DARKGREEN, null, null))
+    val BACKGROUND_TITLE = Background(BackgroundFill(FILL_TEXT_BACKGROUND, null, null))
+    val GRADIENT_MASK = LinearGradient(
+        0.0, 0.0, 0.0, 1.0, true, CycleMethod.NO_CYCLE,
+        listOf(Stop(0.0, Color.TRANSPARENT), Stop(1.0, Color.BLACK)
+        )
+    )
 }

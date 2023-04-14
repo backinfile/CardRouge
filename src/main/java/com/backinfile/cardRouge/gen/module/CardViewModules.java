@@ -6,6 +6,7 @@ import com.backinfile.cardRouge.cardView.mods.ModBorder;
 import com.backinfile.cardRouge.cardView.mods.ModInteract;
 import com.backinfile.cardRouge.cardView.mods.ModMainImage;
 import com.backinfile.cardRouge.cardView.mods.ModMove;
+import com.backinfile.cardRouge.cardView.mods.ModText;
 
 /**
  * 此类是自动生成的，不要修改
@@ -23,6 +24,7 @@ public class CardViewModules {
         modules = new CardViewBaseMod[E.values().length];
         modules[E.ModMainImage.ordinal()] = new ModMainImage(cardView);
         modules[E.ModBorder.ordinal()] = new ModBorder(cardView);
+        modules[E.ModText.ordinal()] = new ModText(cardView);
         modules[E.ModInteract.ordinal()] = new ModInteract(cardView);
         modules[E.ModMove.ordinal()] = new ModMove(cardView);
     }
@@ -51,6 +53,9 @@ public class CardViewModules {
     public ModBorder getModBorder() {
         return (ModBorder) modules[E.ModBorder.ordinal()];
     }
+    public ModText getModText() {
+        return (ModText) modules[E.ModText.ordinal()];
+    }
     public ModInteract getModInteract() {
         return (ModInteract) modules[E.ModInteract.ordinal()];
     }
@@ -61,6 +66,7 @@ public class CardViewModules {
     private enum E {
         ModMainImage,
         ModBorder,
+        ModText,
         ModInteract,
         ModMove,
     }

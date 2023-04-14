@@ -6,6 +6,7 @@ import com.backinfile.cardRouge.cardView.mods.ModBorder;
 import com.backinfile.cardRouge.cardView.mods.ModInteract;
 import com.backinfile.cardRouge.cardView.mods.ModMainImage;
 import com.backinfile.cardRouge.cardView.mods.ModMove;
+import com.backinfile.cardRouge.cardView.mods.ModText;
 
 /**
  * 此类是自动生成的，不要修改
@@ -18,6 +19,9 @@ public interface CardViewModulesInterface {
     }
     default ModBorder getModBorder() {
         return getModules().getModBorder();
+    }
+    default ModText getModText() {
+        return getModules().getModText();
     }
     default ModInteract getModInteract() {
         return getModules().getModInteract();

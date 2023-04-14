@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView
 class ModMainImage(cardView: CardView) : CardViewBaseMod(cardView) {
     private val imageView = ImageView()
 
-    override fun onCreate(): Unit = with(CardSize) {
+    override fun onCreate(): Unit = with(ConstCardSize) {
         imageView.image = Res.loadCardImage(cardView.card.confCard, true)
         imageView.fitWidth = inner_width
         imageView.fitHeight = inner_height

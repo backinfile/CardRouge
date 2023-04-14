@@ -10,9 +10,9 @@ import javafx.scene.shape.Rectangle
 @CardViewModLayer(CardViewModLayer.Layer.Border)
 class ModBorder(cardView: CardView) : CardViewBaseMod(cardView) {
     private val edgeView = ImageView()
-    private val edgeDarkerView = Rectangle(CardSize.inner_width, CardSize.inner_height)
+    private val edgeDarkerView = Rectangle(ConstCardSize.inner_width, ConstCardSize.inner_height)
 
-    override fun onCreate(): Unit = with(CardSize) {
+    override fun onCreate(): Unit = with(ConstCardSize) {
         edgeView.image = Res.loadImage(getEdgeByType())
         edgeView.fitWidth = card_width
         edgeView.fitHeight = card_height
