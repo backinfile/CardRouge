@@ -19,8 +19,6 @@ class CardView(val card: Card) : Group(), CardViewModulesInterface {
     val controlGroup = Group()
     private val modules = CardViewModules(this)
 
-    val moveInfo: CardMoveInfo get() = modMove.moveInfo
-
     init {
         modules.init()
         modules.onCreate()

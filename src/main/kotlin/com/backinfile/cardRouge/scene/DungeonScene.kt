@@ -2,9 +2,7 @@ package com.backinfile.cardRouge.scene
 
 import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.scene.SubScene
-import com.backinfile.cardRouge.Game
-import com.backinfile.cardRouge.Log
-import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.*
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.cardRouge.gen.config.ConfCard
@@ -25,7 +23,7 @@ class DungeonScene : SubScene() {
     override fun onCreate() {
         super.onCreate()
 
-
+        BoardBackgroundGroup.show()
 
         FXGL.getInput().clearAll()
 
@@ -34,27 +32,20 @@ class DungeonScene : SubScene() {
         val card = Card(ConfCard.get(1201001))
 
         val cardView = CardViewManager.getOrCreate(card)
+        cardView.modMove.move(scale = Config.SCALE_HAND_CARD)
 ////        cardView.moveInfo.move(Point2D(1000.0, 300.0), scale = 0.3, rotate = 180.0, duration = Duration.seconds(0.2))
-        cardView.moveInfo.move(Point2D(1000.0, 300.0), duration = Duration.seconds(0.2))
+        cardView.modMove.move(Point2D(1000.0, 300.0), duration = Duration.seconds(0.2))
 //        cardView.moveInfo.move(Point2D(1000.0, 300.0), duration = Duration.ZERO)
 
         cardView.modInteract.enableDrag().enableClick {
             Log.game.info("click")
         }
 
+        BoardButtonsUIGroup.show()
+
 //        Views.show(BoardButtonsUIGroup::class, ButtonsParam(ButtonInfo(Res.TEXT_CLOSE)))
 
-
-        // 开始界面
-        val vBox: VBox = VBox(
-            FXGLUtils.btn("开始") {  },
-            FXGLUtils.btn("设置") { FXGL.getSceneService().pushSubScene(SettingScene.Instance) },
-            FXGLUtils.btn("退出") { Platform.exit() }
-        )
-        vBox.alignment = Pos.CENTER
-        vBox.translateXProperty().bind(vBox.widthProperty().multiply(-0.5f).add(FXGL.getAppWidth() / 4f))
-        vBox.translateYProperty().bind(vBox.heightProperty().multiply(-0.5f).add(FXGL.getAppHeight() / 2f))
-        FXGL.getGameScene().addUINode(vBox)
+//        Views.show(BoardButtonsUIGroup::class, ButtonsParam(ButtonInfo(Res.TEXT_CLOSE)))
     }
 
     override fun onDestroy() {

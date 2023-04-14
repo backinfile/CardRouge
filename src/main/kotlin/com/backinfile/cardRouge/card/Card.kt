@@ -6,7 +6,6 @@ import com.backinfile.cardRouge.gen.config.ConfCard
 
 open class Card(val confCard: ConfCard, val oriPlayerCard: Boolean = true) : BuffContainer() {
     private var manaCost = 0
-    private val counter = -1
 
     val id get() = confCard.id
 

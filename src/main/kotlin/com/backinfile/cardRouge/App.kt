@@ -6,6 +6,7 @@ import com.almasb.fxgl.app.GameSettings
 import com.almasb.fxgl.dsl.getInput
 import com.almasb.fxgl.dsl.runOnce
 import com.almasb.fxgl.localization.Language
+import com.backinfile.cardRouge.reflection.GlobalCheck
 import com.backinfile.cardRouge.scene.DungeonScene
 import com.backinfile.cardRouge.scene.GameSceneFactory
 import javafx.util.Duration
@@ -54,7 +55,6 @@ class App : GameApplication() {
 
     override fun initUI() {
         super.initUI()
-
     }
 
     override fun onUpdate(tpf: Double) {
@@ -67,5 +67,8 @@ class App : GameApplication() {
 }
 
 fun main(args: Array<String>) {
+    if (Config.DEBUG) {
+        GlobalCheck.check()
+    }
     GameApplication.launch(App::class.java, args)
 }

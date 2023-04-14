@@ -28,21 +28,5 @@ class CardMoveInfo {
         scale.update(delta)
     }
 
-    fun move(
-        pos: Point2D? = null,
-        rotate: Double? = null,
-        scale: Double? = null,
-        duration: Duration = Duration.ZERO,
-    ): Boolean {
-        if (pos != null) {
-            this.position.setTarget(Vec2(pos), duration)
-        }
-        if (rotate != null) {
-            this.rotation.setTarget(rotate, duration)
-        }
-        if (scale != null) {
-            this.scale.setTarget(scale, duration)
-        }
-        return this.position.moving || this.rotation.moving || this.scale.moving
-    }
+
 }

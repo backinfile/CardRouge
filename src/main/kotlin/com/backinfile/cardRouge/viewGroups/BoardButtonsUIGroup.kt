@@ -2,7 +2,7 @@ package com.backinfile.cardRouge.viewGroups
 
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.viewGroup.Param
-import com.backinfile.cardRouge.viewGroup.BaseViewGroup
+import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
 import com.backinfile.support.func.Action0
 import com.backinfile.support.kotlin.d
 import javafx.event.EventHandler
@@ -12,13 +12,15 @@ import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 
 class ButtonInfo(val type: String, val onClick: Action0? = null)
-class ButtonsParam(val buttons: List<ButtonInfo>) : Param() {
-    constructor(button: ButtonInfo) : this(listOf(button))
-    constructor(vararg button: ButtonInfo) : this(listOf(*button))
-    constructor(block: () -> List<ButtonInfo>) : this(block())
+class ButtonsParam() : Param() {
+    val buttons: ArrayList<ButtonInfo> = ArrayList()
+
+    constructor(vararg button: ButtonInfo) : this() {
+        buttons.addAll(listOf(*button))
+    }
 }
 
-class BoardButtonsUIGroup : BaseViewGroup<ButtonsParam>() {
+object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
 
     private val buttonsContainer = initContainer()
     private val buttons = ArrayList<Button>()
@@ -75,11 +77,9 @@ class BoardButtonsUIGroup : BaseViewGroup<ButtonsParam>() {
     fun getButtonSize() = buttons.size
 
 
-    companion object {
-        private const val button_font_size = 20
-        private val button_width: Int = Config.SCREEN_WIDTH / 10
-        private const val button_height = button_font_size + 4
-    }
+    private const val button_font_size = 20
+    private val button_width: Int = Config.SCREEN_WIDTH / 10
+    private const val button_height = button_font_size + 4
 
     private fun createButton(): Button {
         val button = Button()

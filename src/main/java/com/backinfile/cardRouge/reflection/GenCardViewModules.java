@@ -5,9 +5,11 @@ import com.backinfile.cardRouge.cardView.CardViewBaseMod;
 import com.backinfile.cardRouge.cardView.CardViewModLayer;
 import javafx.util.Pair;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 
 public class GenCardViewModules {
 

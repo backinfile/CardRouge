@@ -1,19 +1,16 @@
 package com.backinfile.cardRouge.cardView.mods
 
-import com.almasb.fxgl.dsl.FXGL
-import com.almasb.fxgl.dsl.getInput
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Game
-import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.support.MathUtils
-import com.backinfile.support.func.Action1
 import javafx.geometry.Point2D
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseDragEvent
 import javafx.scene.input.MouseEvent
+import javafx.util.Duration
 
 private typealias CardInteractCallback = (CardView) -> Unit
 
@@ -77,8 +74,9 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     override fun update(delta: Double) {
         if (!isDragging) return
 
-        val cardWidthHalf: Double = Config.CARD_WIDTH * cardView.controlGroup.scaleX / 2f
-        val cardHeightHalf: Double = Config.CARD_HEIGHT * cardView.controlGroup.scaleY / 2f
+        val scale = cardView.modMove.scale.value
+        val cardWidthHalf = Config.CARD_WIDTH * scale / 2.0
+        val cardHeightHalf = Config.CARD_HEIGHT * scale / 2.0
         var fx = Game.getInput().mouseXUI
         var fy = Game.getInput().mouseYUI - cardHeightHalf / 3
 
@@ -86,7 +84,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         fx = MathUtils.clamp(fx, cardWidthHalf, Config.SCREEN_WIDTH - cardWidthHalf)
         fy = MathUtils.clamp(fy, cardHeightHalf, Config.SCREEN_HEIGHT - cardHeightHalf)
 
-        cardView.moveInfo.move(Point2D(fx, fy))
+        cardView.modMove.move(Point2D(fx, fy), duration = Duration.millis(50.0))
     }
 
     private fun initMouseEvent() {
@@ -96,7 +94,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
                 isDragging = true
                 dragStartCallback?.invoke(cardView)
                 controlGroup.setOnMouseMoved { event ->
-                    cardView.moveInfo.move(Point2D(event.x, event.y))
+                    cardView.modMove.move(Point2D(event.x, event.y))
                     Log.game.info("move ${Point2D(event.x, event.y)}")
                 }
             }

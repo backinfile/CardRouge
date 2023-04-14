@@ -22,6 +22,8 @@ abstract class MovingField<T>(initValue: T) {
 
     val observable get() = wrappedValue as SimpleObjectProperty<T>
 
+    val value: T get() = wrappedValue.get()
+
     protected abstract var from: T
     protected abstract var to: T
 

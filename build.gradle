@@ -57,7 +57,7 @@ application {
 
 javafx {
     version = "18"
-    modules = ['javafx.controls', 'javafx.graphics', 'javafx.media', 'javafx.fxml'] //
+    modules = ['javafx.controls'] // , 'javafx.graphics', 'javafx.media', 'javafx.fxml'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -81,10 +81,7 @@ tasks.withType(JavaCompile).configureEach {
 //    group = 'distribution'
 //}
 
-ext {
-    mainClassName = 'com.backinfile.cardRouge.AppKt'
-    exportPath = 'export'
-}
+
 
 //task run(dependsOn: [build], type: JavaExec) {
 //    main = project.mainClassName
@@ -93,6 +90,10 @@ ext {
 //    standardInput = System.in
 //}
 
+ext {
+    mainClassName = 'com.backinfile.cardRouge.AppKt'
+    exportPath = 'export'
+}
 tasks.register('dist', Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveFileName = project.name + ".jar"
@@ -103,6 +104,7 @@ tasks.register('dist', Jar) {
     }
     with jar
 }
+
 tasks.register('copyMyJson', Copy) {
     from 'json'
     into project.exportPath + '/json'
