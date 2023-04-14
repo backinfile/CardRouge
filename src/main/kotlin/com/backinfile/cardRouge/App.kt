@@ -59,8 +59,6 @@ class App : GameApplication() {
 
     override fun onUpdate(tpf: Double) {
         super.onUpdate(tpf)
-
-        Log.game.info("${getInput().mousePositionUI}")
     }
 
 

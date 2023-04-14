@@ -8,6 +8,8 @@ import java.util.List;
 public class Config {
     // debug 字段
     public static final boolean DEBUG = true;
+
+    public static final boolean CARD_MOVE_LOCAL = false; // 卡牌以本地坐标方式移动
     public static final boolean ROBOT_DO_NOT_ACTION = false;
     public static final boolean ROBOT_START_WITH_1_SLOT = false;
     public static final List<Integer> PLAYER_START_WITH_CARDS = List.of(GameConfig.CARD_ID_LAND, GameConfig.CARD_ID_LAND);

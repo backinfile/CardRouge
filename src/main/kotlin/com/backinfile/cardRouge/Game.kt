@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge
 
 import com.almasb.fxgl.dsl.FXGL
+import com.almasb.fxgl.dsl.getGameScene
 import com.almasb.fxgl.dsl.getInput
 import com.almasb.fxgl.scene.SubScene
 import com.backinfile.cardRouge.cardView.CardViewManager
@@ -10,6 +11,9 @@ object Game {
         private set
 
     fun getInput() = curScene?.input ?: FXGL.getInput()
+
+    fun getScene() = curScene?: getGameScene()
+
 
     fun switchScene(subScene: SubScene) {
         if (curScene != null) FXGL.getSceneService().popSubScene()

@@ -45,6 +45,12 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         initMouseEvent()
     }
 
+    fun disableAll() {
+        enableMouseOver(false)
+        enableClick(false)
+        enableDrag(false)
+    }
+
     fun enableClick(enableClick: Boolean = true, clickCallback: CardInteractCallback? = null): ModInteract {
         this.enableClick = enableClick
         this.clickCallback = clickCallback
@@ -52,7 +58,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun enableDrag(
-        enableDrag: Boolean = true,
+        enableDrag: Boolean,
         start: CardInteractCallback? = null,
         update: CardInteractCallback? = null,
         over: CardInteractCallback? = null,
@@ -71,6 +77,20 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         return this
     }
 
+    fun enableMouseOver(
+        enableMouseOver: Boolean,
+        enter: CardInteractCallback? = null,
+        leave: CardInteractCallback? = null,
+    ): ModInteract {
+        this.enableMouseOver = enableMouseOver
+        mouseEnterCallback = enter
+        mouseLeaveCallback = leave
+        if (!enableMouseOver && isMouseOver) {
+            isMouseOver = false
+        }
+        return this
+    }
+
     override fun update(delta: Double) {
         if (!isDragging) return
 
@@ -84,7 +104,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         fx = MathUtils.clamp(fx, cardWidthHalf, Config.SCREEN_WIDTH - cardWidthHalf)
         fy = MathUtils.clamp(fy, cardHeightHalf, Config.SCREEN_HEIGHT - cardHeightHalf)
 
-        cardView.modMove.move(Point2D(fx, fy), duration = Duration.millis(50.0))
+        cardView.modMove.move(Point2D(fx, fy), duration = Duration.millis(70.0))
     }
 
     private fun initMouseEvent() {
@@ -93,16 +113,11 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             if (it.isPrimaryButtonDown && enableDrag && !isDragging) {
                 isDragging = true
                 dragStartCallback?.invoke(cardView)
-                controlGroup.setOnMouseMoved { event ->
-                    cardView.modMove.move(Point2D(event.x, event.y))
-                    Log.game.info("move ${Point2D(event.x, event.y)}")
-                }
             }
         }
         controlGroup.addEventHandler(MouseDragEvent.MOUSE_RELEASED) {
             if (isDragging) {
                 isDragging = false
-                controlGroup.onMouseMoved = null
                 dragOverCallback?.invoke(cardView)
             }
         }
