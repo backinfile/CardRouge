@@ -4,11 +4,8 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} (%F:%L) [%c][%p] %msg%n"/>
         </Console>
-        <RollingFile name="File" fileName="logs/game.log">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} (%F:%L) [%c][%p] %msg%n"/>
-        </RollingFile>
         <RollingFile name="RollingFileInfo" fileName="./logs/info.log"
-                     filePattern="./logs/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+                     filePattern="./logs/info-%d{yyyy-MM-dd}-%i.log">
             <!--控制台只输出debug及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} (%F:%L) [%c][%p] %msg%n"/>

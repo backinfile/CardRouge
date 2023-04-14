@@ -6,7 +6,11 @@ import com.almasb.fxgl.scene.SubScene
 import com.backinfile.cardRouge.cardView.CardViewManager
 
 object Game {
-    private var curScene: SubScene? = null
+    var curScene: SubScene? = null
+        private set
+
+    fun getInput() = curScene?.input ?: FXGL.getInput()
+
     fun switchScene(subScene: SubScene) {
         if (curScene != null) FXGL.getSceneService().popSubScene()
         FXGL.getSceneService().pushSubScene(subScene)
@@ -14,7 +18,7 @@ object Game {
 //        getInput().set
     }
 
-    fun update(delta:Double) {
+    fun update(delta: Double) {
         CardViewManager.update(delta)
     }
 }

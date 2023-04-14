@@ -3,6 +3,7 @@ package com.backinfile.cardRouge
 import com.almasb.fxgl.app.ApplicationMode
 import com.almasb.fxgl.app.GameApplication
 import com.almasb.fxgl.app.GameSettings
+import com.almasb.fxgl.dsl.getInput
 import com.almasb.fxgl.dsl.runOnce
 import com.almasb.fxgl.localization.Language
 import com.backinfile.cardRouge.scene.DungeonScene
@@ -59,6 +60,7 @@ class App : GameApplication() {
     override fun onUpdate(tpf: Double) {
         super.onUpdate(tpf)
 
+        Log.game.info("${getInput().mousePositionUI}")
     }
 
 

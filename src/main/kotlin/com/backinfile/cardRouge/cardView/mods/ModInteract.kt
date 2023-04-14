@@ -3,10 +3,12 @@ package com.backinfile.cardRouge.cardView.mods
 import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.dsl.getInput
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.Game
 import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
+import com.backinfile.support.MathUtils
 import com.backinfile.support.func.Action1
 import javafx.geometry.Point2D
 import javafx.scene.input.MouseButton
@@ -36,19 +38,6 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
 
     private var isBack = false
 
-    companion object {
-        private var enableRightClick = false
-        private var rightClickCallback: CardInteractCallback? = null
-        fun enableRightClick(enable: Boolean = true, callback: CardInteractCallback? = null) {
-            this.enableRightClick = enable
-            this.rightClickCallback = callback
-
-//            if (!isBack && cardView.card.confCard.cardType != GameConfig.CARD_TYPE_SUPPORT) {
-////                    ViewGroups.cardDetail.show(card)
-//                TODO("card detail")
-//            }
-        }
-    }
 
     override fun onShape(minion: Boolean, turnBack: Boolean) {
         this.isBack = turnBack
@@ -78,7 +67,10 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         dragOverCallback = over
         if (!enableDrag && isDragging) {
             isDragging = false
+            dragCancelCallback?.invoke(cardView)
         }
+
+        dragCancelCallback = cancel
         return this
     }
 
@@ -87,15 +79,14 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
 
         val cardWidthHalf: Double = Config.CARD_WIDTH * cardView.controlGroup.scaleX / 2f
         val cardHeightHalf: Double = Config.CARD_HEIGHT * cardView.controlGroup.scaleY / 2f
-        var fx = FXGL.getInput().mouseXUIProperty().get()
-        var fy = FXGL.getInput().mousePositionUI
+        var fx = Game.getInput().mouseXUI
+        var fy = Game.getInput().mouseYUI - cardHeightHalf / 3
 
         // 靠近屏幕边缘的处理
-//        fx = MathUtils.clamp(fx, cardWidthHalf, Config.SCREEN_WIDTH - cardWidthHalf)
-//        fy = MathUtils.clamp(fy, cardHeightHalf, Config.SCREEN_HEIGHT - cardHeightHalf)
+        fx = MathUtils.clamp(fx, cardWidthHalf, Config.SCREEN_WIDTH - cardWidthHalf)
+        fy = MathUtils.clamp(fy, cardHeightHalf, Config.SCREEN_HEIGHT - cardHeightHalf)
 
-//        cardView.moveInfo.move(Point2D(fx, fy), duration = Duration.ZERO)
-//        Log.game.info("target: ${FXGL.getInput().mousePositionUI}, ${getInput().mousePositionWorld}")
+        cardView.moveInfo.move(Point2D(fx, fy))
     }
 
     private fun initMouseEvent() {
@@ -104,24 +95,15 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             if (it.isPrimaryButtonDown && enableDrag && !isDragging) {
                 isDragging = true
                 dragStartCallback?.invoke(cardView)
-                Log.game.info("drag Start")
                 controlGroup.setOnMouseMoved { event ->
                     cardView.moveInfo.move(Point2D(event.x, event.y))
                     Log.game.info("move ${Point2D(event.x, event.y)}")
                 }
             }
         }
-        controlGroup.addEventHandler(MouseEvent.MOUSE_MOVED) {
-            val positionUI = GameConfig.getMouseUIPos()
-            val x = it.sceneX
-            val y = it.sceneY
-            cardView.moveInfo.move(Point2D(x, y))
-            Log.game.info("$positionUI $x $y")
-        }
         controlGroup.addEventHandler(MouseDragEvent.MOUSE_RELEASED) {
             if (isDragging) {
                 isDragging = false
-                Log.game.info("drag end")
                 controlGroup.onMouseMoved = null
                 dragOverCallback?.invoke(cardView)
             }
@@ -144,6 +126,21 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             } else if (event.button == MouseButton.SECONDARY) {
                 if (enableRightClick) rightClickCallback?.invoke(cardView)
             }
+        }
+    }
+
+
+    companion object {
+        private var enableRightClick = false
+        private var rightClickCallback: CardInteractCallback? = null
+        fun enableRightClick(enable: Boolean = true, callback: CardInteractCallback? = null) {
+            this.enableRightClick = enable
+            this.rightClickCallback = callback
+
+//            if (!isBack && cardView.card.confCard.cardType != GameConfig.CARD_TYPE_SUPPORT) {
+////                    ViewGroups.cardDetail.show(card)
+//                TODO("card detail")
+//            }
         }
     }
 }
