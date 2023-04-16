@@ -5,8 +5,12 @@ import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
 import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.support.fxgl.FXGLUtils
+import com.backinfile.support.fxgl.setSize
+import com.backinfile.support.kotlin.d
 import javafx.geometry.Pos
 import javafx.scene.control.Label
+import javafx.scene.layout.Background
+import javafx.scene.layout.BackgroundFill
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 import javafx.scene.text.FontWeight
@@ -26,23 +30,23 @@ class ModText(cardView: CardView) : CardViewBaseMod(cardView) {
         with(ConstCardSize) {
             val title = Label(card.confCard.title)
             title.alignment = Pos.CENTER
-            title.setPrefSize(inner_width, title_font_size.toDouble())
+            title.setSize(inner_width, title_font_size * 1.5)
             title.translateX = -card_width_half + edge_size
-            title.translateY = -card_height_half + card_height - maskHeight
+            title.translateY = card_height_half - maskHeight - title_font_size * 1.5
             title.textFill = Color.WHITE
             title.font = FXGLUtils.font(title_font_size, FontWeight.BOLD)
             title.textAlignment = TextAlignment.CENTER
 
             val description = Label(card.confCard.description.replace("\\n", "\n"))
             description.alignment = Pos.CENTER
-            description.setPrefSize(inner_width, maskHeight - title_height)
+            description.setSize(inner_width, maskHeight - edge_size)
             description.translateX = -card_width_half + edge_size
-            description.translateY =
-                -card_height_half + card_height - edge_size - maskHeight + title_height
+            description.translateY = card_height_half - maskHeight
             description.textFill = Color.WHITE
             description.font = FXGLUtils.font(description_font_size)
             description.textAlignment = TextAlignment.CENTER
             description.isWrapText = true
+//            description.background = Background(BackgroundFill(Color.BLUE, null, null))
 
             val bottomTitle = Label(card.confCard.title)
             bottomTitle.alignment = Pos.CENTER
@@ -76,7 +80,7 @@ class ModText(cardView: CardView) : CardViewBaseMod(cardView) {
             mask.fill = GRADIENT_MASK
 
 //            controlGroup.children.addAll(title, description, bottomTitle, subType, darkMaskView)
-            controlGroup.children.addAll(title, darkMaskView)
+            controlGroup.children.addAll(mask, title, description)
         }
     }
 }

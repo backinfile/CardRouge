@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.cardView
 
 import com.backinfile.cardRouge.Config
+import com.backinfile.support.fxgl.opacity
 import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
 import javafx.scene.paint.Color
@@ -17,10 +18,10 @@ object ConstCardSize {
     const val glow_edge_size = 5
     val inner_width = card_width - edge_size * 2
     val inner_height = card_height - edge_size * 2
-    val maskHeight: Double = card_width * 6 / 14
-    val maskHeightOffset: Double = card_height * 3 / 14
-    const val mana_offset = -edge_size / 2
-    const val mana_size = 46
+    val maskHeight: Double = card_width * 7 / 14
+    val maskHeightOffset: Double = card_height * 2 / 14
+    const val mana_offset = edge_size * 2 / 3.0
+    const val mana_size = 50
     const val title_font_size = 24
     const val title_height = title_font_size + 4
     const val subType_font_size = 20
@@ -37,7 +38,11 @@ object ConstCardSize {
     val BACKGROUND_TITLE = Background(BackgroundFill(FILL_TEXT_BACKGROUND, null, null))
     val GRADIENT_MASK = LinearGradient(
         0.0, 0.0, 0.0, 1.0, true, CycleMethod.NO_CYCLE,
-        listOf(Stop(0.0, Color.TRANSPARENT), Stop(1.0, Color.BLACK)
+        listOf(
+            Stop(0.0, opacity(0.0)),
+            Stop(0.1, opacity(0.3)),
+            Stop(0.7, opacity(0.6)),
+            Stop(1.0, opacity(0.8))
         )
     )
 }

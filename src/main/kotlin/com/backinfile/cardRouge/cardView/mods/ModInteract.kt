@@ -2,18 +2,23 @@ package com.backinfile.cardRouge.cardView.mods
 
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Game
-import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
+import com.backinfile.cardRouge.cardView.CardViewModLayer
+import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.support.MathUtils
 import javafx.geometry.Point2D
+import javafx.scene.Node
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseDragEvent
 import javafx.scene.input.MouseEvent
+import javafx.scene.paint.Color
+import javafx.scene.shape.Rectangle
 import javafx.util.Duration
 
 private typealias CardInteractCallback = (CardView) -> Unit
 
+@CardViewModLayer(CardViewModLayer.Layer.Control)
 class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     private var enableDrag = false
     private var isDragging = false
@@ -42,7 +47,14 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
 
     override fun onCreate() {
         super.onCreate()
-        initMouseEvent()
+        with(ConstCardSize) {
+            val controlMask = Rectangle(card_width, card_height, Color.BLACK)
+            controlMask.x = -card_width_half
+            controlMask.y = -card_height_half
+            controlMask.opacity = 0.0
+            cardView.controlGroup.children.add(controlMask)
+            initMouseEvent(controlMask)
+        }
     }
 
     fun disableAll() {
@@ -107,33 +119,32 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         cardView.modMove.move(Point2D(fx, fy), duration = Duration.millis(70.0))
     }
 
-    private fun initMouseEvent() {
-        val controlGroup = cardView.controlGroup
-        controlGroup.addEventHandler(MouseDragEvent.MOUSE_PRESSED) {
+    private fun initMouseEvent(node: Node) {
+        node.addEventHandler(MouseDragEvent.MOUSE_PRESSED) {
             if (it.isPrimaryButtonDown && enableDrag && !isDragging) {
                 isDragging = true
                 dragStartCallback?.invoke(cardView)
             }
         }
-        controlGroup.addEventHandler(MouseDragEvent.MOUSE_RELEASED) {
+        node.addEventHandler(MouseDragEvent.MOUSE_RELEASED) {
             if (isDragging) {
                 isDragging = false
                 dragOverCallback?.invoke(cardView)
             }
         }
-        controlGroup.addEventHandler(MouseEvent.MOUSE_ENTERED) {
+        node.addEventHandler(MouseEvent.MOUSE_ENTERED) {
             if (!isDragging && enableMouseOver) {
                 isMouseOver = true
                 mouseEnterCallback?.invoke(cardView)
             }
         }
-        controlGroup.addEventHandler(MouseEvent.MOUSE_EXITED) {
+        node.addEventHandler(MouseEvent.MOUSE_EXITED) {
             if (!isDragging && isMouseOver) {
                 isMouseOver = false
                 mouseLeaveCallback?.invoke(cardView)
             }
         }
-        controlGroup.setOnMouseClicked { event: MouseEvent ->
+        node.setOnMouseClicked { event: MouseEvent ->
             if (event.button == MouseButton.PRIMARY) {
                 if (enableClick) clickCallback?.invoke(cardView)
             } else if (event.button == MouseButton.SECONDARY) {

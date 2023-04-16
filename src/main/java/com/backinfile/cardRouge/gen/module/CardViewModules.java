@@ -3,6 +3,7 @@ package com.backinfile.cardRouge.gen.module;
 import com.backinfile.cardRouge.cardView.CardView;
 import com.backinfile.cardRouge.cardView.CardViewBaseMod;
 import com.backinfile.cardRouge.cardView.mods.ModBorder;
+import com.backinfile.cardRouge.cardView.mods.ModIcon;
 import com.backinfile.cardRouge.cardView.mods.ModInteract;
 import com.backinfile.cardRouge.cardView.mods.ModMainImage;
 import com.backinfile.cardRouge.cardView.mods.ModMove;
@@ -25,8 +26,9 @@ public class CardViewModules {
         modules[E.ModMainImage.ordinal()] = new ModMainImage(cardView);
         modules[E.ModBorder.ordinal()] = new ModBorder(cardView);
         modules[E.ModText.ordinal()] = new ModText(cardView);
-        modules[E.ModInteract.ordinal()] = new ModInteract(cardView);
+        modules[E.ModIcon.ordinal()] = new ModIcon(cardView);
         modules[E.ModMove.ordinal()] = new ModMove(cardView);
+        modules[E.ModInteract.ordinal()] = new ModInteract(cardView);
     }
 
     public void onCreate() {
@@ -56,18 +58,22 @@ public class CardViewModules {
     public ModText getModText() {
         return (ModText) modules[E.ModText.ordinal()];
     }
-    public ModInteract getModInteract() {
-        return (ModInteract) modules[E.ModInteract.ordinal()];
+    public ModIcon getModIcon() {
+        return (ModIcon) modules[E.ModIcon.ordinal()];
     }
     public ModMove getModMove() {
         return (ModMove) modules[E.ModMove.ordinal()];
+    }
+    public ModInteract getModInteract() {
+        return (ModInteract) modules[E.ModInteract.ordinal()];
     }
 
     private enum E {
         ModMainImage,
         ModBorder,
         ModText,
-        ModInteract,
+        ModIcon,
         ModMove,
+        ModInteract,
     }
 }

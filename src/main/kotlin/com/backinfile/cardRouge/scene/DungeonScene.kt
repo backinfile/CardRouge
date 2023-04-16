@@ -41,7 +41,7 @@ class DungeonScene : SubScene() {
 
 
 
-        cardView.modMove.move(scale = Config.SCALE_HAND_CARD)
+        cardView.modMove.move(scale = Config.SCALE_DISCOVER_CARD)
 ////        cardView.moveInfo.move(Point2D(1000.0, 300.0), scale = 0.3, rotate = 180.0, duration = Duration.seconds(0.2))
         cardView.modMove.move(Point2D(1000.0, 300.0), duration = Duration.seconds(0.2))
 //        cardView.moveInfo.move(Point2D(1000.0, 300.0), duration = Duration.ZERO)

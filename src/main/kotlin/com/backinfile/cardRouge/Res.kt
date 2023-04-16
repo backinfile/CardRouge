@@ -35,6 +35,8 @@ object Res {
     const val IMG_FAST_SUMMON_MARK = "fastSummon.png"
     const val IMG_ICON_SETTING = "icon_setting.png"
     const val IMG_ICON_MAP = "icon_map.png"
+    const val IMG_ICON_SLOW = "icon_cost.png"
+    const val IMG_ICON_FAST =  "icon_fast.png"
     const val IMG_ROOM_ICON_START = "room/room_start.png"
     const val IMG_ROOM_ICON_BATTLE = "room/room_battle.png"
     const val IMG_ROOM_ICON_BATTLE_ELITE = "room/room_battle_elite.png"
