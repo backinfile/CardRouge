@@ -37,14 +37,6 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     private var mouseEnterCallback: CardInteractCallback? = null
     private var mouseLeaveCallback: CardInteractCallback? = null
 
-
-    private var isBack = false
-
-
-    override fun onShape(minion: Boolean, turnBack: Boolean) {
-        this.isBack = turnBack
-    }
-
     override fun onCreate() {
         super.onCreate()
         with(ConstCardSize) {
@@ -161,7 +153,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             this.enableRightClick = enable
             this.rightClickCallback = callback
 
-//            if (!isBack && cardView.card.confCard.cardType != GameConfig.CARD_TYPE_SUPPORT) {
+//            if (!shape.isBack && cardView.card.confCard.cardType != GameConfig.CARD_TYPE_SUPPORT) {
 ////                    ViewGroups.cardDetail.show(card)
 //                TODO("card detail")
 //            }

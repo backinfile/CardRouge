@@ -8,6 +8,7 @@ import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.fxgl.setSize
 import com.backinfile.support.kotlin.d
 import javafx.geometry.Pos
+import javafx.scene.Group
 import javafx.scene.control.Label
 import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
@@ -19,6 +20,7 @@ import javafx.scene.text.TextAlignment
 
 @CardViewModLayer(CardViewModLayer.Layer.TEXT)
 class ModText(cardView: CardView) : CardViewBaseMod(cardView) {
+    private val group = Group()
 
     override fun onCreate() {
         super.onCreate()
@@ -79,8 +81,16 @@ class ModText(cardView: CardView) : CardViewBaseMod(cardView) {
             mask.y = -card_height_half + card_height - edge_size - maskHeight - maskHeightOffset
             mask.fill = GRADIENT_MASK
 
+            group.children.addAll(mask, title, description)
+
 //            controlGroup.children.addAll(title, description, bottomTitle, subType, darkMaskView)
-            controlGroup.children.addAll(mask, title, description)
+            controlGroup.children.add(group)
+
         }
+    }
+
+    override fun onShapeChange(shape: CardView.Shape) {
+        super.onShapeChange(shape)
+        group.isVisible = !shape.minion && !shape.turnBack
     }
 }

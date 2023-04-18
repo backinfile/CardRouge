@@ -6,10 +6,11 @@ abstract class CardViewBaseMod(val cardView: CardView) {
 
     }
 
-    open fun onShape(minion: Boolean, turnBack: Boolean) {
+    open fun update(delta: Double) {
+
     }
 
-    open fun update(delta: Double) {
+    open fun onShapeChange(shape: CardView.Shape) {
 
     }
 }

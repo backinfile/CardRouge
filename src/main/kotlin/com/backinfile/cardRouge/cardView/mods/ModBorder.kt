@@ -28,9 +28,10 @@ class ModBorder(cardView: CardView) : CardViewBaseMod(cardView) {
         cardView.controlGroup.children.add(edgeDarkerView)
     }
 
-    override fun onShape(minion: Boolean, turnBack: Boolean) {
-        edgeView.isVisible = !turnBack
-        edgeDarkerView.isVisible = !turnBack
+
+    override fun onShapeChange(shape: CardView.Shape) {
+        edgeView.isVisible = !shape.turnBack
+        edgeDarkerView.isVisible = !shape.turnBack
     }
 
     private fun getEdgeByType(): String {

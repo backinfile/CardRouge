@@ -18,6 +18,9 @@ class CardView(val card: Card) : Group(), CardViewModulesInterface {
 
     val controlGroup = Group()
     private val modules = CardViewModules(this)
+    var shape = Shape()
+
+    data class Shape(val turnBack: Boolean = false, val minion: Boolean = false)
 
     init {
         modules.init()

@@ -17,8 +17,7 @@ class ModMainImage(cardView: CardView) : CardViewBaseMod(cardView) {
         imageView.y = -card_height_half + edge_size
         cardView.controlGroup.children.add(imageView)
     }
-
-    override fun onShape(minion: Boolean, turnBack: Boolean) {
-        imageView.image = Res.loadCardImage(cardView.card.confCard, !turnBack);
+    override fun onShapeChange(shape: CardView.Shape) {
+        imageView.image = Res.loadCardImage(cardView.card.confCard, !shape.turnBack);
     }
 }
