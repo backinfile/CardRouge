@@ -11,7 +11,6 @@ import com.backinfile.support.MathUtils
 import com.backinfile.support.Random
 import com.backinfile.support.func.Action1
 import com.backinfile.support.fxgl.FXGLUtils
-import com.backinfile.support.fxgl.wrapper
 import com.backinfile.support.kotlin.d
 import javafx.event.EventHandler
 import javafx.scene.Cursor
@@ -91,7 +90,7 @@ class MapViewGroup internal constructor() : Group() {
         background.cursor = Cursor.OPEN_HAND
         background.onMousePressed = EventHandler {
             val startX: Double = mapNodeGroup.translateX - FXGL.getInput().mouseXUI
-            mapNodeGroup.translateXProperty().bind(FXGL.getInput().mouseXUIProperty().wrapper {
+            mapNodeGroup.translateXProperty().bind(FXGL.getInput().mouseXUIProperty().map {
                 MathUtils.clamp(
                     FXGL.getInput().mouseXUI + startX,
                     -backgroundRight + Config.SCREEN_WIDTH,

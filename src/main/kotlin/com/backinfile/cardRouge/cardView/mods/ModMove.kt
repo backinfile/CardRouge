@@ -3,11 +3,12 @@ package com.backinfile.cardRouge.cardView.mods
 import com.almasb.fxgl.core.math.Vec2
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Log
-import com.backinfile.cardRouge.cardView.*
-import com.backinfile.support.fxgl.wrapper
+import com.backinfile.cardRouge.cardView.CardView
+import com.backinfile.cardRouge.cardView.CardViewBaseMod
+import com.backinfile.cardRouge.cardView.MovingFieldDouble
+import com.backinfile.cardRouge.cardView.MovingFieldVec2
 import com.backinfile.support.kotlin.d
 import javafx.geometry.Point2D
-import javafx.scene.Group
 import javafx.util.Duration
 
 class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {

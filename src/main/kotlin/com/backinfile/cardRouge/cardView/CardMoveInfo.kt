@@ -1,13 +1,8 @@
 package com.backinfile.cardRouge.cardView
 
 import com.almasb.fxgl.core.math.Vec2
-import com.almasb.fxgl.ui.Position
-import com.backinfile.support.fxgl.wrapper
 import com.backinfile.support.kotlin.d
-import javafx.geometry.Point2D
 import javafx.scene.Group
-import javafx.scene.transform.Scale
-import javafx.util.Duration
 
 class CardMoveInfo {
     val position = MovingFieldVec2(Vec2(0.0, 0.0))
@@ -15,8 +10,8 @@ class CardMoveInfo {
     val scale = MovingFieldDouble(1.0)
 
     fun bindBy(group: Group) {
-        group.translateXProperty().bind(position.observable.wrapper { it.x.d })
-        group.translateYProperty().bind(position.observable.wrapper { it.y.d })
+        group.translateXProperty().bind(position.observable.map { it.x.d })
+        group.translateYProperty().bind(position.observable.map { it.y.d })
         group.rotateProperty().bind(rotation.observable)
         group.scaleXProperty().bind(scale.observable)
         group.scaleYProperty().bind(scale.observable)
