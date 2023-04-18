@@ -20,7 +20,14 @@ class CardView(val card: Card) : Group(), CardViewModulesInterface {
     private val modules = CardViewModules(this)
     var shape = Shape()
 
-    data class Shape(val turnBack: Boolean = false, val minion: Boolean = false)
+    val curCard: Card get() = shape.changeCard ?: card
+
+    data class Shape(
+        val turnBack: Boolean = false,
+        val minion: Boolean = false,
+        val changeableCardList: List<Card> = listOf(),
+        val changeCard: Card? = null,
+    )
 
     init {
         modules.init()
