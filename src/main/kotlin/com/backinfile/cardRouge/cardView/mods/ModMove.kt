@@ -20,20 +20,8 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
         super.onCreate()
 
         val group = cardView
-        position.observable.addListener { _ ->
-            val parent = cardView.parent
-            if (Config.CARD_MOVE_LOCAL && parent != null) {
-                val localPos = parent.sceneToLocal(position.value.x.d, position.value.y.d)
-                Log.game.info("${position.value.x.d}, ${position.value.y.d} ${localPos}")
-                group.translateX = localPos.x
-                group.translateY = localPos.y
-            } else {
-                group.translateX = position.value.x.d
-                group.translateY = position.value.y.d
-            }
-        }
-//        group.translateXProperty().bind(position.observable.wrapper { it.x.d })
-//        group.translateYProperty().bind(position.observable.wrapper { it.y.d })
+        group.translateXProperty().bind(position.observable.map { it.x.d })
+        group.translateYProperty().bind(position.observable.map { it.y.d })
         group.rotateProperty().bind(rotation.observable)
         group.scaleXProperty().bind(scale.observable)
         group.scaleYProperty().bind(scale.observable)

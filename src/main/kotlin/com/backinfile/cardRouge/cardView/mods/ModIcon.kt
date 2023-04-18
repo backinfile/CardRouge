@@ -32,6 +32,12 @@ class ModIcon(cardView: CardView) : CardViewBaseMod(cardView) {
 
             cardView.controlGroup.children.addAll(manaBG, manaView)
         }
+        refresh()
+    }
+
+    fun refresh() {
+        manaView.isVisible = cardView.card.confCard.cost == 0
+        manaBG.isVisible = cardView.card.confCard.cost == 0
     }
 
     override fun onShapeChange(shape: CardView.Shape) {

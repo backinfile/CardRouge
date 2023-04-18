@@ -33,7 +33,7 @@ public class CardViewModules {
 
     public void onShapeChange(CardView.Shape shape) {
         for (var mod : modules) {
-            mod.onShape(minion, turnBack);
+            mod.onShapeChange(shape);
         }
     }
 
