@@ -4,12 +4,16 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.future.asCompletableFuture
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * 单线程方式执行异步代码
+ * 当代码流程中出现suspendCoroutine时，控制权暂时转移，等待玩家操作完成执行resume，回到代码流程
+ */
 @OptIn(DelicateCoroutinesApi::class)
 fun runAsync(block: suspend CoroutineScope.() -> Unit) {
     GlobalScope.async(PureDispatcher) { block() }.asCompletableFuture()
 }
 
-object PureDispatcher: CoroutineDispatcher() {
+object PureDispatcher : CoroutineDispatcher() {
     @ExperimentalCoroutinesApi
     override fun limitedParallelism(parallelism: Int): CoroutineDispatcher {
         throw UnsupportedOperationException("limitedParallelism is not supported for Dispatchers.PureDispatcher")
