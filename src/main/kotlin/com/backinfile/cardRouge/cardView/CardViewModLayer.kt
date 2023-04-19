@@ -7,6 +7,7 @@ annotation class CardViewModLayer(val layer: Layer = Layer.Default) {
         Image,
         Border,
         TEXT,
+        MANA,
         ICON,
         Default,
         Control,

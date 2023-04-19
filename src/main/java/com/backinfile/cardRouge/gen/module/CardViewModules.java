@@ -3,9 +3,9 @@ package com.backinfile.cardRouge.gen.module;
 import com.backinfile.cardRouge.cardView.CardView;
 import com.backinfile.cardRouge.cardView.CardViewBaseMod;
 import com.backinfile.cardRouge.cardView.mods.ModBorder;
-import com.backinfile.cardRouge.cardView.mods.ModIcon;
 import com.backinfile.cardRouge.cardView.mods.ModInteract;
 import com.backinfile.cardRouge.cardView.mods.ModMainImage;
+import com.backinfile.cardRouge.cardView.mods.ModMana;
 import com.backinfile.cardRouge.cardView.mods.ModMove;
 import com.backinfile.cardRouge.cardView.mods.ModText;
 
@@ -26,7 +26,7 @@ public class CardViewModules {
         modules[E.ModMainImage.ordinal()] = new ModMainImage(cardView);
         modules[E.ModBorder.ordinal()] = new ModBorder(cardView);
         modules[E.ModText.ordinal()] = new ModText(cardView);
-        modules[E.ModIcon.ordinal()] = new ModIcon(cardView);
+        modules[E.ModMana.ordinal()] = new ModMana(cardView);
         modules[E.ModMove.ordinal()] = new ModMove(cardView);
         modules[E.ModInteract.ordinal()] = new ModInteract(cardView);
     }
@@ -58,8 +58,8 @@ public class CardViewModules {
     public ModText getModText() {
         return (ModText) modules[E.ModText.ordinal()];
     }
-    public ModIcon getModIcon() {
-        return (ModIcon) modules[E.ModIcon.ordinal()];
+    public ModMana getModMana() {
+        return (ModMana) modules[E.ModMana.ordinal()];
     }
     public ModMove getModMove() {
         return (ModMove) modules[E.ModMove.ordinal()];
@@ -72,7 +72,7 @@ public class CardViewModules {
         ModMainImage,
         ModBorder,
         ModText,
-        ModIcon,
+        ModMana,
         ModMove,
         ModInteract,
     }

@@ -6,12 +6,9 @@ import com.backinfile.cardRouge.cardView.CardViewModLayer
 import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.fxgl.setSize
-import com.backinfile.support.kotlin.d
 import javafx.geometry.Pos
 import javafx.scene.Group
 import javafx.scene.control.Label
-import javafx.scene.layout.Background
-import javafx.scene.layout.BackgroundFill
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 import javafx.scene.text.FontWeight
@@ -89,8 +86,8 @@ class ModText(cardView: CardView) : CardViewBaseMod(cardView) {
         }
     }
 
-    override fun onShapeChange(shape: CardView.Shape) {
-        super.onShapeChange(shape)
-        group.isVisible = !shape.minion && !shape.turnBack
+    override fun onShapeChange() {
+        super.onShapeChange()
+        group.isVisible = !cardView.shape.minion && !cardView.shape.turnBack
     }
 }

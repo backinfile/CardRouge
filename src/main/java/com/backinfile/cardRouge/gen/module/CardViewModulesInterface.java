@@ -3,9 +3,9 @@ package com.backinfile.cardRouge.gen.module;
 import com.backinfile.cardRouge.cardView.CardView;
 import com.backinfile.cardRouge.cardView.CardViewBaseMod;
 import com.backinfile.cardRouge.cardView.mods.ModBorder;
-import com.backinfile.cardRouge.cardView.mods.ModIcon;
 import com.backinfile.cardRouge.cardView.mods.ModInteract;
 import com.backinfile.cardRouge.cardView.mods.ModMainImage;
+import com.backinfile.cardRouge.cardView.mods.ModMana;
 import com.backinfile.cardRouge.cardView.mods.ModMove;
 import com.backinfile.cardRouge.cardView.mods.ModText;
 
@@ -24,8 +24,8 @@ public interface CardViewModulesInterface {
     default ModText getModText() {
         return getModules().getModText();
     }
-    default ModIcon getModIcon() {
-        return getModules().getModIcon();
+    default ModMana getModMana() {
+        return getModules().getModMana();
     }
     default ModMove getModMove() {
         return getModules().getModMove();

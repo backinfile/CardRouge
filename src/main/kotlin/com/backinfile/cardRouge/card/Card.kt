@@ -10,7 +10,7 @@ open class Card(val confCard: ConfCard, val oriPlayerCard: Boolean = true) : Buf
     val id get() = confCard.id
 
 
-    fun calcCost() {
+    fun calcCost(): Int {
         var modify = 0
         for (buff in getAllBuffs()) {
             if (buff is ModifyManaCostBuff) {
@@ -18,5 +18,6 @@ open class Card(val confCard: ConfCard, val oriPlayerCard: Boolean = true) : Buf
             }
         }
         manaCost = maxOf(0, confCard.cost - modify)
+        return manaCost
     }
 }

@@ -10,7 +10,7 @@ abstract class CardViewBaseMod(val cardView: CardView) {
 
     }
 
-    open fun onShapeChange(shape: CardView.Shape) {
+    open fun onShapeChange() {
 
     }
 }

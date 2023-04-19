@@ -20,8 +20,8 @@ object ConstCardSize {
     val inner_height = card_height - edge_size * 2
     val maskHeight: Double = card_width * 7 / 14
     val maskHeightOffset: Double = card_height * 2 / 14
-    const val mana_offset = edge_size * 2 / 3.0
-    const val mana_size = 50
+    const val mana_offset = edge_size * 2
+    const val mana_size = 46
     const val title_font_size = 24
     const val title_height = title_font_size + 4
     const val subType_font_size = 20
