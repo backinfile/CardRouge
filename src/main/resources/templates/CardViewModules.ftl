@@ -31,9 +31,9 @@ public class CardViewModules {
         }
     }
 
-    public void onShapeChange(CardView.Shape shape) {
+    public void onShapeChange() {
         for (var mod : modules) {
-            mod.onShapeChange(shape);
+            mod.onShapeChange();
         }
     }
 

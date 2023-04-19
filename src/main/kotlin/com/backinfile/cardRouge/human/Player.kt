@@ -1,17 +1,11 @@
 package com.backinfile.cardRouge.human
 
-class Player : Human() {
+class Player : HumanBase() {
     override fun isPlayer(): Boolean {
         return true
     }
 
-    override fun playInTurn() {
-    }
-
-    override fun initPower() {
-    }
-
-    override fun initPiles() {
+    override fun init() {
 
 //        for (card in dungeonData.deck) {
 //            drawPile.addCard(CardFactory.createCardInstance(card.id, isPlayer()))

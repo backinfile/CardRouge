@@ -20,6 +20,8 @@ private typealias CardInteractCallback = (CardView) -> Unit
 
 @CardViewModLayer(CardViewModLayer.Layer.Control)
 class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
+    private val darkMaskView = Rectangle(ConstCardSize.card_width, ConstCardSize.card_height, ConstCardSize.FILL_DARK_MASK)
+
     private var enableDrag = false
     private var isDragging = false
     private var dragStartCallback: CardInteractCallback? = null
@@ -40,13 +42,24 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     override fun onCreate() {
         super.onCreate()
         with(ConstCardSize) {
+
+            darkMaskView.translateX = -card_width_half
+            darkMaskView.translateY = -card_height_half
+            darkMaskView.isVisible = false
+
             val controlMask = Rectangle(card_width, card_height, Color.BLACK)
             controlMask.x = -card_width_half
             controlMask.y = -card_height_half
             controlMask.opacity = 0.0
+
+            cardView.controlGroup.children.add(darkMaskView)
             cardView.controlGroup.children.add(controlMask)
             initMouseEvent(controlMask)
         }
+    }
+
+    fun setDark(dark: Boolean = true) {
+        darkMaskView.isVisible = dark
     }
 
     fun disableAll() {
@@ -62,11 +75,11 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun enableDrag(
-        enableDrag: Boolean,
-        start: CardInteractCallback? = null,
-        update: CardInteractCallback? = null,
-        over: CardInteractCallback? = null,
-        cancel: CardInteractCallback? = over,
+            enableDrag: Boolean,
+            start: CardInteractCallback? = null,
+            update: CardInteractCallback? = null,
+            over: CardInteractCallback? = null,
+            cancel: CardInteractCallback? = over,
     ): ModInteract {
         this.enableDrag = enableDrag
         dragStartCallback = start
@@ -82,9 +95,9 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun enableMouseOver(
-        enableMouseOver: Boolean,
-        enter: CardInteractCallback? = null,
-        leave: CardInteractCallback? = null,
+            enableMouseOver: Boolean,
+            enter: CardInteractCallback? = null,
+            leave: CardInteractCallback? = null,
     ): ModInteract {
         this.enableMouseOver = enableMouseOver
         mouseEnterCallback = enter

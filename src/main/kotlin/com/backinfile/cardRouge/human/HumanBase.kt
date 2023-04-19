@@ -6,7 +6,7 @@ import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
 import com.backinfile.cardRouge.card.CardSlot
 
-abstract class Human : BuffContainer() {
+abstract class HumanBase : BuffContainer() {
     var manaMax: Int = GameConfig.MANA_MAX_DEFAULT // 费用上限
     var handMax: Int = GameConfig.HAND_SIZE_DEFAULT_MAX // 手牌上限
     var mana = 0 // 费用
@@ -22,15 +22,13 @@ abstract class Human : BuffContainer() {
 
     abstract fun isPlayer(): Boolean
 
-    fun init() {
-        initPiles()
-        initPower()
+    open fun init() {
     }
 
-    abstract fun playInTurn()
+    open suspend fun playInTurn() {
 
-    abstract fun initPower()
-    abstract fun initPiles()
+    }
+
 
     fun removeCard(card: Card) {
         for (pile in allCardPiles) {

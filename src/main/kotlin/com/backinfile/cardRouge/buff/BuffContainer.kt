@@ -2,7 +2,7 @@ package com.backinfile.cardRouge.buff
 
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.dungeon.Dungeon
-import com.backinfile.cardRouge.human.Human
+import com.backinfile.cardRouge.human.HumanBase
 import com.backinfile.support.kotlin.once
 import java.util.function.Predicate
 import kotlin.properties.Delegates
@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 abstract class BuffContainer {
     var dungeon: Dungeon by Delegates.once()
     var board: Board by Delegates.once()
-    var human: Human by Delegates.once()
+    var human: HumanBase by Delegates.once()
 
     private val fixedBuffs: MutableList<Buff> = ArrayList() // 卡牌固有buff（技能）
 

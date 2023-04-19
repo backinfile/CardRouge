@@ -60,8 +60,6 @@ class DungeonScene : SubScene() {
         val card2 = Card(ConfCard.get(GameConfig.CARD_ID_CRYSTAL))
         CardViewManager.getOrCreate(card2).modInteract.enableDrag(true)
 
-        cardView.viewOrder = -1.0
-
 //        Views.show(BoardButtonsUIGroup::class, ButtonsParam(ButtonInfo(Res.TEXT_CLOSE)))
 
 //        Views.show(BoardButtonsUIGroup::class, ButtonsParam(ButtonInfo(Res.TEXT_CLOSE)))

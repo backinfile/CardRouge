@@ -15,6 +15,7 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
     val position = MovingFieldVec2(Vec2(0.0, 0.0))
     val rotation = MovingFieldDouble(0.0)
     val scale = MovingFieldDouble(1.0)
+    val viewOrder = MovingFieldDouble(0.0)
 
     override fun onCreate() {
         super.onCreate()
@@ -25,6 +26,7 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
         group.rotateProperty().bind(rotation.observable)
         group.scaleXProperty().bind(scale.observable)
         group.scaleYProperty().bind(scale.observable)
+        group.viewOrderProperty().bind(viewOrder.observable)
     }
 
     override fun update(delta: Double) {
@@ -34,10 +36,11 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun move(
-        pos: Point2D? = null,
-        rotate: Double? = null,
-        scale: Double? = null,
-        duration: Duration = Duration.ZERO,
+            pos: Point2D? = null,
+            rotate: Double? = null,
+            scale: Double? = null,
+            viewOrder: Double? = null,
+            duration: Duration = Duration.ZERO,
     ): Boolean {
         if (pos != null) {
             this.position.setTarget(Vec2(pos), duration)
@@ -48,6 +51,9 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
         if (scale != null) {
             this.scale.setTarget(scale, duration)
         }
-        return this.position.moving || this.rotation.moving || this.scale.moving
+        if (viewOrder != null) {
+            this.viewOrder.setTarget(viewOrder, duration)
+        }
+        return this.position.moving || this.rotation.moving || this.scale.moving || this.viewOrder.moving
     }
 }
