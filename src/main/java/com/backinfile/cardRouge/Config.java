@@ -2,6 +2,7 @@ package com.backinfile.cardRouge;
 
 import com.backinfile.support.Time;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class Config {
 
     // 动画时间
     public static final long ANI_CARD_ROTATE_TIME = Time.SEC / 10;
-    public static final long ANI_CARD_MOVE_TIME = Time.SEC / 7;
+    public static final Duration ANI_CARD_MOVE_TIME = Duration.seconds(0.2);
 
     public static final boolean ANI_HAND_CARD_PULSE = true;
     public static final boolean ANI_SELECT_CRYSTAL_PULSE = true;

@@ -1,6 +1,16 @@
 package com.backinfile.cardRouge.human
 
+import com.backinfile.cardRouge.card.CardPile
+
 class Player : HumanBase() {
+    val handPile: CardPile = CardPile()
+    val drawPile: CardPile = CardPile()
+    val discardPile: CardPile = CardPile()
+    val trashPile: CardPile = CardPile()
+
+    override val allCardPiles: List<CardPile>
+        get() = listOf(handPile, drawPile, discardPile, trashPile) + super.allCardPiles
+
     override fun isPlayer(): Boolean {
         return true
     }
@@ -16,5 +26,9 @@ class Player : HumanBase() {
 //        for (id in dungeonData.powers) {
 //            powerPile.addCard(CardFactory.createCardInstance(id, isPlayer()))
 //        }
+    }
+
+    override suspend fun playInTurn() {
+        super.playInTurn()
     }
 }

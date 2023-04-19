@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.human
 
 import com.backinfile.cardRouge.GameConfig
+import com.backinfile.cardRouge.action.ActionContext
 import com.backinfile.cardRouge.buff.BuffContainer
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
@@ -11,14 +12,10 @@ abstract class HumanBase : BuffContainer() {
     var handMax: Int = GameConfig.HAND_SIZE_DEFAULT_MAX // 手牌上限
     var mana = 0 // 费用
 
-    val handPile: CardPile = CardPile()
-    val drawPile: CardPile = CardPile()
-    val discardPile: CardPile = CardPile()
-    val trashPile: CardPile = CardPile()
     val powerPile: CardPile = CardPile() // 能力牌
     val slots: Map<Int, CardSlot> = (0 until 5).associateWith { CardSlot() }
 
-    private val allCardPiles: List<CardPile> = listOf(handPile, drawPile, discardPile, trashPile, powerPile)
+    protected open val allCardPiles: List<CardPile> = listOf(powerPile)
 
     abstract fun isPlayer(): Boolean
 
@@ -26,6 +23,16 @@ abstract class HumanBase : BuffContainer() {
     }
 
     open suspend fun playInTurn() {
+
+    }
+
+    open suspend fun onBattleStart() {
+        with(ActionContext(dungeon, board, this)) {
+            drawCard(5)
+        }
+    }
+
+    open suspend fun onTurnStart() {
 
     }
 

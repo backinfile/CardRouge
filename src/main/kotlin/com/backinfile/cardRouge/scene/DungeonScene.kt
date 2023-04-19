@@ -5,10 +5,14 @@ import com.almasb.fxgl.dsl.getGameScene
 import com.almasb.fxgl.dsl.getGameTimer
 import com.almasb.fxgl.scene.SubScene
 import com.backinfile.cardRouge.*
+import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewManager
+import com.backinfile.cardRouge.dungeon.Dungeon
 import com.backinfile.cardRouge.gen.config.ConfCard
+import com.backinfile.cardRouge.human.Player
+import com.backinfile.cardRouge.human.Robot
 import com.backinfile.cardRouge.viewGroup.Views
 import com.backinfile.cardRouge.viewGroups.BoardBackgroundGroup
 import com.backinfile.cardRouge.viewGroups.BoardButtonsUIGroup
@@ -59,6 +63,16 @@ class DungeonScene : SubScene() {
 
         val card2 = Card(ConfCard.get(GameConfig.CARD_ID_CRYSTAL))
         CardViewManager.getOrCreate(card2).modInteract.enableDrag(true)
+
+
+        val dungeon = Dungeon()
+
+        val board = Board()
+        board.dungeon = dungeon
+        val player = Player()
+        repeat(10) { player.drawPile.addCard(Card(ConfCard.get(1201001))) }
+        board.init(player, Robot())
+        Game.getScene().addListener(board)
 
 //        Views.show(BoardButtonsUIGroup::class, ButtonsParam(ButtonInfo(Res.TEXT_CLOSE)))
 
