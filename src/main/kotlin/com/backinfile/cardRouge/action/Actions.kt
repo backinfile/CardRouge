@@ -7,7 +7,6 @@ import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.support.async.runAsync
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
-import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -47,31 +46,32 @@ object Actions {
     }
 
 
-    suspend fun <T> ObservableValue<T>.waitCondition(condition: () -> Boolean) = suspendCoroutine<Unit> {
-        this.addListener(WaitConditionListener(condition, it))
-    }
-
-    private class WaitConditionListener<T>(val condition: () -> Boolean,
-                                           val continuation: Continuation<Unit>) : ChangeListener<T> {
-        override fun changed(observable: ObservableValue<out T>, oldValue: T, newValue: T) {
-            if (condition.invoke()) {
-                observable.removeListener(this)
-                continuation.resume(Unit)
-            }
-        }
-    }
-
+    /**
+     * 等待条件完成(基于游戏update)
+     */
     suspend fun waitCondition(condition: () -> Boolean) = suspendCoroutine {
-        Game.getScene().addListener(WaitCondition(condition, it))
+        Game.getScene().addListener(object : Updatable {
+            override fun onUpdate(tpf: Double) {
+                if (condition.invoke()) {
+                    Game.getScene().removeListener(this)
+                    it.resume(Unit)
+                }
+            }
+        })
     }
 
-    private class WaitCondition(val condition: () -> Boolean, val continuation: Continuation<Unit>) : Updatable {
-        override fun onUpdate(tpf: Double) {
-            if (condition.invoke()) {
-                Game.getScene().removeListener(this)
-                continuation.resume(Unit)
-            }
-        }
 
+    /**
+     * 等待条件完成(基于ObservableValue)
+     */
+    suspend fun <T> ObservableValue<T>.waitCondition(condition: () -> Boolean) = suspendCoroutine {
+        this.addListener(object : ChangeListener<T> {
+            override fun changed(observable: ObservableValue<out T>, oldValue: T, newValue: T) {
+                if (condition.invoke()) {
+                    observable.removeListener(this)
+                    it.resume(Unit)
+                }
+            }
+        })
     }
 }
