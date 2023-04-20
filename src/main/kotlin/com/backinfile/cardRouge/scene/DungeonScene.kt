@@ -72,7 +72,7 @@ class DungeonScene : SubScene() {
         val player = Player()
         repeat(10) { player.drawPile.addCard(Card(ConfCard.get(1201001))) }
         board.init(player, Robot())
-        Game.getScene().addListener(board)
+        addListener(board)
 
 //        Views.show(BoardButtonsUIGroup::class, ButtonsParam(ButtonInfo(Res.TEXT_CLOSE)))
 

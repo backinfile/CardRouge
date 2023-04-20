@@ -1,7 +1,6 @@
 package com.backinfile.cardRouge.action
 
-import com.almasb.fxgl.core.Updatable
-import com.backinfile.cardRouge.Game
+import com.backinfile.cardRouge.board.Board
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.util.Duration
@@ -12,18 +11,18 @@ class ActionUtils {
 }
 
 
-suspend fun waitTime(duration: Duration) = suspendCoroutine {
-    Game.getScene().timer.runOnceAfter({ it.resume(Unit) }, duration)
+suspend fun Board.waitTime(duration: Duration) = suspendCoroutine {
+    this.timerQueue.apply(delay = duration.toSeconds()) { it.resume(Unit) }
 }
 
 /**
  * 等待条件完成(基于游戏update)
  */
-suspend fun waitCondition(condition: () -> Boolean) = suspendCoroutine {
-    Game.getScene().addListener(object : Updatable {
+suspend fun Board.waitCondition(condition: () -> Boolean) = suspendCoroutine {
+    this.addUpdater(object : Board.Updatable() {
         override fun onUpdate(tpf: Double) {
             if (condition.invoke()) {
-                Game.getScene().removeListener(this)
+                destory()
                 it.resume(Unit)
             }
         }

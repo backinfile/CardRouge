@@ -42,7 +42,7 @@ data class ActionContext(val dungeon: Dungeon, val board: Board, val human: Huma
         if (human.drawPile.isEmpty) return // TODO message
 
         val card = human.drawPile.drawCard()!!
-        human.drawPile.addCard(card)
+        human.handPile.addCard(card)
         Log.game.info("player draw 1 card {}", card.confCard.title)
 
         refreshHandCardAction()
@@ -66,7 +66,7 @@ data class ActionContext(val dungeon: Dungeon, val board: Board, val human: Huma
 
             val confirmedSelected = ArrayList<Card>()
 
-            waitCondition { confirmedSelected.size == cnt } // 等待满足条件
+            board.waitCondition { confirmedSelected.size == cnt } // 等待满足条件
 
             board.inAsyncEvent = false
             continuation.resume(selected) // 继续执行当前行动

@@ -10,6 +10,7 @@ import kotlin.properties.Delegates
 
 object ViewActions {
     suspend fun ActionContext.refreshHandCardAction() {
-        BoardHandPileGroup.refreshHandCardAction(board.getPlayer().handPile.toList())
+        val duration = BoardHandPileGroup.refreshHandCardAction(board.getPlayer().handPile.toList())
+        board.waitTime(duration)
     }
 }

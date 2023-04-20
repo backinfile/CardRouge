@@ -41,7 +41,7 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
             scale: Double? = null,
             viewOrder: Double? = null,
             duration: Duration = Duration.ZERO,
-    ): Boolean {
+    ): Duration {
         if (pos != null) {
             this.position.setTarget(Vec2(pos), duration)
         }
@@ -54,6 +54,8 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
         if (viewOrder != null) {
             this.viewOrder.setTarget(viewOrder, duration)
         }
-        return this.position.moving || this.rotation.moving || this.scale.moving || this.viewOrder.moving
+
+        return if (this.position.moving || this.rotation.moving || this.scale.moving || this.viewOrder.moving) duration
+        else Duration.ZERO
     }
 }

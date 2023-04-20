@@ -9,7 +9,9 @@ import com.backinfile.cardRouge.human.Robot
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
 import com.backinfile.support.async.runAsync
 import com.backinfile.support.func.Action1
+import com.backinfile.support.kotlin.TimerQueue
 import com.backinfile.support.kotlin.once
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.properties.Delegates
 
 class Board : Updatable {
@@ -32,6 +34,10 @@ class Board : Updatable {
 
     // 特效action队列，基于现实时间同时执行
     private val effectActionQueue: GameActionQueue = GameActionQueue(true)
+
+    private var curTime = 0.0
+    val timerQueue = TimerQueue { curTime }
+    private val updaterContainer = ConcurrentHashMap<Updatable, Unit>()
 
     var inAsyncEvent = false // 正在执行异步函数，暂停除特效外的全部操作
 
@@ -64,15 +70,17 @@ class Board : Updatable {
 
 
     override fun onUpdate(delta: Double) {
+        curTime += delta
+        // 常驻更新
+        timerQueue.update()
+        effectActionQueue.update(delta)
+        updaterContainer.forEach { it.key.onUpdate(delta) }
+
 
         if (state == State.None) {
             enterState(State.Prepare)
             return
         }
-
-
-        // 更新特效队列
-        effectActionQueue.update(delta)
 
 
         // 更新行动队列
@@ -122,4 +130,20 @@ class Board : Updatable {
 
 
     fun getPlayer() = humans.filterIsInstance<Player>().first()
+
+    fun addUpdater(updater: Updatable) {
+        updater.setBoard(this)
+        updaterContainer[updater] = Unit
+    }
+
+    abstract class Updatable : com.almasb.fxgl.core.Updatable {
+        private lateinit var board: Board
+        fun destory() {
+            board.updaterContainer.remove(this)
+        }
+
+        fun setBoard(board: Board) {
+            this.board = board
+        }
+    }
 }
