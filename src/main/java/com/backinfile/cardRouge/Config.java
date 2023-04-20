@@ -7,8 +7,7 @@ import javafx.util.Duration;
 import java.util.List;
 
 public class Config {
-    // debug 字段
-    public static final boolean DEBUG = true;
+    public static final boolean DEV = true;
 
     public static final boolean CARD_MOVE_LOCAL = false; // 卡牌以本地坐标方式移动
     public static final boolean ROBOT_DO_NOT_ACTION = false;
@@ -43,28 +42,6 @@ public class Config {
 
     public static final boolean ANI_HAND_CARD_PULSE = true;
     public static final boolean ANI_SELECT_CRYSTAL_PULSE = true;
-
-
-    // Z-Index
-    public static final int Z_MAX = 3000;
-    public static final int Z_CARD_DETAIL = 2010;
-    public static final int Z_DETAIL_MASK = 2000;
-    public static final int Z_CARD_PILE_VIEW = 1210;
-    public static final int Z_PILE_MASK = 1200;
-
-    public static final int Z_ARROW_REALTIME = 1000;
-    public static final int Z_ARROW = 999;
-
-    public static final int Z_PILE_PLUS = 201; // 牌堆图标上方
-    public static final int Z_PILE = 200; // 牌堆图标
-    public static final int Z_CARD_HOVER = 90;
-    public static final int Z_CARD_DRAG = 90;
-    public static final int Z_CARD_HAND = 60; // 60~80
-    public static final int Z_CARD_BOARD_ATTACK = -10; //
-    public static final int Z_CARD_BOARD_PLUS = -20; // 0~59
-    public static final int Z_CARD_BOARD = -30; // 0~59
-
-    public static final int Z_BACKGROUND = -100;
 
 
     public static final double SCALE_HAND_CARD = 0.6;

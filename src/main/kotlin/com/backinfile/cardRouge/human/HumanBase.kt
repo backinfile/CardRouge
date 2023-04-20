@@ -1,7 +1,8 @@
 package com.backinfile.cardRouge.human
 
 import com.backinfile.cardRouge.GameConfig
-import com.backinfile.cardRouge.action.ActionContext
+import com.backinfile.cardRouge.action.Actions.drawCard
+import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.buff.BuffContainer
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
@@ -17,6 +18,8 @@ abstract class HumanBase : BuffContainer() {
 
     protected open val allCardPiles: List<CardPile> = listOf(powerPile)
 
+    val context: Context by lazy { Context(dungeon, board, this) }
+
     abstract fun isPlayer(): Boolean
 
     open fun init() {
@@ -26,10 +29,8 @@ abstract class HumanBase : BuffContainer() {
 
     }
 
-    open suspend fun onBattleStart() {
-        with(ActionContext(dungeon, board, this)) {
-            drawCard(5)
-        }
+    open suspend fun onBattleStart() = with(context) {
+        drawCard(5)
     }
 
     open suspend fun onTurnStart() {

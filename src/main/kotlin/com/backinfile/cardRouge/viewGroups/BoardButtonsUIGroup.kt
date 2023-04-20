@@ -1,14 +1,22 @@
 package com.backinfile.cardRouge.viewGroups
 
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.viewGroup.Param
 import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
 import com.backinfile.support.func.Action0
+import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.kotlin.d
 import javafx.event.EventHandler
 import javafx.geometry.Pos
+import javafx.scene.Group
 import javafx.scene.control.Button
+import javafx.scene.layout.Background
+import javafx.scene.layout.BackgroundFill
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
+import javafx.scene.shape.Rectangle
 import javafx.scene.text.Font
 
 class ButtonInfo(val type: String, val onClick: Action0? = null)
@@ -22,8 +30,23 @@ class ButtonsParam() : Param() {
 
 object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
 
-    private val buttonsContainer = initContainer()
+    private val buttonsContainer: VBox
     private val buttons = ArrayList<Button>()
+    override val reShow: Boolean get() = true
+
+
+    private const val button_font_size = 20
+    private val button_width: Int = Config.SCREEN_WIDTH / 10
+    private const val button_height = button_font_size + 4
+
+
+    init {
+//        viewOrder = ViewConfig.Z_UI_OPERATOR
+//        addMask(0.5)
+        buttonsContainer = initContainer();
+    }
+
+
     override fun onShow(param: ButtonsParam) {
         super.onShow(param)
 
@@ -41,7 +64,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
         val button: Button = createButton()
         button.text = text
         button.isVisible = true
-        button.isDisable = onClick == null
+        button.isDisable = false
         button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.invoke() }
         buttons.add(button)
         buttonsContainer.children.add(button)
@@ -56,7 +79,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
         }
         val button = buttons[index]
         button.text = text
-        button.isDisable = onClick == null
+        button.isDisable = false
         button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.invoke() }
     }
 
@@ -75,11 +98,6 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
     }
 
     fun getButtonSize() = buttons.size
-
-
-    private const val button_font_size = 20
-    private val button_width: Int = Config.SCREEN_WIDTH / 10
-    private const val button_height = button_font_size + 4
 
     private fun createButton(): Button {
         val button = Button()

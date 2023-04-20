@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableIntegerValue
 import javafx.beans.value.ObservableValue
 import javafx.scene.layout.Region
 import javafx.scene.paint.Color
+import javafx.util.Duration
 
 class FxUtils {
 }
@@ -17,6 +18,7 @@ fun Region.setSize(width: Double, height: Double) {
     this.setMaxSize(width, height)
     this.setMinSize(width, height)
 }
+
 
 
 fun <R> ObservableDoubleValue.doubleMap(block: (Double) -> R): ObservableValue<R> {

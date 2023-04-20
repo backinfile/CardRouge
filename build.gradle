@@ -120,7 +120,7 @@ tasks.register('distDesktop') {
         String path = project.exportPath;
         String content = "start .\\jdk-17\\bin\\javaw.exe -jar " + project.name + ".jar"
         def filePath = Paths.get(projectDir.getPath(), path, "run.bat")
-//        Files.delete(filePath)
+        if (Files.exists(filePath)) Files.delete(filePath)
         Files.writeString(filePath, content, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
     }
 }

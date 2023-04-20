@@ -12,17 +12,23 @@ class ActionUtils {
 
 
 suspend fun Board.waitTime(duration: Duration) = suspendCoroutine {
-    this.timerQueue.apply(delay = duration.toSeconds()) { it.resume(Unit) }
+    val lock = getAsyncLock()
+    this.timerQueue.apply(delay = duration.toSeconds()) {
+        lock.close()
+        it.resume(Unit)
+    }
 }
 
 /**
  * 等待条件完成(基于游戏update)
  */
 suspend fun Board.waitCondition(condition: () -> Boolean) = suspendCoroutine {
+    val lock = getAsyncLock()
     this.addUpdater(object : Board.Updatable() {
         override fun onUpdate(tpf: Double) {
             if (condition.invoke()) {
-                destory()
+                destroy()
+                lock.close()
                 it.resume(Unit)
             }
         }
@@ -33,11 +39,13 @@ suspend fun Board.waitCondition(condition: () -> Boolean) = suspendCoroutine {
 /**
  * 等待条件完成(基于ObservableValue)
  */
-suspend fun <T> ObservableValue<T>.waitCondition(condition: () -> Boolean) = suspendCoroutine {
-    this.addListener(object : ChangeListener<T> {
+suspend fun <T> Board.waitCondition(observableValue: ObservableValue<T>, condition: (T) -> Boolean) = suspendCoroutine {
+    val lock = getAsyncLock()
+    observableValue.addListener(object : ChangeListener<T> {
         override fun changed(observable: ObservableValue<out T>, oldValue: T, newValue: T) {
-            if (condition.invoke()) {
+            if (condition.invoke(newValue)) {
                 observable.removeListener(this)
+                lock.close()
                 it.resume(Unit)
             }
         }

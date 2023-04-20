@@ -2,6 +2,8 @@ package com.backinfile.cardRouge.viewGroup
 
 import com.almasb.fxgl.dsl.getGameScene
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.Game
+import com.backinfile.cardRouge.Log
 import com.backinfile.support.kotlin.d
 import javafx.scene.Group
 import javafx.scene.paint.Color
@@ -15,18 +17,23 @@ import java.lang.reflect.ParameterizedType
  */
 abstract class BaseSingleViewGroup<P : Param> : Group() {
     private var showing = false
+    protected open val reShow = false // show时如果已经显示中，是否关闭重启
 
     fun show(param: P? = null) {
-        if (showing) return
+        if (showing) {
+            if (reShow) hide() else return
+        }
         showing = true
-        onShow(param ?: paramConstructor.newInstance())
         getGameScene().addUINode(this)
+        Log.viewGroup.info("show {}", this::class.simpleName)
+        onShow(param ?: paramConstructor.newInstance())
     }
 
     fun hide() {
         if (!showing) return
         showing = false
         getGameScene().removeUINode(this)
+        Log.viewGroup.info("hide {}", this::class.simpleName)
         onHide()
     }
 

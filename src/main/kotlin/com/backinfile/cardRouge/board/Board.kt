@@ -1,6 +1,8 @@
 package com.backinfile.cardRouge.board
 
 import com.almasb.fxgl.core.Updatable
+import com.backinfile.cardRouge.Log
+import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.GameActionQueue
 import com.backinfile.cardRouge.dungeon.Dungeon
 import com.backinfile.cardRouge.human.HumanBase
@@ -11,6 +13,7 @@ import com.backinfile.support.async.runAsync
 import com.backinfile.support.func.Action1
 import com.backinfile.support.kotlin.TimerQueue
 import com.backinfile.support.kotlin.once
+import java.io.Closeable
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.properties.Delegates
 
@@ -39,7 +42,8 @@ class Board : Updatable {
     val timerQueue = TimerQueue { curTime }
     private val updaterContainer = ConcurrentHashMap<Updatable, Unit>()
 
-    var inAsyncEvent = false // 正在执行异步函数，暂停除特效外的全部操作
+    // 正在执行异步函数，暂停除特效外的全部操作
+    private val asyncLocks = ConcurrentHashMap<Closeable, Unit>()
 
     enum class State {
         None,
@@ -84,42 +88,45 @@ class Board : Updatable {
 
 
         // 更新行动队列
-        while (!inAsyncEvent && !actionQueue.isEmpty()) {
+        while (asyncLocks.isNotEmpty() && !actionQueue.isEmpty()) {
             actionQueue.update(delta)
         }
-        if (inAsyncEvent) {
+        if (asyncLocks.isNotEmpty()) {
             return
         }
 
-
-        // 当前玩家执行动作
-        runAsync {
-            turnCurHuman.playInTurn()
+        if (state == State.Turn) {
+            // 当前玩家执行动作
+            runAsync {
+                turnCurHuman.playInTurn()
+            }
         }
     }
 
-    fun enterState(state: State) {
-        val oldState = this.state.also { this.state = state };
+    fun enterState(state: State) = runAsync {
+        val board = this@Board
+        val oldState = board.state.also { board.state = state }
+
+        Log.board.info("change board state {} to {}", oldState, state)
+
         when (state) {
             State.None -> TODO()
             State.Prepare -> {
-
                 BoardHandPileGroup.hide()
                 BoardHandPileGroup.show()
-
-
-                runAsync {
-                    humans.forEach { it.onBattleStart() }
-                }
+                humans.forEach { it.onBattleStart() }
+                changeBoardStateTo(State.TurnBefore)
             }
 
             State.TurnBefore -> {
-
+                changeBoardStateTo(State.Turn)
             }
 
-            State.Turn -> TODO()
+            State.Turn -> {}
             State.TurnAfter -> {
                 bigTurnCount++
+                // change cur player
+                changeBoardStateTo(State.TurnBefore)
             }
 
             State.OVER -> TODO()
@@ -138,12 +145,22 @@ class Board : Updatable {
 
     abstract class Updatable : com.almasb.fxgl.core.Updatable {
         private lateinit var board: Board
-        fun destory() {
+        fun destroy() {
             board.updaterContainer.remove(this)
         }
 
         fun setBoard(board: Board) {
             this.board = board
         }
+    }
+
+    fun getAsyncLock(): Closeable {
+        val closeable = object : Closeable {
+            override fun close() {
+                asyncLocks.remove(this)
+            }
+        }
+        asyncLocks[closeable] = Unit
+        return closeable
     }
 }

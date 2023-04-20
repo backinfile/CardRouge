@@ -42,8 +42,9 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
         cardInfoCacheMap.clear()
         for ((index, card) in cardsInOrder.withIndex()) {
             val cardView = CardViewManager.getOrCreate(card)
-            val ani = HandPositionUtils.setCardState(cardView, HandPositionUtils.CardInfo(HandPositionUtils.CardState.HandNormal, index, cardsInOrder.size))
-            maxDuration = maxOf(maxDuration, ani) { it.toMillis() }
+            val info = HandPositionUtils.CardInfo(HandPositionUtils.CardState.HandNormal, index, cardsInOrder.size)
+            val ani = HandPositionUtils.setCardState(cardView, info)
+            maxDuration = maxOf(maxDuration, ani)
 //            cardInfoCacheMap[cardView] = CardInfo(CardState.HandNormal, index, cardsInOrder.size)
         }
         return maxDuration

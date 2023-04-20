@@ -1,5 +1,6 @@
 package com.backinfile.cardRouge.human
 
+import com.backinfile.cardRouge.action.Actions.waitPressTurnEnd
 import com.backinfile.cardRouge.card.CardPile
 
 class Player : HumanBase() {
@@ -28,7 +29,7 @@ class Player : HumanBase() {
 //        }
     }
 
-    override suspend fun playInTurn() {
-        super.playInTurn()
+    override suspend fun playInTurn() = with(context) {
+        waitPressTurnEnd()
     }
 }
