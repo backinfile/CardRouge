@@ -2,6 +2,7 @@ package com.backinfile.cardRouge.cardView.mods
 
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Game
+import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
@@ -9,6 +10,7 @@ import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.support.MathUtils
 import javafx.geometry.Point2D
 import javafx.scene.Node
+import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
 import javafx.scene.input.MouseDragEvent
 import javafx.scene.input.MouseEvent
@@ -20,7 +22,10 @@ private typealias CardInteractCallback = (CardView) -> Unit
 
 @CardViewModLayer(CardViewModLayer.Layer.Control)
 class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
-    private val darkMaskView = Rectangle(ConstCardSize.card_width, ConstCardSize.card_height, ConstCardSize.FILL_DARK_MASK)
+    private val darkMaskView =
+        Rectangle(ConstCardSize.card_width, ConstCardSize.card_height, ConstCardSize.FILL_DARK_MASK)
+    private val selected: ImageView = ImageView(Res.loadImage(Res.IMG_SELECTED_MARK))
+    private val noSelect: ImageView = ImageView(Res.loadImage(Res.IMG_NO_SELECT_MARK))
 
     private var enableDrag = false
     private var isDragging = false
@@ -52,8 +57,23 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             controlMask.y = -card_height_half
             controlMask.opacity = 0.0
 
-            cardView.controlGroup.children.add(darkMaskView)
-            cardView.controlGroup.children.add(controlMask)
+
+            selected.fitWidth = selected_mark_size
+            selected.fitHeight = selected_mark_size
+            selected.translateX = -selected_mark_size / 2
+            selected.translateY = -selected_mark_size / 2
+
+            noSelect.fitWidth = selected_mark_size
+            noSelect.fitHeight = selected_mark_size
+            noSelect.translateX = -selected_mark_size / 2
+            noSelect.translateY = -selected_mark_size / 2
+
+
+            cardView.controlGroup.children.addAll(selected, noSelect, darkMaskView, controlMask)
+
+
+
+
             initMouseEvent(controlMask)
         }
     }
@@ -61,6 +81,16 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     fun setDark(dark: Boolean = true) {
         darkMaskView.isVisible = dark
     }
+
+    fun setSelected(selected: Boolean) {
+        this.selected.isVisible = selected
+    }
+
+    fun setNoSelect(noSelect: Boolean) {
+        view.noSelect.setVisible(noSelect)
+    }
+
+
 
     fun disableAll() {
         enableMouseOver(false)
@@ -75,11 +105,11 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun enableDrag(
-            enableDrag: Boolean,
-            start: CardInteractCallback? = null,
-            update: CardInteractCallback? = null,
-            over: CardInteractCallback? = null,
-            cancel: CardInteractCallback? = over,
+        enableDrag: Boolean,
+        start: CardInteractCallback? = null,
+        update: CardInteractCallback? = null,
+        over: CardInteractCallback? = null,
+        cancel: CardInteractCallback? = over,
     ): ModInteract {
         this.enableDrag = enableDrag
         dragStartCallback = start
@@ -95,9 +125,9 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun enableMouseOver(
-            enableMouseOver: Boolean,
-            enter: CardInteractCallback? = null,
-            leave: CardInteractCallback? = null,
+        enableMouseOver: Boolean,
+        enter: CardInteractCallback? = null,
+        leave: CardInteractCallback? = null,
     ): ModInteract {
         this.enableMouseOver = enableMouseOver
         mouseEnterCallback = enter

@@ -55,6 +55,5 @@ object Game {
 
     fun update(delta: Double) {
         CardViewManager.update(delta)
-//        Log.game.info("update")
     }
 }
