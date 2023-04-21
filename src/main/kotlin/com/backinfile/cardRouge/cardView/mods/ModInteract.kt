@@ -87,15 +87,18 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun setNoSelect(noSelect: Boolean) {
-        view.noSelect.setVisible(noSelect)
+        this.noSelect.isVisible = noSelect
     }
-
 
 
     fun disableAll() {
         enableMouseOver(false)
         enableClick(false)
         enableDrag(false)
+
+        setDark(false)
+        setSelected(false)
+        setNoSelect(false)
     }
 
     fun enableClick(enableClick: Boolean = true, clickCallback: CardInteractCallback? = null): ModInteract {

@@ -37,8 +37,10 @@ object OperationActions {
             cardView.modInteract.enableClick {
                 if (it.card in selected) {
                     selected.remove(it.card)
+                    it.modInteract.setSelected(false)
                 } else {
                     selected.add(it.card)
+                    it.modInteract.setSelected(true)
                 }
 
                 if (selected.size == cnt) {

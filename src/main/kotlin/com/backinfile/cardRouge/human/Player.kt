@@ -1,7 +1,9 @@
 package com.backinfile.cardRouge.human
 
 import com.backinfile.cardRouge.GameConfig
+import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
+import com.backinfile.cardRouge.action.OperationActions.selectCardFrom
 import com.backinfile.cardRouge.action.OperationActions.waitPressTurnEnd
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
@@ -40,8 +42,8 @@ class Player : HumanBase() {
     }
 
     override suspend fun playInTurn() = with(context) {
-//        val selected = selectCardFrom(handPile.toList(), 1, false).first()
-//        Log.game.info("已选择 {}", selected.confCard.title)
+        val selected = selectCardFrom(handPile.toList(), 1, false).first()
+        Log.game.info("已选择 {}", selected.confCard.title)
         waitPressTurnEnd()
         board.changeBoardStateTo(Board.State.TurnAfter)
     }
