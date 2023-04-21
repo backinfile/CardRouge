@@ -19,7 +19,6 @@ import kotlin.properties.Delegates
 
 class Board : Updatable {
     var dungeon: Dungeon by Delegates.once()
-
     private var startHuman: HumanBase by Delegates.once() // 本次对战先手玩家
 
     val humans = ArrayList<HumanBase>() // 对战双方
@@ -67,6 +66,7 @@ class Board : Updatable {
                 card.board = this
                 card.human = human
             }
+            human.init()
         }
         startHuman = player
         turnCurHuman = player
@@ -75,6 +75,7 @@ class Board : Updatable {
 
     override fun onUpdate(delta: Double) {
         curTime += delta
+
         // 常驻更新
         timerQueue.update()
         effectActionQueue.update(delta)
@@ -107,7 +108,7 @@ class Board : Updatable {
         val board = this@Board
         val oldState = board.state.also { board.state = state }
 
-        Log.board.info("change board state {} to {}", oldState, state)
+        Log.board.info("change board state [{}] to [{}]", oldState, state)
 
         when (state) {
             State.None -> TODO()
@@ -124,8 +125,13 @@ class Board : Updatable {
 
             State.Turn -> {}
             State.TurnAfter -> {
+
+
                 bigTurnCount++
-                // change cur player
+                val curIndex = humans.indexOf(turnCurHuman)
+                turnCurHuman = humans[(curIndex + 1) % humans.size]
+                Log.board.info("change cur player to {}", turnCurHuman::class.simpleName)
+
                 changeBoardStateTo(State.TurnBefore)
             }
 

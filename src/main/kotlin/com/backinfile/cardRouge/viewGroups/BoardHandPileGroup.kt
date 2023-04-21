@@ -11,24 +11,20 @@ import javafx.util.Duration
 import java.util.*
 
 object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
-    private val cardInfoCacheMap = HashMap<CardView, HandPositionUtils.CardInfo>()
     private val cardsInOrder = LinkedList<Card>()
     private var hovered: Card? = null
     private var draged: Card? = null
 
     var flow = false
         set(value) {
-            reCalcHandCardInfo(); field = value
-        }
-
-    var keepFlow = false
-        set(value) {
-            reCalcHandCardInfo(); field = value
+            field = value; reCalcHandCardInfo()
         }
 
     fun refreshHandCardAction(cards: List<Card>): Duration {
         cardsInOrder.clear()
         cardsInOrder += cards
+        hovered = null;
+        draged = null;
         return reCalcHandCardInfo()
     }
 
@@ -38,14 +34,20 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
 
     private fun reCalcHandCardInfo(): Duration {
         var maxDuration = Duration.ZERO
-
-        cardInfoCacheMap.clear()
         for ((index, card) in cardsInOrder.withIndex()) {
             val cardView = CardViewManager.getOrCreate(card)
-            val info = HandPositionUtils.CardInfo(HandPositionUtils.CardState.HandNormal, index, cardsInOrder.size)
+
+            val cardState = when {
+                flow -> HandPositionUtils.CardState.HandFlow
+                draged == cardView.card -> HandPositionUtils.CardState.Drag
+                hovered == cardView.card -> HandPositionUtils.CardState.HandHover
+                else -> HandPositionUtils.CardState.HandNormal
+            }
+
+            val info = HandPositionUtils.CardInfo(cardState, index, cardsInOrder.size)
+
             val ani = HandPositionUtils.setCardState(cardView, info)
             maxDuration = maxOf(maxDuration, ani)
-//            cardInfoCacheMap[cardView] = CardInfo(CardState.HandNormal, index, cardsInOrder.size)
         }
         return maxDuration
     }

@@ -2,7 +2,6 @@ package com.backinfile.cardRouge
 
 import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.dsl.getGameScene
-import com.almasb.fxgl.dsl.getInput
 import com.almasb.fxgl.scene.SubScene
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
@@ -12,9 +11,6 @@ import com.backinfile.cardRouge.gen.config.ConfCard
 import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.human.Robot
 import com.backinfile.cardRouge.viewGroups.BoardBackgroundGroup
-import com.backinfile.cardRouge.viewGroups.BoardButtonsUIGroup
-import com.backinfile.cardRouge.viewGroups.ButtonInfo
-import com.backinfile.cardRouge.viewGroups.ButtonsParam
 
 object Game {
     var curScene: SubScene? = null
@@ -49,7 +45,6 @@ object Game {
         val board = Board()
 
         val player = Player()
-        repeat(10) { player.drawPile.addCard(Card(ConfCard.get(1201001))) }
         val robot = Robot()
 
         board.dungeon = dungeon

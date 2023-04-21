@@ -9,9 +9,6 @@ import com.backinfile.cardRouge.card.CardPile
 import com.backinfile.cardRouge.card.CardSlot
 
 abstract class HumanBase : BuffContainer() {
-    var manaMax: Int = GameConfig.MANA_MAX_DEFAULT // 费用上限
-    var handMax: Int = GameConfig.HAND_SIZE_DEFAULT_MAX // 手牌上限
-    var mana = 0 // 费用
 
     val powerPile: CardPile = CardPile() // 能力牌
     val slots: Map<Int, CardSlot> = (0 until 5).associateWith { CardSlot() }

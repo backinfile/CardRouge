@@ -1,9 +1,18 @@
 package com.backinfile.cardRouge.human
 
+import com.backinfile.cardRouge.GameConfig
+import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.Actions.waitPressTurnEnd
+import com.backinfile.cardRouge.board.Board
+import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
+import com.backinfile.cardRouge.gen.config.ConfCard
 
 class Player : HumanBase() {
+    var manaMax: Int = GameConfig.MANA_MAX_DEFAULT // 费用上限
+    var handMax: Int = GameConfig.HAND_SIZE_DEFAULT_MAX // 手牌上限
+    var mana = 0 // 费用
+
     val handPile: CardPile = CardPile()
     val drawPile: CardPile = CardPile()
     val discardPile: CardPile = CardPile()
@@ -17,6 +26,7 @@ class Player : HumanBase() {
     }
 
     override fun init() {
+        repeat(10) { drawPile.addCard(Card(ConfCard.get(1201001))) }
 
 //        for (card in dungeonData.deck) {
 //            drawPile.addCard(CardFactory.createCardInstance(card.id, isPlayer()))
@@ -31,5 +41,6 @@ class Player : HumanBase() {
 
     override suspend fun playInTurn() = with(context) {
         waitPressTurnEnd()
+        board.changeBoardStateTo(Board.State.TurnAfter)
     }
 }
