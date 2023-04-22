@@ -9,6 +9,7 @@ import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
 import com.backinfile.cardRouge.gen.config.ConfCard
+import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
 
 class Player : HumanBase() {
     var manaMax: Int = GameConfig.MANA_MAX_DEFAULT // 费用上限
@@ -42,8 +43,9 @@ class Player : HumanBase() {
     }
 
     override suspend fun playInTurn() = with(context) {
-        val selected = selectCardFrom(handPile.toList(), 1, false).first()
-        Log.game.info("已选择 {}", selected.confCard.title)
+//        val selected = selectCardFrom(handPile.toList(), 1, false).first()
+//        Log.game.info("已选择 {}", selected.confCard.title)
+        BoardHandPileGroup.enablePlay(true)
         waitPressTurnEnd()
         board.changeBoardStateTo(Board.State.TurnAfter)
     }

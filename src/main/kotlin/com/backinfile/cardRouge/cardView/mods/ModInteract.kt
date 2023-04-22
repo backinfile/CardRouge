@@ -62,11 +62,13 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             selected.fitHeight = selected_mark_size
             selected.translateX = -selected_mark_size / 2
             selected.translateY = -selected_mark_size / 2
+            selected.isVisible = false
 
             noSelect.fitWidth = selected_mark_size
             noSelect.fitHeight = selected_mark_size
             noSelect.translateX = -selected_mark_size / 2
             noSelect.translateY = -selected_mark_size / 2
+            noSelect.isVisible = false
 
 
             cardView.controlGroup.children.addAll(selected, noSelect, darkMaskView, controlMask)

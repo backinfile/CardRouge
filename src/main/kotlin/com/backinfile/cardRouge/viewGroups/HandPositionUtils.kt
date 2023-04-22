@@ -2,6 +2,7 @@ package com.backinfile.cardRouge.viewGroups
 
 import com.almasb.fxgl.core.math.FXGLMath
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.cardView.CardView
 import javafx.geometry.Point2D
@@ -14,11 +15,7 @@ object HandPositionUtils {
     data class CardInfo(val state: CardState, val index: Int, val total: Int, var toIndex: Int = -1)
 
     enum class CardState {
-        HandNormal,
-        HandFlow,
-        HandHover,
-        Drag,
-        HandSelect
+        HandNormal, HandFlow, HandHover, Drag, HandSelect
     }
 
 
@@ -53,38 +50,43 @@ object HandPositionUtils {
         val zIndex = ViewConfig.Z_CARD_HAND - index
         return when (state) {
             CardState.HandNormal -> cardView.modMove.move(
-                    pos = Point2D(targetX, targetY),
-                    scale = Config.SCALE_HAND_CARD,
-                    viewOrder = zIndex,
-                    rotate = degree,
-                    duration = Config.ANI_CARD_MOVE_TIME)
+                pos = Point2D(targetX, targetY),
+                scale = Config.SCALE_HAND_CARD,
+                viewOrder = zIndex,
+                rotate = degree,
+                duration = Config.ANI_CARD_MOVE_TIME
+            )
 
             CardState.HandFlow -> cardView.modMove.move(
-                    pos = Point2D(targetX, targetY - Config.CARD_HEIGHT * Config.SCALE_HAND_CARD / 6.0),
-                    scale = Config.SCALE_HAND_CARD,
-                    viewOrder = zIndex,
-                    rotate = degree,
-                    duration = Config.ANI_CARD_MOVE_TIME)
+                pos = Point2D(targetX, targetY - Config.CARD_HEIGHT * Config.SCALE_HAND_CARD / 6.0),
+                scale = Config.SCALE_HAND_CARD,
+                viewOrder = zIndex,
+                rotate = degree,
+                duration = Config.ANI_CARD_MOVE_TIME
+            )
 
             CardState.HandSelect -> cardView.modMove.move(
-                    pos = Point2D(targetX, targetY - Config.CARD_HEIGHT * Config.SCALE_HAND_CARD / 4f),
-                    scale = Config.SCALE_HAND_CARD,
-                    viewOrder = zIndex,
-                    rotate = degree,
-                    duration = Config.ANI_CARD_MOVE_TIME)
-
+                pos = Point2D(targetX, targetY - Config.CARD_HEIGHT * Config.SCALE_HAND_CARD / 4f),
+                scale = Config.SCALE_HAND_CARD,
+                viewOrder = zIndex,
+                rotate = degree,
+                duration = Config.ANI_CARD_MOVE_TIME
+            )
 
             CardState.HandHover -> cardView.modMove.move(
-                    pos = Point2D(targetX, hoverY),
-                    scale = Config.SCALE_HOVER_CARD,
-                    viewOrder = ViewConfig.Z_CARD_HOVER,
-                    rotate = 0.0,
-                    duration = Config.ANI_CARD_MOVE_TIME)
+                pos = Point2D(targetX, hoverY),
+                scale = Config.SCALE_HOVER_CARD,
+                viewOrder = ViewConfig.Z_CARD_HOVER,
+                rotate = 0.0,
+                duration = Duration.seconds(0.05)
+            )
 
             CardState.Drag -> cardView.modMove.move(
-                    scale = Config.SCALE_DRAG_CARD,
-                    viewOrder = ViewConfig.Z_CARD_DRAG,
-                    rotate = 0.0)
+                scale = Config.SCALE_DRAG_CARD,
+                viewOrder = ViewConfig.Z_CARD_DRAG,
+                rotate = 0.0,
+                duration = Duration.seconds(0.05)
+            )
         }
     }
 

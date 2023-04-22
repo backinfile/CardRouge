@@ -1,12 +1,10 @@
 package com.backinfile.cardRouge.viewGroups
 
-import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.card.Card
-import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
 import com.backinfile.cardRouge.viewGroup.Param
-import com.backinfile.support.kotlin.maxOf
 import javafx.util.Duration
 import java.util.*
 
@@ -28,19 +26,49 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
         return reCalcHandCardInfo()
     }
 
+    fun enablePlay(enable: Boolean = true) {
+        for (card in cardsInOrder) {
+            val cardView = CardViewManager.getOrCreate(card)
+            cardView.modInteract.disableAll()
+            cardView.modInteract.enableMouseOver(true, {
+                hovered = card;
+                reCalcHandCardInfo();
+                cardView.modInteract.enableDrag(true, {
+                    draged = card
+                    reCalcHandCardInfo()
+                }, {
+
+                }, {
+                    hovered = null
+                    draged = null
+                    reCalcHandCardInfo()
+                }, {
+                    hovered = null
+                    draged = null
+                    reCalcHandCardInfo()
+                })
+            }, {
+                hovered = null;
+                reCalcHandCardInfo();
+                cardView.modInteract.enableDrag(false)
+            })
+        }
+    }
+
     fun updateCardViewOperationState() {
 
     }
 
     private fun reCalcHandCardInfo(): Duration {
+        Log.game.info("reCalcHandCardInfo")
         var maxDuration = Duration.ZERO
         for ((index, card) in cardsInOrder.withIndex()) {
             val cardView = CardViewManager.getOrCreate(card)
 
             val cardState = when {
-                flow -> HandPositionUtils.CardState.HandFlow
                 draged == cardView.card -> HandPositionUtils.CardState.Drag
                 hovered == cardView.card -> HandPositionUtils.CardState.HandHover
+                flow -> HandPositionUtils.CardState.HandFlow
                 else -> HandPositionUtils.CardState.HandNormal
             }
 

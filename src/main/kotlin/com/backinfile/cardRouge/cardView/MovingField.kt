@@ -1,5 +1,6 @@
 package com.backinfile.cardRouge.cardView
 
+import com.almasb.fxgl.core.math.FXGLMath
 import com.almasb.fxgl.core.math.Vec2
 import com.backinfile.cardRouge.Log
 import com.backinfile.support.kotlin.d
@@ -41,8 +42,9 @@ class MovingFieldDouble(initValue: Double) : MovingField<Double>(initValue) {
     private var speed = 0.0
 
     override fun setTarget(target: Double, duration: Duration) {
-        if (duration.toMillis() <= 0) {
+        if (duration.toMillis() <= 0 || abs(target - wrappedValue.get()) < 0.001) {
             wrappedValue.set(target)
+            moving = false
             return
         }
 
@@ -79,19 +81,20 @@ class MovingFieldVec2(initValue: Vec2) : MovingField<Vec2>(initValue) {
         if (duration.toMillis() <= 0) {
             wrappedValue.get().set(target)
             wrappedValue.fireChanged()
+            moving = false
             return
         }
-        moving = true
         from.set(wrappedValue.get())
         to.set(target)
-
-
         val distance = to.distance(from)
-        val speed = distance / duration.toSeconds()
-
         if (distance < 0.001) {
+            wrappedValue.get().set(target)
+            wrappedValue.fireChanged()
+            moving = false
             return
         }
+        val speed = distance / duration.toSeconds()
+        moving = true
         val dx = to.x - from.x
         val dy = to.y - from.y
         speedX = dx / distance * speed
@@ -109,14 +112,14 @@ class MovingFieldVec2(initValue: Vec2) : MovingField<Vec2>(initValue) {
 
         var over = true
 
-        if (updateX * signX > to.x * signX) {
+        if (updateX * signX >= to.x * signX) {
             wrappedValue.get().x = to.x
         } else {
             over = false
             wrappedValue.get().x = updateX.f
         }
 
-        if (updateY * signY > to.y * signY) {
+        if (updateY * signY >= to.y * signY) {
             wrappedValue.get().y = to.y
         } else {
             over = false

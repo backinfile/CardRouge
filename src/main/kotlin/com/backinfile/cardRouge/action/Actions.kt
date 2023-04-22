@@ -30,6 +30,8 @@ object Actions {
 
     suspend fun Context.drawCard(number: Int = 1) {
         for (i in 0 until number) drawOneCard()
+
+
     }
 
     private suspend fun Context.drawOneCard() {

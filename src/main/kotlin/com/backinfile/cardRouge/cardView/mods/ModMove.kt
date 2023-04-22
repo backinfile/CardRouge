@@ -3,6 +3,7 @@ package com.backinfile.cardRouge.cardView.mods
 import com.almasb.fxgl.core.math.Vec2
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Log
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.MovingFieldDouble
@@ -15,7 +16,7 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
     val position = MovingFieldVec2(Vec2(0.0, 0.0))
     val rotation = MovingFieldDouble(0.0)
     val scale = MovingFieldDouble(1.0)
-    val viewOrder = MovingFieldDouble(0.0)
+    val viewOrder = MovingFieldDouble(ViewConfig.Z_CARD_BOARD)
 
     override fun onCreate() {
         super.onCreate()
@@ -36,11 +37,11 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun move(
-            pos: Point2D? = null,
-            rotate: Double? = null,
-            scale: Double? = null,
-            viewOrder: Double? = null,
-            duration: Duration = Duration.ZERO,
+        pos: Point2D? = null,
+        rotate: Double? = null,
+        scale: Double? = null,
+        viewOrder: Double? = null,
+        duration: Duration = Duration.ZERO,
     ): Duration {
         if (pos != null) {
             this.position.setTarget(Vec2(pos), duration)
@@ -52,7 +53,7 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
             this.scale.setTarget(scale, duration)
         }
         if (viewOrder != null) {
-            this.viewOrder.setTarget(viewOrder, duration)
+            this.viewOrder.observable.set(viewOrder)
         }
 
         return if (this.position.moving || this.rotation.moving || this.scale.moving || this.viewOrder.moving) duration

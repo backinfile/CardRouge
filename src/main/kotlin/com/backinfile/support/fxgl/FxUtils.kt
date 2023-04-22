@@ -11,14 +11,17 @@ import javafx.util.Duration
 class FxUtils {
 }
 
+
 fun opacity(opacity: Double) = Color(0.0, 0.0, 0.0, opacity)
+
+val Region.a get() = 1;
+
 
 fun Region.setSize(width: Double, height: Double) {
     this.setPrefSize(width, height)
     this.setMaxSize(width, height)
     this.setMinSize(width, height)
 }
-
 
 
 fun <R> ObservableDoubleValue.doubleMap(block: (Double) -> R): ObservableValue<R> {

@@ -41,7 +41,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
 
 
     init {
-//        viewOrder = ViewConfig.Z_UI_OPERATOR
+        viewOrder = ViewConfig.Z_UI_OPERATOR
 //        addMask(0.5)
         buttonsContainer = initContainer();
     }
@@ -64,7 +64,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
         val button: Button = createButton()
         button.text = text
         button.isVisible = true
-        button.isDisable = false
+        button.isDisable = onClick == null
         button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.invoke() }
         buttons.add(button)
         buttonsContainer.children.add(button)
@@ -79,7 +79,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
         }
         val button = buttons[index]
         button.text = text
-        button.isDisable = false
+        button.isDisable = onClick == null
         button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.invoke() }
     }
 
