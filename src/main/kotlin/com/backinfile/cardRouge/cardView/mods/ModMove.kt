@@ -4,6 +4,7 @@ import com.almasb.fxgl.core.math.Vec2
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.ViewConfig
+import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.MovingFieldDouble
@@ -16,7 +17,7 @@ class ModMove(cardView: CardView) : CardViewBaseMod(cardView) {
     val position = MovingFieldVec2(Vec2(0.0, 0.0))
     val rotation = MovingFieldDouble(0.0)
     val scale = MovingFieldDouble(1.0)
-    val viewOrder = MovingFieldDouble(ViewConfig.Z_CARD_BOARD)
+    val viewOrder = MovingFieldDouble(ViewOrder.CARD_BOARD.order())
 
     override fun onCreate() {
         super.onCreate()

@@ -4,6 +4,7 @@ import com.almasb.fxgl.core.math.FXGLMath
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.ViewConfig
+import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.cardView.CardView
 import javafx.geometry.Point2D
 import javafx.util.Duration
@@ -47,7 +48,7 @@ object HandPositionUtils {
             targetY = handY // + Math.abs(indexFromCenter) * 1f;
         }
         targetY -= Config.CARD_HEIGHT * Config.SCALE_HAND_CARD / 4f
-        val zIndex = ViewConfig.Z_CARD_HAND - index
+        val zIndex = ViewOrder.CARD_HAND.order() - index
         return when (state) {
             CardState.HandNormal -> cardView.modMove.move(
                 pos = Point2D(targetX, targetY),
@@ -76,14 +77,14 @@ object HandPositionUtils {
             CardState.HandHover -> cardView.modMove.move(
                 pos = Point2D(targetX, hoverY),
                 scale = Config.SCALE_HOVER_CARD,
-                viewOrder = ViewConfig.Z_CARD_HOVER,
+                viewOrder = ViewOrder.CARD_HOVER.order(),
                 rotate = 0.0,
                 duration = Duration.seconds(0.05)
             )
 
             CardState.Drag -> cardView.modMove.move(
                 scale = Config.SCALE_DRAG_CARD,
-                viewOrder = ViewConfig.Z_CARD_DRAG,
+                viewOrder = ViewOrder.CARD_DRAG.order(),
                 rotate = 0.0,
                 duration = Duration.seconds(0.05)
             )

@@ -3,6 +3,7 @@ package com.backinfile.cardRouge.viewGroups
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.ViewConfig
+import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.viewGroup.Param
 import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
 import com.backinfile.support.func.Action0
@@ -41,7 +42,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
 
 
     init {
-        viewOrder = ViewConfig.Z_UI_OPERATOR
+        viewOrder = ViewOrder.UI_OPERATOR.order()
 //        addMask(0.5)
         buttonsContainer = initContainer();
     }

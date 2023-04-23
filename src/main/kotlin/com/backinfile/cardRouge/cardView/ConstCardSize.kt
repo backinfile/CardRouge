@@ -39,10 +39,10 @@ object ConstCardSize {
     val GRADIENT_MASK = LinearGradient(
         0.0, 0.0, 0.0, 1.0, true, CycleMethod.NO_CYCLE,
         listOf(
-            Stop(0.0, opacity(0.0)),
+            Stop(0.0, opacity(0.1)),
             Stop(0.1, opacity(0.3)),
-            Stop(0.7, opacity(0.6)),
-            Stop(1.0, opacity(0.8))
+            Stop(0.7, opacity(0.7)),
+            Stop(1.0, opacity(0.9))
         )
     )
 }

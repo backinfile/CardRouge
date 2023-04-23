@@ -3,6 +3,7 @@ package com.backinfile.cardRouge.cardView.mods
 import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.cardView.*
 import javafx.scene.image.ImageView
+import javafx.scene.shape.Circle
 
 
 @CardViewModLayer(CardViewModLayer.Layer.Image)
@@ -17,7 +18,9 @@ class ModMainImage(cardView: CardView) : CardViewBaseMod(cardView) {
         imageView.y = -card_height_half + edge_size
         cardView.controlGroup.children.add(imageView)
     }
+
     override fun onShapeChange() {
         imageView.image = Res.loadCardImage(cardView.card.confCard, !cardView.shape.turnBack);
+
     }
 }

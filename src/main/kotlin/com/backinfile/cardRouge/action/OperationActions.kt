@@ -27,13 +27,12 @@ object OperationActions {
 
         BoardButtonsUIGroup.show()
         BoardButtonsUIGroup.setButton(0, Res.TEXT_CONFIRM)
-        if (optional) {
-            BoardButtonsUIGroup.setButton(1, Res.TEXT_CANCEL) { confirmProperty.set(true) }
-        }
+        if (optional) BoardButtonsUIGroup.setButton(1, Res.TEXT_CANCEL) { confirmProperty.set(true) }
 
         for (card in cards) {
             val cardView = CardViewManager.getOrCreate(card)
             cardView.modInteract.disableAll()
+            cardView.modInteract.setDark(false)
             cardView.modInteract.enableClick {
                 if (it.card in selected) {
                     selected.remove(it.card)
@@ -49,7 +48,6 @@ object OperationActions {
                     BoardButtonsUIGroup.setButton(0, Res.TEXT_CONFIRM)
                 }
             }
-            cardView.modInteract.setDark(false)
         }
 
 

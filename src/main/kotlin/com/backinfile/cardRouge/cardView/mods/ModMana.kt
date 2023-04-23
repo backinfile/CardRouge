@@ -1,5 +1,6 @@
 package com.backinfile.cardRouge.cardView.mods
 
+import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
@@ -49,6 +50,10 @@ class ModMana(cardView: CardView) : CardViewBaseMod(cardView) {
             group.children.addAll(manaView, manaText)
 
             cardView.controlGroup.children.add(group)
+        }
+
+        if (cardView.card.confCard.cardType == GameConfig.CARD_TYPE_SUPPORT) {
+            group.isVisible = false
         }
     }
 

@@ -1,12 +1,14 @@
 package com.backinfile.support.fxgl
 
+import com.almasb.fxgl.core.math.Vec2
+import com.backinfile.support.kotlin.d
 import javafx.beans.binding.ObjectBinding
 import javafx.beans.value.ObservableDoubleValue
 import javafx.beans.value.ObservableIntegerValue
 import javafx.beans.value.ObservableValue
+import javafx.geometry.Point2D
 import javafx.scene.layout.Region
 import javafx.scene.paint.Color
-import javafx.util.Duration
 
 class FxUtils {
 }

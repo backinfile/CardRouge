@@ -10,10 +10,6 @@ class KtUtils {
 val Number.d get() = this.toDouble()
 val Number.f get() = this.toFloat()
 
-
-inline fun <T, C : Comparable<C>> maxOf(a: T, b: T, key: (T) -> C) = if (key(a) > key(b)) a else b
-
-
 /**
  * 只允许设置一次的属性
  *

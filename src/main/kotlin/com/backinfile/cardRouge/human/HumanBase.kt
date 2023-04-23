@@ -11,9 +11,9 @@ import com.backinfile.cardRouge.card.CardSlot
 abstract class HumanBase : BuffContainer() {
 
     val powerPile: CardPile = CardPile() // 能力牌
-    val slots: Map<Int, CardSlot> = (0 until 5).associateWith { CardSlot() }
 
     protected open val allCardPiles: List<CardPile> = listOf(powerPile)
+    val slots: MutableMap<Int, CardSlot> = mutableMapOf()
 
     val context: Context by lazy { Context(dungeon, board, this) }
 
@@ -26,8 +26,11 @@ abstract class HumanBase : BuffContainer() {
 
     }
 
-    open suspend fun onBattleStart() = with(context) {
-        drawCard(5)
+    open suspend fun onBattleStart() {}
+
+
+    open suspend fun onBattleEnd() {
+
     }
 
     open suspend fun onTurnStart() {

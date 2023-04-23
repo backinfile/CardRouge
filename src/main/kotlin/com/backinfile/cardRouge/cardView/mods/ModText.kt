@@ -1,5 +1,6 @@
 package com.backinfile.cardRouge.cardView.mods
 
+import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
@@ -83,6 +84,12 @@ class ModText(cardView: CardView) : CardViewBaseMod(cardView) {
 //            controlGroup.children.addAll(title, description, bottomTitle, subType, darkMaskView)
             controlGroup.children.add(group)
 
+        }
+
+
+
+        if (cardView.card.confCard.cardType == GameConfig.CARD_TYPE_SUPPORT) {
+            group.isVisible = false
         }
     }
 
