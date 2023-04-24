@@ -9,9 +9,9 @@ import kotlin.properties.Delegates
 import kotlin.reflect.KClass
 
 abstract class BuffContainer {
-    var dungeon: Dungeon by Delegates.once()
-    var board: Board by Delegates.once()
-    var human: HumanBase by Delegates.once()
+    lateinit var dungeon: Dungeon
+    lateinit var board: Board
+    lateinit var human: HumanBase
 
     private val fixedBuffs: MutableList<Buff> = ArrayList() // 卡牌固有buff（技能）
 

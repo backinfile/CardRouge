@@ -60,7 +60,7 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
     }
 
     private fun reCalcHandCardInfo(): Duration {
-        Log.game.info("reCalcHandCardInfo")
+//        Log.game.info("reCalcHandCardInfo")
         var maxDuration = Duration.ZERO
         for ((index, card) in cardsInOrder.withIndex()) {
             val cardView = CardViewManager.getOrCreate(card)

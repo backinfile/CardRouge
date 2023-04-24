@@ -10,6 +10,7 @@ import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
 import com.backinfile.cardRouge.card.CardSlot
+import com.backinfile.cardRouge.card.element.CardFire
 import com.backinfile.cardRouge.gen.config.ConfCard
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
 import com.backinfile.cardRouge.viewGroups.SlotViewUtils
@@ -30,13 +31,10 @@ class Player : HumanBase() {
     }
 
     override fun init() {
+        super.init()
 
-        for (i in 0 until 5) {
-            slots[i] = CardSlot()
-        }
-        SlotViewUtils.initPlayerSlotPosition(slots)
 
-        repeat(10) { drawPile.addCard(Card(ConfCard.get(1201001))) }
+        repeat(10) { drawPile.addCard(CardFire()) }
 
 //        for (card in dungeonData.deck) {
 //            drawPile.addCard(CardFactory.createCardInstance(card.id, isPlayer()))
@@ -59,11 +57,6 @@ class Player : HumanBase() {
 
     override suspend fun onBattleStart() = with(context) {
         super.onBattleStart()
-
-        SlotViewUtils.createPlayerSlotsView(slots)
-
         drawCard(5)
-
-
     }
 }

@@ -9,6 +9,7 @@ import com.backinfile.cardRouge.human.HumanBase
 import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.human.Robot
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
+import com.backinfile.cardRouge.viewGroups.SlotViewUtils
 import com.backinfile.support.async.runAsync
 import com.backinfile.support.func.Action1
 import com.backinfile.support.kotlin.TimerQueue
@@ -115,7 +116,13 @@ class Board : Updatable {
             State.Prepare -> {
                 BoardHandPileGroup.hide()
                 BoardHandPileGroup.show()
-                humans.forEach { it.onBattleStart() }
+                for (human in humans) {
+                    SlotViewUtils.initSlotPosition(human.slots, human.isPlayer())
+                    SlotViewUtils.createSlotsView(human.slots, human.isPlayer())
+                }
+                for (human in humans) {
+                    human.onBattleStart()
+                }
                 changeBoardStateTo(State.TurnBefore)
             }
 
@@ -138,7 +145,6 @@ class Board : Updatable {
             State.OVER -> TODO()
             State.OVER_CLEAR -> TODO()
         }
-
     }
 
 

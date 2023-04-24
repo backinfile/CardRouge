@@ -31,13 +31,13 @@ open class CardViewContainer(
         }
         val cardView = CardView(card)
         cardViewMap[card] = cardView
-        Log.game.info("create card view id:{} in:{}", card.id, name)
+        Log.game.info("create card view id:{} in:{}", card.confCard.id, name)
 
         return cardView.also(addUI)
     }
 
     fun remove(card: Card): CardView? {
-        Log.game.info("remove card view id:{} in:{}", card.id, name)
+        Log.game.info("remove card view id:{} in:{}", card.confCard.id, name)
         return cardViewMap.remove(card)?.also(removeUI)
     }
 

@@ -6,6 +6,12 @@ import javafx.geometry.Point3D;
 
 // 对战逻辑配置
 public class GameConfig {
+
+    public static final int RARE_INIT = 0;
+    public static final int RARE_COMMON = 1;
+    public static final int RARE_RARE = 2;
+    public static final int RARE_BOSS = 3;
+
     // 职业
     public static final int FAMILY_COMMON = 9;
     public static final int FAMILY_ROBOT = 8;

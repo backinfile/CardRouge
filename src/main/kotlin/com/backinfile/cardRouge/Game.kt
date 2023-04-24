@@ -7,7 +7,6 @@ import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.cardRouge.dungeon.Dungeon
-import com.backinfile.cardRouge.gen.config.ConfCard
 import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.human.Robot
 import com.backinfile.cardRouge.viewGroups.BoardBackgroundGroup
@@ -18,7 +17,7 @@ object Game {
 
     fun getInput() = curScene?.input ?: FXGL.getInput()
 
-    fun getScene() = curScene?: getGameScene()
+    fun getScene() = curScene ?: getGameScene()
 
 
 //    fun switchScene(subScene: SubScene) {
@@ -41,6 +40,10 @@ object Game {
 //            Log.game.info("onclick")
 //        }))
 
+        startBoard()
+    }
+
+    private fun startBoard() {
         val dungeon = Dungeon()
         val board = Board()
 

@@ -3,7 +3,7 @@ package com.backinfile.cardRouge.card
 import com.almasb.fxgl.core.math.Vec2
 import com.backinfile.cardRouge.buff.BuffContainer
 
-class CardSlot : BuffContainer() {
+class CardSlot(val index: Int) : BuffContainer() {
     var minion: Card? = null
     var seal: Card? = null
 

@@ -3,6 +3,7 @@ package com.backinfile.cardRouge
 import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.texture.Texture
 import com.almasb.fxgl.texture.getDummyImage
+import com.backinfile.cardRouge.card.CardConfig
 import com.backinfile.cardRouge.gen.config.ConfCard
 import com.backinfile.cardRouge.gen.config.ConfigManager
 import com.backinfile.support.SysException
@@ -54,8 +55,8 @@ object Res {
 
     val Cursor_Magnifier: Cursor = ImageCursor(loadImage("magnifying-glass.png"))
 
-    private const val IMG_DEFAULT_CARD_IMG = "fire_tmp_1.png"
-    private const val IMG_DEFAULT_CARD_IMG_BACK = "default_back.jpg"
+    const val IMG_DEFAULT_CARD_IMG = "fire_tmp_1.png"
+    const val IMG_DEFAULT_CARD_IMG_BACK = "default_back.jpg"
 
 
     val TEXT_BATTLE_START = "战斗开始"
@@ -95,9 +96,9 @@ object Res {
         return FXGL.getAssetLoader().loadTexture(path)
     }
 
-    fun loadCardImage(confCard: ConfCard, front: Boolean = true): Image {
+    fun loadCardImage(confCard: CardConfig, front: Boolean = true): Image {
         return if (front) {
-            if (!confCard.image.isEmpty()) {
+            if (confCard.image.isNotEmpty()) {
                 val image = FXGL.getAssetLoader().loadImage(confCard.image)
                 if (image !== getDummyImage()) {
                     return image
@@ -105,7 +106,7 @@ object Res {
             }
             loadImage(IMG_DEFAULT_CARD_IMG) // 找不到卡图，返回一个默认的
         } else {
-            if (!confCard.backImage.isEmpty()) {
+            if (confCard.backImage.isNotEmpty()) {
                 val image = FXGL.getAssetLoader().loadImage(confCard.backImage)
                 if (image !== getDummyImage()) {
                     return image
@@ -115,7 +116,7 @@ object Res {
         }
     }
 
-    fun loadCardTexture(confCard: ConfCard, front: Boolean = true): Texture {
+    fun loadCardTexture(confCard: CardConfig, front: Boolean = true): Texture {
         return Texture(loadCardImage(confCard, front))
     }
 

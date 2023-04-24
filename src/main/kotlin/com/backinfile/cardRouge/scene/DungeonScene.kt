@@ -1,30 +1,12 @@
 package com.backinfile.cardRouge.scene
 
 import com.almasb.fxgl.dsl.FXGL
-import com.almasb.fxgl.dsl.getGameScene
-import com.almasb.fxgl.dsl.getGameTimer
 import com.almasb.fxgl.scene.SubScene
 import com.backinfile.cardRouge.*
-import com.backinfile.cardRouge.board.Board
-import com.backinfile.cardRouge.card.Card
-import com.backinfile.cardRouge.cardView.CardView
-import com.backinfile.cardRouge.cardView.CardViewManager
-import com.backinfile.cardRouge.dungeon.Dungeon
-import com.backinfile.cardRouge.gen.config.ConfCard
-import com.backinfile.cardRouge.human.Player
-import com.backinfile.cardRouge.human.Robot
-import com.backinfile.cardRouge.viewGroup.Views
 import com.backinfile.cardRouge.viewGroups.BoardBackgroundGroup
 import com.backinfile.cardRouge.viewGroups.BoardButtonsUIGroup
 import com.backinfile.cardRouge.viewGroups.ButtonInfo
 import com.backinfile.cardRouge.viewGroups.ButtonsParam
-import com.backinfile.support.fxgl.FXGLUtils
-import javafx.application.Platform
-import javafx.geometry.Point2D
-import javafx.geometry.Pos
-import javafx.geometry.Rectangle2D
-import javafx.scene.Group
-import javafx.scene.layout.VBox
 import javafx.scene.shape.Rectangle
 import javafx.util.Duration
 

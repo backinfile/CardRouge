@@ -1,32 +1,33 @@
 package com.backinfile.cardRouge.human
 
-import com.backinfile.cardRouge.GameConfig
-import com.backinfile.cardRouge.action.Actions.drawCard
 import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.buff.BuffContainer
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
 import com.backinfile.cardRouge.card.CardSlot
+import com.backinfile.cardRouge.viewGroups.SlotViewUtils
 
 abstract class HumanBase : BuffContainer() {
 
+    val slots: Map<Int, CardSlot> = (0 until 5).associateWith { CardSlot(it) }
     val powerPile: CardPile = CardPile() // 能力牌
 
     protected open val allCardPiles: List<CardPile> = listOf(powerPile)
-    val slots: MutableMap<Int, CardSlot> = mutableMapOf()
 
     val context: Context by lazy { Context(dungeon, board, this) }
 
     abstract fun isPlayer(): Boolean
 
     open fun init() {
+
     }
 
     open suspend fun playInTurn() {
 
     }
 
-    open suspend fun onBattleStart() {}
+    open suspend fun onBattleStart() {
+    }
 
 
     open suspend fun onBattleEnd() {
@@ -80,5 +81,14 @@ abstract class HumanBase : BuffContainer() {
 
     fun getAllCards(): List<Card> {
         return allCardPiles.flatten() + slots.values.flatMap { it.getAllCards() }
+    }
+
+    fun getCrystalSlotIndex(crystalCard: Card): Int {
+        for ((index, slot) in slots.entries) {
+            if (slot.crystal == crystalCard) {
+                return index
+            }
+        }
+        return -1
     }
 }

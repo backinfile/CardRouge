@@ -15,8 +15,8 @@ val Number.f get() = this.toFloat()
  *
  * usage: `var value:Int by Delegates.once()`
  */
-fun <T : Any> Delegates.once(v: T? = null): ReadWriteProperty<Any?, T> = object : ReadWriteProperty<Any?, T> {
-    private var value: T? = v
+fun <T : Any> Delegates.once(init: T? = null): ReadWriteProperty<Any?, T> = object : ReadWriteProperty<Any?, T> {
+    private var value: T? = init
 
     public override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return value ?: throw IllegalStateException("Property ${property.name} should be initialized before get.")
@@ -27,3 +27,4 @@ fun <T : Any> Delegates.once(v: T? = null): ReadWriteProperty<Any?, T> = object 
         this.value = value
     }
 }
+
