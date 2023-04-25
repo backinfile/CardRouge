@@ -24,12 +24,12 @@ import javafx.scene.text.FontWeight
 
 object FXGLUtils {
 
-    fun pureBackground(paint: Paint) = Background(BackgroundFill(paint, null, null))
+    fun pureBackground(paint: Paint = Color.BLUE) = Background(BackgroundFill(paint, null, null))
 
     fun font(
-            size: Int = Res.FONT_SIZE_DEFAULT,
-            weight: FontWeight = FontWeight.NORMAL,
-            family: String = Res.FONT_FAMILY_DEFAULT,
+        size: Int = Res.FONT_SIZE_DEFAULT,
+        weight: FontWeight = FontWeight.NORMAL,
+        family: String = Res.FONT_FAMILY_DEFAULT,
     ) = Font.font(family, weight, size.toDouble())
 
 
@@ -62,11 +62,11 @@ object FXGLUtils {
         label.font = Font.font(Res.FONT_FAMILY_DEFAULT, FontWeight.NORMAL, 24.0)
         label.textFill = Color.WHITE
         label.background = Background(
-                BackgroundFill(
-                        Color(0.3, 0.3, 0.3, 0.99),
-                        null,
-                        null
-                )
+            BackgroundFill(
+                Color(0.3, 0.3, 0.3, 0.99),
+                null,
+                null
+            )
         )
         label.translateXProperty().bind(label.widthProperty().multiply(-0.5f).add(Config.SCREEN_WIDTH / 2f))
         label.translateY = (Config.SCREEN_HEIGHT * 0.07f).toDouble()

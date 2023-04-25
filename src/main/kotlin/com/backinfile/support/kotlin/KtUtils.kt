@@ -7,8 +7,8 @@ import kotlin.reflect.KProperty
 class KtUtils {
 }
 
-val Number.d get() = this.toDouble()
-val Number.f get() = this.toFloat()
+inline val Number.d get() = this.toDouble()
+inline val Number.f get() = this.toFloat()
 
 /**
  * 只允许设置一次的属性

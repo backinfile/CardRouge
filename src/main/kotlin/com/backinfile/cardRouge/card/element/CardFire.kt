@@ -14,7 +14,7 @@ class CardFire : Card() {
             subType = "元素",
             rare = GameConfig.RARE_INIT,
             cost = 1,
-            description = "",
+            description = "[弃置] [火] [1] => [攻击] [火] [1]",
             image = "card/fire.png"
         )
 }

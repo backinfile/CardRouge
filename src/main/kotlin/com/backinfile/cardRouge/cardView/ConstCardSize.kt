@@ -1,7 +1,7 @@
 package com.backinfile.cardRouge.cardView
 
 import com.backinfile.cardRouge.Config
-import com.backinfile.support.fxgl.opacity
+import com.backinfile.support.fxgl.opacityColor
 import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
 import javafx.scene.paint.Color
@@ -39,10 +39,8 @@ object ConstCardSize {
     val GRADIENT_MASK = LinearGradient(
         0.0, 0.0, 0.0, 1.0, true, CycleMethod.NO_CYCLE,
         listOf(
-            Stop(0.0, opacity(0.1)),
-            Stop(0.1, opacity(0.3)),
-            Stop(0.7, opacity(0.7)),
-            Stop(1.0, opacity(0.9))
+            Stop(0.0, opacityColor(0.1)),
+            Stop(1.0, opacityColor(0.9))
         )
     )
 }

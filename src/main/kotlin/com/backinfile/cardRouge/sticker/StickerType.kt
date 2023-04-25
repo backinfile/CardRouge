@@ -2,14 +2,15 @@ package com.backinfile.cardRouge.sticker
 
 
 enum class StickerType(val type: Type, val context: String, val image: String = "") {
-    ActionAttack(Type.Action, "攻击"),
+    ActionAttack(Type.Action, "攻击", "sticker/attack.png"),
+    ActionDiscard(Type.Action, "弃置", "sticker/card.png"),
 
     NumberAddOne(Type.Number, "+1"),
     NumberOnce(Type.Number, "1"),
 
-    ElementFire(Type.Element, "火"),
+    ElementFire(Type.Element, "火", "sticker/fire.png"),
 
-    KeywordTaunt(Type.Keyword, "嘲讽"),
+    KeywordTaunt(Type.Keyword, "嘲讽", "sticker/Taunt.png"),
 
     ;
 

@@ -81,7 +81,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     fun setDark(dark: Boolean = true) {
-        darkMaskView.isVisible = dark
+//        darkMaskView.isVisible = dark
     }
 
     fun setSelected(selected: Boolean) {

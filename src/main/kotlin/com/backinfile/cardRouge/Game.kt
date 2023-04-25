@@ -9,6 +9,7 @@ import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.cardRouge.dungeon.Dungeon
 import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.human.Robot
+import com.backinfile.cardRouge.view.DescriptionArea
 import com.backinfile.cardRouge.viewGroups.BoardBackgroundGroup
 
 object Game {

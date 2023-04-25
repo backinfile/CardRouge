@@ -5,7 +5,6 @@ import com.backinfile.cardRouge.cardView.CardViewBaseMod;
 import com.backinfile.cardRouge.cardView.mods.ModInteract;
 import com.backinfile.cardRouge.cardView.mods.ModMana;
 import com.backinfile.cardRouge.cardView.mods.ModMove;
-import com.backinfile.cardRouge.cardView.mods.ModText;
 import com.backinfile.cardRouge.cardView.mods.ModView;
 
 /**
@@ -16,9 +15,6 @@ public interface CardViewModulesInterface {
 
     default ModView getModView() {
         return getModules().getModView();
-    }
-    default ModText getModText() {
-        return getModules().getModText();
     }
     default ModMana getModMana() {
         return getModules().getModMana();

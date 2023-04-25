@@ -5,7 +5,6 @@ import com.backinfile.cardRouge.cardView.CardViewBaseMod;
 import com.backinfile.cardRouge.cardView.mods.ModInteract;
 import com.backinfile.cardRouge.cardView.mods.ModMana;
 import com.backinfile.cardRouge.cardView.mods.ModMove;
-import com.backinfile.cardRouge.cardView.mods.ModText;
 import com.backinfile.cardRouge.cardView.mods.ModView;
 
 /**
@@ -23,7 +22,6 @@ public class CardViewModules {
     public void init() {
         modules = new CardViewBaseMod[E.values().length];
         modules[E.ModView.ordinal()] = new ModView(cardView);
-        modules[E.ModText.ordinal()] = new ModText(cardView);
         modules[E.ModMana.ordinal()] = new ModMana(cardView);
         modules[E.ModMove.ordinal()] = new ModMove(cardView);
         modules[E.ModInteract.ordinal()] = new ModInteract(cardView);
@@ -50,9 +48,6 @@ public class CardViewModules {
     public ModView getModView() {
         return (ModView) modules[E.ModView.ordinal()];
     }
-    public ModText getModText() {
-        return (ModText) modules[E.ModText.ordinal()];
-    }
     public ModMana getModMana() {
         return (ModMana) modules[E.ModMana.ordinal()];
     }
@@ -65,7 +60,6 @@ public class CardViewModules {
 
     private enum E {
         ModView,
-        ModText,
         ModMana,
         ModMove,
         ModInteract,

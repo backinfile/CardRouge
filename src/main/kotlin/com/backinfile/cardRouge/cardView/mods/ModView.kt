@@ -1,14 +1,23 @@
 package com.backinfile.cardRouge.cardView.mods
 
+import com.backinfile.cardRouge.Game
 import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
 import com.backinfile.cardRouge.cardView.ConstCardSize
+import com.backinfile.cardRouge.view.DescriptionArea
+import com.backinfile.support.fxgl.FXGLUtils
+import com.backinfile.support.fxgl.setSize
+import javafx.geometry.Pos
+import javafx.scene.Group
+import javafx.scene.control.Label
 import javafx.scene.image.ImageView
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
+import javafx.scene.text.FontWeight
+import javafx.scene.text.TextAlignment
 
 @CardViewModLayer(CardViewModLayer.Layer.Image)
 class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
@@ -16,6 +25,8 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
     private val edgeDarkerView = Rectangle(ConstCardSize.inner_width, ConstCardSize.inner_height)
 
     private val imageView = ImageView()
+
+    private val textGroup = Group()
 
     override fun onCreate(): Unit = with(ConstCardSize) {
         super.onCreate()
@@ -41,6 +52,54 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
         imageView.x = -card_width_half + edge_size
         imageView.y = -card_height_half + edge_size
         cardView.controlGroup.children.add(imageView)
+
+
+        if (cardView.card.confCard.cardType != GameConfig.CARD_TYPE_SUPPORT) {
+            val mask = Rectangle(inner_width, maskHeight + maskHeightOffset)
+            mask.x = -card_width_half + edge_size
+            mask.y = -card_height_half + card_height - edge_size - maskHeight - maskHeightOffset
+            mask.fill = GRADIENT_MASK
+
+
+            val title = Label(cardView.card.confCard.title)
+            title.alignment = Pos.CENTER
+            title.setSize(inner_width, title_font_size * 1.5)
+            title.translateX = -card_width_half + edge_size
+            title.translateY = card_height_half - maskHeight - title_font_size * 1.5
+            title.textFill = Color.WHITE
+            title.font = FXGLUtils.font(title_font_size, FontWeight.BOLD)
+            title.textAlignment = TextAlignment.CENTER
+
+
+            val description = DescriptionArea(cardView.card.confCard.description)
+            description.translateX = 0.0
+            description.translateY = card_height_half - maskHeight / 2
+
+            textGroup.children.addAll(mask, description, title)
+            cardView.controlGroup.children.add(textGroup)
+        }
+
+
+        val bottomTitle = Label(cardView.card.confCard.title)
+        bottomTitle.alignment = Pos.CENTER
+        bottomTitle.setPrefSize(inner_width, title_font_size.toDouble())
+        bottomTitle.translateX = -card_width_half + edge_size
+        bottomTitle.translateY = card_height_half - title_font_size - edge_size * 2 + 1
+        bottomTitle.textFill = Color.WHITE
+        bottomTitle.font = FXGLUtils.font(title_font_size, FontWeight.BOLD)
+        bottomTitle.textAlignment = TextAlignment.CENTER
+        bottomTitle.background = BACKGROUND_TITLE
+
+        val subType = Label(cardView.card.confCard.subType)
+        subType.alignment = Pos.CENTER
+        subType.setMaxSize(inner_width, subType_font_size.toDouble())
+        subType.translateX = -card_width_half + edge_size
+        subType.translateY = -card_height_half + edge_size
+        subType.textFill = Color.WHITE
+        subType.font = FXGLUtils.font(subType_font_size, FontWeight.MEDIUM)
+        subType.textAlignment = TextAlignment.CENTER
+        subType.translateXProperty().bind(subType.widthProperty().multiply(-0.5f).add(0))
+        subType.background = BACKGROUND_TITLE
     }
 
     override fun onShapeChange() {
@@ -51,6 +110,8 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
 
         imageView.image = Res.loadCardImage(cardView.card.confCard, !cardView.shape.turnBack);
 
+
+        textGroup.isVisible = !cardView.shape.minion && !cardView.shape.turnBack
     }
 
 
