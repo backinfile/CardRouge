@@ -1,5 +1,6 @@
 package com.backinfile.cardRouge.cardView.mods
 
+import com.almasb.fxgl.core.math.FXGLMath
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Game
 import com.backinfile.cardRouge.Res
@@ -7,7 +8,7 @@ import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
 import com.backinfile.cardRouge.cardView.ConstCardSize
-import com.backinfile.support.MathUtils
+import com.backinfile.support.fxgl.clamp
 import javafx.geometry.Point2D
 import javafx.scene.Cursor
 import javafx.scene.Node
@@ -156,8 +157,8 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         var fy = Game.getInput().mouseYUI - cardHeightHalf / 3
 
         // 靠近屏幕边缘的处理
-        fx = MathUtils.clamp(fx, cardWidthHalf, Config.SCREEN_WIDTH - cardWidthHalf)
-        fy = MathUtils.clamp(fy, cardHeightHalf, Config.SCREEN_HEIGHT - cardHeightHalf)
+        fx = clamp(fx, cardWidthHalf, Config.SCREEN_WIDTH - cardWidthHalf)
+        fy = clamp(fy, cardHeightHalf, Config.SCREEN_HEIGHT - cardHeightHalf)
 
         cardView.modMove.move(Point2D(fx, fy), duration = Duration.millis(70.0))
 

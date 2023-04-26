@@ -1,8 +1,9 @@
 package com.backinfile.cardRouge.card
 
-import com.backinfile.support.Random
-import java.util.*
+import com.backinfile.support.kotlin.Random
+import java.util.Collections
 import java.util.function.Predicate
+import kotlin.collections.ArrayList
 
 class CardPile : Iterable<Card> {
     // 牌库底->牌库顶

@@ -1,9 +1,9 @@
 package com.backinfile.cardRouge.view
 
 import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.SysException
 import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.cardRouge.sticker.StickerType
-import com.backinfile.support.SysException
 import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.fxgl.opacityColor
 import com.backinfile.support.fxgl.setSize

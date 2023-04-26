@@ -4,7 +4,6 @@ import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.viewGroup.Param
 import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
-import com.backinfile.support.func.Action0
 import com.backinfile.support.kotlin.d
 import javafx.event.EventHandler
 import javafx.geometry.Pos
@@ -12,7 +11,7 @@ import javafx.scene.control.Button
 import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 
-class ButtonInfo(val type: String, val onClick: Action0? = null)
+class ButtonInfo(val type: String, val onClick: Runnable? = null)
 class ButtonsParam() : Param() {
     val buttons: ArrayList<ButtonInfo> = ArrayList()
 
@@ -53,19 +52,19 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
         }
     }
 
-    fun addButton(text: String, onClick: Action0? = null): Int {
+    fun addButton(text: String, onClick: Runnable? = null): Int {
         val button: Button = createButton()
         button.text = text
         button.isVisible = true
         button.isDisable = onClick == null
-        button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.invoke() }
+        button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.run() }
         buttons.add(button)
         buttonsContainer.children.add(button)
         return buttons.size - 1
     }
 
 
-    fun setButton(index: Int, text: String, onClick: Action0? = null) {
+    fun setButton(index: Int, text: String, onClick: Runnable? = null) {
         if (index == buttons.size) { // 正好缺少一个button
             addButton(text, onClick)
             return
@@ -73,7 +72,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
         val button = buttons[index]
         button.text = text
         button.isDisable = onClick == null
-        button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.invoke() }
+        button.onMouseClicked = if (onClick == null) null else EventHandler { onClick.run() }
     }
 
 

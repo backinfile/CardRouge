@@ -4,8 +4,22 @@ import kotlin.properties.Delegates
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class KtUtils {
+
+typealias Action1<T> = (T) -> Unit
+
+object KtUtils {
+    fun <T> get(collection: Collection<T>, index: Int): T {
+        var curIndex = index
+        for (t in collection) {
+            if (curIndex-- == 0) {
+                return t
+            }
+        }
+        throw IndexOutOfBoundsException("")
+    }
+
 }
+
 
 inline val Number.d get() = this.toDouble()
 inline val Number.f get() = this.toFloat()

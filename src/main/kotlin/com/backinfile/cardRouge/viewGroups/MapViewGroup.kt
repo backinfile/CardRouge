@@ -7,10 +7,10 @@ import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.room.RoomSimple
 import com.backinfile.cardRouge.view.MapNodeIcon
 import com.backinfile.cardRouge.view.MapNodeLine
-import com.backinfile.support.MathUtils
-import com.backinfile.support.Random
-import com.backinfile.support.func.Action1
 import com.backinfile.support.fxgl.FXGLUtils
+import com.backinfile.support.fxgl.clamp
+import com.backinfile.support.kotlin.Action1
+import com.backinfile.support.kotlin.Random
 import com.backinfile.support.kotlin.d
 import javafx.event.EventHandler
 import javafx.scene.Cursor
@@ -49,7 +49,7 @@ class MapViewGroup internal constructor() : Group() {
     fun show(selectRoomIds: List<Int>, closeable: Boolean, selected: Action1<Int>) {
         show()
         exitButton.isVisible = closeable
-        val onClick = Action1 { roomId: Int ->
+        val onClick = { roomId: Int ->
             for (id in selectRoomIds) {
                 val icon = mapNodeIconMap[id]!!
                 icon.setPulse(false)
@@ -91,7 +91,7 @@ class MapViewGroup internal constructor() : Group() {
         background.onMousePressed = EventHandler {
             val startX: Double = mapNodeGroup.translateX - FXGL.getInput().mouseXUI
             mapNodeGroup.translateXProperty().bind(FXGL.getInput().mouseXUIProperty().map {
-                MathUtils.clamp(
+                clamp(
                     FXGL.getInput().mouseXUI + startX,
                     -backgroundRight + Config.SCREEN_WIDTH,
                     -backgroundLeft
@@ -109,8 +109,8 @@ class MapViewGroup internal constructor() : Group() {
                 val roomSimple = roomSimpleMap[roomId]!!
                 val nodeIcon = MapNodeIcon(roomId, roomSimple)
                 val rnd = 20
-                nodeIcon.translateX = Random.getInstance().next(-rnd, rnd + 1) + (level - 0.5f) * gepX
-                nodeIcon.translateY = Random.getInstance().next(-rnd, rnd + 1) + totalY / (iconCount + 1) * (index + 1)
+                nodeIcon.translateX = Random.instance.next(-rnd, rnd + 1) + (level - 0.5f) * gepX
+                nodeIcon.translateY = Random.instance.next(-rnd, rnd + 1) + totalY / (iconCount + 1) * (index + 1)
                 mapNodeIconMap[roomId] = nodeIcon
                 mapNodeGroup.children.add(nodeIcon)
             }

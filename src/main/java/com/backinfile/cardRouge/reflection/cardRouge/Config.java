@@ -1,5 +1,6 @@
-package com.backinfile.cardRouge;
+package com.backinfile.cardRouge.reflection.cardRouge;
 
+import com.backinfile.cardRouge.Time;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 

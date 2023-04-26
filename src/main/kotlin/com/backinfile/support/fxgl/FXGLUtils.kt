@@ -3,11 +3,6 @@ package com.backinfile.support.fxgl
 import com.almasb.fxgl.dsl.FXGL
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Res
-import com.backinfile.support.func.Action0
-import javafx.beans.binding.DoubleBinding
-import javafx.beans.binding.ObjectBinding
-import javafx.beans.value.ObservableObjectValue
-import javafx.beans.value.ObservableValue
 import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.Node
@@ -33,13 +28,13 @@ object FXGLUtils {
     ) = Font.font(family, weight, size.toDouble())
 
 
-    fun btn(text: String = "", onClick: Action0? = null): Button {
+    fun btn(text: String = "", onClick: (() -> Unit)? = null): Button {
         val btn = FXGL.getUIFactoryService().newButton(text)
         btn.onMouseClicked = EventHandler { onClick?.invoke() }
         return btn
     }
 
-    fun btnNormal(text: String = "", onClick: Action0? = null): Button {
+    fun btnNormal(text: String = "", onClick: (() -> Unit)? = null): Button {
         val btn = Button(text)
         btn.styleClass.setAll("bc_button")
         btn.alignment = Pos.CENTER
@@ -50,7 +45,7 @@ object FXGLUtils {
         return btn
     }
 
-    fun btnBottomCenter(text: String = "", onClick: Action0? = null): Button {
+    fun btnBottomCenter(text: String = "", onClick: (() -> Unit)? = null): Button {
         val btn = btnNormal(text, onClick)
         btn.translateXProperty().bind(btn.widthProperty().multiply(-0.5f).add(Config.SCREEN_WIDTH / 2))
         btn.translateY = Config.SCREEN_HEIGHT * 0.9

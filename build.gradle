@@ -35,7 +35,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 
-    implementation 'com.github.backinfile:support:v1.1.4'
+//    implementation 'com.github.backinfile:support:v1.1.4'
 
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.12.4'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.4'
@@ -124,3 +124,12 @@ tasks.register('distDesktop') {
         Files.writeString(filePath, content, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
     }
 }
+
+//jpackage {
+//    nativeImageType = "exe"
+//    mainClass = "com.example.Main"
+//    input = shadowJar.archiveFile.get().asFile
+//    outputDir = file("build/jpackage")
+//    packageName = "MyApp"
+//    appVersion = "1.0.0"
+//}

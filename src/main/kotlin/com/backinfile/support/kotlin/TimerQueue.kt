@@ -1,17 +1,15 @@
 package com.backinfile.support.kotlin
 
 import com.backinfile.cardRouge.Log
-import com.backinfile.support.func.Action0
-import com.backinfile.support.func.Function0
 import java.util.concurrent.ConcurrentHashMap
 
 class TimerQueue(private var getTimeFunc: Function0<Double>) {
     private val timers: MutableMap<Long, TimeEvent> = ConcurrentHashMap()
     private var idMax: Long = 1
 
-    private class TimeEvent(var timer: Timer, var action: Action0)
+    private class TimeEvent(var timer: Timer, var action: Runnable)
 
-    fun apply(interval: Double = 0.0, delay: Double, action: Action0): Long {
+    fun apply(interval: Double = 0.0, delay: Double, action: Runnable): Long {
         val id = idMax++
         timers[id] = TimeEvent(Timer(interval, delay, getTimeFunc), action)
         return id
@@ -29,7 +27,7 @@ class TimerQueue(private var getTimeFunc: Function0<Double>) {
         for ((id, timeEvent) in timers) {
             if (timeEvent.timer.isPeriod) {
                 try {
-                    timeEvent.action.invoke()
+                    timeEvent.action.run()
                 } catch (e: Exception) {
                     Log.game.error("error in TimerQueue", e)
                 }

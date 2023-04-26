@@ -1,6 +1,5 @@
 package com.backinfile.support.kotlin
 
-import com.backinfile.support.func.Function0
 
 class Timer(private val interval: Double = 0.0, delay: Double, private val getTimeFunc: Function0<Double>) {
     private var timeout: Double = this.getTimeFunc.invoke() + delay

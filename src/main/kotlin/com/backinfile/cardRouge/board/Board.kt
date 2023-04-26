@@ -12,7 +12,7 @@ import com.backinfile.cardRouge.human.Robot
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
 import com.backinfile.cardRouge.viewGroups.SlotViewUtils
 import com.backinfile.support.async.runAsync
-import com.backinfile.support.func.Action1
+import com.backinfile.support.kotlin.Action1
 import com.backinfile.support.kotlin.TimerQueue
 import com.backinfile.support.kotlin.once
 import java.io.Closeable

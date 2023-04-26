@@ -8,9 +8,9 @@ import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
 import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.cardRouge.view.DescriptionArea
-import com.backinfile.support.Time
 import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.fxgl.setSize
+import com.backinfile.cardRouge.Time
 import javafx.geometry.Pos
 import javafx.scene.Group
 import javafx.scene.control.Label

@@ -6,7 +6,6 @@ import com.almasb.fxgl.texture.getDummyImage
 import com.backinfile.cardRouge.card.CardConfig
 import com.backinfile.cardRouge.gen.config.ConfCard
 import com.backinfile.cardRouge.gen.config.ConfigManager
-import com.backinfile.support.SysException
 import javafx.scene.Cursor
 import javafx.scene.ImageCursor
 import javafx.scene.image.Image

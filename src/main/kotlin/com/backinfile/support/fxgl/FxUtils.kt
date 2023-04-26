@@ -13,6 +13,9 @@ class FxUtils {
 
 fun opacityColor(opacity: Double) = Color(0.0, 0.0, 0.0, opacity)
 
+fun clamp(a: Int, low: Int, high: Int) = maxOf(low, minOf(a, high))
+fun clamp(a: Float, low: Float, high: Float) = maxOf(low, minOf(a, high))
+fun clamp(a: Double, low: Double, high: Double) = maxOf(low, minOf(a, high))
 
 fun Region.setSize(width: Double, height: Double) {
     this.setPrefSize(width, height)

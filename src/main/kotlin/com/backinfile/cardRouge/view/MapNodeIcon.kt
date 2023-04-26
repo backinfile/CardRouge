@@ -1,9 +1,9 @@
 package com.backinfile.cardRouge.view
 
 import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.Time
 import com.backinfile.cardRouge.room.RoomSimple
 import com.backinfile.cardRouge.viewGroups.MapViewGroup
-import com.backinfile.support.Time
 import javafx.event.EventHandler
 import javafx.scene.Cursor
 import javafx.scene.Group
