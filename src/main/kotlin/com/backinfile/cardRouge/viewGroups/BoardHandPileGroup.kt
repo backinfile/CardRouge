@@ -36,7 +36,7 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
         if (!enable) {
             for (card in cardsInOrder) {
                 val cardView = CardViewManager.getOrCreate(card)
-                cardView.modInteract.disableAll()
+                cardView.modInteract.enableDrag(false)
                 cardView.modView.setGlow(false)
             }
             return
@@ -44,20 +44,22 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
 
         for (card in cardsInOrder) {
             val cardView = CardViewManager.getOrCreate(card)
-            cardView.modInteract.disableAll()
-
-
-            // 鼠标滑动到此放大卡牌
-            cardView.modInteract.enableMouseOver(true, {
-                hovered = card;
-                reCalcHandCardInfo(card);
-            }, {
-                hovered = null;
-                reCalcHandCardInfo(card);
-            })
+//            cardView.modInteract.disableAll()
 
             if (card.playTargetInfo != null) {
                 cardView.modView.setGlow()
+
+                for (card in cardsInOrder) {
+                    val cardView = CardViewManager.getOrCreate(card)
+                    // 鼠标滑动到此放大卡牌
+                    cardView.modInteract.enableMouseOver(true, {
+                        hovered = card;
+                        reCalcHandCardInfo(card);
+                    }, {
+                        hovered = null;
+                        reCalcHandCardInfo(card);
+                    })
+                }
 
                 // 拖拽打出
                 cardView.modInteract.enableDrag(true,
@@ -66,15 +68,17 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
                         reCalcHandCardInfo(card)
                     },
                     update = {
-                        if (card.playTargetInfo?.selectSlotAsMinion == true) { // 打出随从
-                            if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
-                                cardView.modInteract.enableDrag(false, triggerCancel = false)
-                                enablePlay(false)
-                                runAsync { context!!.selectCardTarget(card) }
-                            }
-                        }
                     },
                     over = {
+                        if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
+                            if (CardPlayLogic.handleDragPlayEnd(context!!, card)) { // 成功打出
+                                cardView.modInteract.enableDrag(false, triggerCancel = false)
+                                cardView.modInteract.enableMouseOver(false)
+                                enablePlay(false)
+                                return@enableDrag
+                            }
+                        }
+                        // 没有打出
                         hovered = null
                         draged = null
                         reCalcHandCardInfo(card)
@@ -122,6 +126,19 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
         for (card in cardsInOrder) {
             val ani = reCalcHandCardInfo(card)
             maxDuration = maxOf(maxDuration, ani)
+        }
+
+
+        for (card in cardsInOrder) {
+            val cardView = CardViewManager.getOrCreate(card)
+            // 鼠标滑动到此放大卡牌
+            cardView.modInteract.enableMouseOver(true, {
+                hovered = card;
+                reCalcHandCardInfo(card);
+            }, {
+                hovered = null;
+                reCalcHandCardInfo(card);
+            })
         }
         return maxDuration
     }

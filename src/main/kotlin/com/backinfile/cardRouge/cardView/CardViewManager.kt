@@ -1,8 +1,10 @@
 package com.backinfile.cardRouge.cardView
 
 import com.almasb.fxgl.dsl.getGameScene
+import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.card.Card
+import javafx.geometry.Point2D
 import javafx.scene.Group
 
 object CardViewManager :
@@ -30,6 +32,7 @@ open class CardViewContainer(
             return cardViewMap[card]!!
         }
         val cardView = CardView(card)
+        cardView.modMove.move(pos = Point2D(Config.SCREEN_WIDTH / 2.0, Config.SCREEN_HEIGHT / 2.0), scale = Config.SCALE_DISCOVER_CARD)
         cardViewMap[card] = cardView
         Log.game.info("create card view id:{} in:{}", card.confCard.id, name)
 

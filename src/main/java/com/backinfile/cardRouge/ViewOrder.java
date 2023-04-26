@@ -1,6 +1,6 @@
 package com.backinfile.cardRouge;
 
-// 显示顺序，从前到后
+// 显示顺序，从前到后 约小越靠前
 public enum ViewOrder {
     UI_SETTING, // 设置面板
     ICON_SETTING, // 设置按钮
@@ -25,7 +25,7 @@ public enum ViewOrder {
     ;
 
 
-    public double order() {
+    public double viewOrder() {
         return (this.ordinal() - ZERO.ordinal()) * 1000.0;
     }
 }

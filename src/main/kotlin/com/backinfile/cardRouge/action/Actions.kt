@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.action
 
 import com.backinfile.cardRouge.Log
+import com.backinfile.cardRouge.action.ViewActions.moveCardToSlot
 import com.backinfile.cardRouge.action.ViewActions.refreshHandPileView
 import com.backinfile.cardRouge.action.ViewActions.updatePileNumber
 import com.backinfile.cardRouge.board.Board
@@ -11,6 +12,24 @@ object Actions {
 
     suspend fun Board.changeBoardStateTo(state: Board.State) {
         enterState(state)
+    }
+
+    suspend fun Context.summonTo(slotIndex: Int, card: Card) {
+        board.removeCard(card)
+        val slot = human.slots[slotIndex]!!
+        if (slot.minion != null) {
+            replace(slotIndex, card)
+            return
+        } else {
+            slot.minion = card
+        }
+
+        moveCardToSlot(slotIndex, card)
+        refreshHandPileView()
+    }
+
+    suspend fun Context.replace(slotIndex: Int, card: Card) {
+        TODO()
     }
 
     suspend fun Context.shuffleDiscardIntoDrawPile() {

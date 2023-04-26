@@ -1,23 +1,15 @@
 package com.backinfile.cardRouge.viewGroups
 
 import com.backinfile.cardRouge.Config
-import com.backinfile.cardRouge.Res
-import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.viewGroup.Param
 import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
 import com.backinfile.support.func.Action0
-import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.kotlin.d
 import javafx.event.EventHandler
 import javafx.geometry.Pos
-import javafx.scene.Group
 import javafx.scene.control.Button
-import javafx.scene.layout.Background
-import javafx.scene.layout.BackgroundFill
 import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
-import javafx.scene.shape.Rectangle
 import javafx.scene.text.Font
 
 class ButtonInfo(val type: String, val onClick: Action0? = null)
@@ -42,7 +34,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
 
 
     init {
-        viewOrder = ViewOrder.UI_OPERATOR.order()
+        viewOrder = ViewOrder.UI_OPERATOR.viewOrder()
 //        addMask(0.5)
         buttonsContainer = initContainer();
     }

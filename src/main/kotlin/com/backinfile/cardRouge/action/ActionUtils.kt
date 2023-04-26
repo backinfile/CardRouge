@@ -2,6 +2,7 @@ package com.backinfile.cardRouge.action
 
 import com.backinfile.cardRouge.board.Board
 import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableBooleanValue
 import javafx.beans.value.ObservableValue
 import javafx.util.Duration
 import kotlin.coroutines.resume
@@ -35,6 +36,22 @@ suspend fun Board.waitCondition(condition: () -> Boolean) = suspendCoroutine {
     })
 }
 
+
+/**
+ * 等待条件完成(基于ObservableValue)
+ */
+suspend fun Board.waitCondition(observableValue: ObservableBooleanValue) = suspendCoroutine {
+    val lock = getAsyncLock()
+    observableValue.addListener(object : ChangeListener<Boolean> {
+        override fun changed(observable: ObservableValue<out Boolean>, oldValue: Boolean, newValue: Boolean) {
+            if (newValue) {
+                observable.removeListener(this)
+                lock.close()
+                it.resume(Unit)
+            }
+        }
+    })
+}
 
 /**
  * 等待条件完成(基于ObservableValue)

@@ -9,6 +9,7 @@ import com.backinfile.cardRouge.cardView.CardViewModLayer
 import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.support.MathUtils
 import javafx.geometry.Point2D
+import javafx.scene.Cursor
 import javafx.scene.Node
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseButton
@@ -26,6 +27,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         Rectangle(ConstCardSize.card_width, ConstCardSize.card_height, ConstCardSize.FILL_DARK_MASK)
     private val selected: ImageView = ImageView(Res.loadImage(Res.IMG_SELECTED_MARK))
     private val noSelect: ImageView = ImageView(Res.loadImage(Res.IMG_NO_SELECT_MARK))
+    private val controlMask = Rectangle(ConstCardSize.card_width, ConstCardSize.card_height, Color.BLACK)
 
     private var enableDrag = false
     private var isDragging = false
@@ -52,7 +54,6 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
             darkMaskView.translateY = -card_height_half
             darkMaskView.isVisible = false
 
-            val controlMask = Rectangle(card_width, card_height, Color.BLACK)
             controlMask.x = -card_width_half
             controlMask.y = -card_height_half
             controlMask.opacity = 0.0
@@ -106,6 +107,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
     fun enableClick(enableClick: Boolean = true, clickCallback: CardInteractCallback? = null): ModInteract {
         this.enableClick = enableClick
         this.clickCallback = clickCallback
+        this.controlMask.cursor = if (enableClick) Cursor.HAND else Cursor.DEFAULT
         return this
     }
 
@@ -136,8 +138,8 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         leave: CardInteractCallback? = null,
     ): ModInteract {
         this.enableMouseOver = enableMouseOver
-        mouseEnterCallback = enter
-        mouseLeaveCallback = leave
+        if (enter != null) mouseEnterCallback = enter
+        if (leave != null) mouseLeaveCallback = leave
         if (!enableMouseOver && isMouseOver) {
             isMouseOver = false
         }

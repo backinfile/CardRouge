@@ -11,7 +11,8 @@ import kotlin.properties.Delegates
 open class Card : BuffContainer() {
     open val confCard: CardConfig = CardConfig()
 
-    private var manaCost = 0
+    var manaCost: Int = 0
+        private set
     var fromPlayer: Boolean = false
     var playTargetInfo: CardPlayTargetInfo? = null
 

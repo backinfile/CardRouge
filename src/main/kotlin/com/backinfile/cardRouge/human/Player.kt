@@ -55,6 +55,7 @@ class Player : HumanBase() {
     override suspend fun playInTurn() = with(context) {
 //        val selected = selectCardFrom(handPile.toList(), 1, false).first()
 //        Log.game.info("已选择 {}", selected.confCard.title)
+        handPile.forEach { it.calcCost() }
         handPile.forEach { CardPlayLogic.calcCardPlayableState(context, it) }
         BoardHandPileGroup.enablePlay(true, context)
         waitPressTurnEnd()
