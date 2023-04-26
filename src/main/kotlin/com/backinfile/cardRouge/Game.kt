@@ -60,4 +60,8 @@ object Game {
     fun update(delta: Double) {
         CardViewManager.update(delta)
     }
+
+    fun getDungeon(): Dungeon {
+        return Dungeon()
+    }
 }

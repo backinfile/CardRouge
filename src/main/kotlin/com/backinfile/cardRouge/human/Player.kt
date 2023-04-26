@@ -9,7 +9,9 @@ import com.backinfile.cardRouge.action.OperationActions.waitPressTurnEnd
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
+import com.backinfile.cardRouge.card.CardPlayLogic
 import com.backinfile.cardRouge.card.CardSlot
+import com.backinfile.cardRouge.card.action.CardAttack
 import com.backinfile.cardRouge.card.element.CardFire
 import com.backinfile.cardRouge.gen.config.ConfCard
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
@@ -34,7 +36,10 @@ class Player : HumanBase() {
         super.init()
 
 
-        repeat(10) { drawPile.addCard(CardFire()) }
+        repeat(10) {
+            drawPile.addCard(CardFire())
+            drawPile.addCard(CardAttack())
+        }
 
 //        for (card in dungeonData.deck) {
 //            drawPile.addCard(CardFactory.createCardInstance(card.id, isPlayer()))
@@ -48,10 +53,12 @@ class Player : HumanBase() {
     }
 
     override suspend fun playInTurn() = with(context) {
-        val selected = selectCardFrom(handPile.toList(), 1, false).first()
-        Log.game.info("已选择 {}", selected.confCard.title)
-        BoardHandPileGroup.enablePlay(true)
+//        val selected = selectCardFrom(handPile.toList(), 1, false).first()
+//        Log.game.info("已选择 {}", selected.confCard.title)
+        handPile.forEach { CardPlayLogic.calcCardPlayableState(context, it) }
+        BoardHandPileGroup.enablePlay(true, context)
         waitPressTurnEnd()
+        BoardHandPileGroup.enablePlay(false)
         board.changeBoardStateTo(Board.State.TurnAfter)
     }
 

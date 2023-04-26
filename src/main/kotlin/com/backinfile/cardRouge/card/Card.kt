@@ -13,6 +13,7 @@ open class Card : BuffContainer() {
 
     private var manaCost = 0
     var fromPlayer: Boolean = false
+    var playTargetInfo: CardPlayTargetInfo? = null
 
 
     fun calcCost(): Int {

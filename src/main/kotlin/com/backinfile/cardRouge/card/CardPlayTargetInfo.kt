@@ -8,9 +8,8 @@ typealias StepSelectFunc = Context.(input: List<Card>) -> StepSelectResult
 data class CardPlayTargetInfo(
     val tip: String = "",
     val selectSlotAsMinion: Boolean = false,
-    val stepSelectFunc: StepSelectFunc,
+    val stepSelectFunc: StepSelectFunc? = null,
 ) {
-
 
     companion object {
         fun buildSelectCondition(cards: List<Card>, cnt: Int = 1, optional: Boolean = false): CardPlayTargetInfo {

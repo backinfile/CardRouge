@@ -1,8 +1,10 @@
 package com.backinfile.cardRouge.action
 
 import com.backinfile.cardRouge.Log
-import com.backinfile.cardRouge.action.ViewActions.refreshHandPile
+import com.backinfile.cardRouge.action.ViewActions.refreshHandPileView
+import com.backinfile.cardRouge.action.ViewActions.updatePileNumber
 import com.backinfile.cardRouge.board.Board
+import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.human.Player
 
 object Actions {
@@ -18,10 +20,16 @@ object Actions {
         human.drawPile.shuffle(dungeon.cardRandom)
     }
 
+    suspend fun Context.moveCardToDiscardPile(card: Card) {
+        board.removeCard(card)
+        if (human is Player) {
+            human.discardPile.addCard(card)
+        }
+        updatePileNumber()
+    }
+
     suspend fun Context.drawCard(number: Int = 1) {
         for (i in 0 until number) drawOneCard()
-
-
     }
 
     private suspend fun Context.drawOneCard() {
@@ -36,7 +44,7 @@ object Actions {
         human.handPile.addCard(card)
         Log.game.info("player draw 1 card {}", card.confCard.title)
 
-        refreshHandPile()
+        refreshHandPileView()
     }
 
 }

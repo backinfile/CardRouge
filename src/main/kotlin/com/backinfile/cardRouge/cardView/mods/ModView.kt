@@ -1,6 +1,6 @@
 package com.backinfile.cardRouge.cardView.mods
 
-import com.backinfile.cardRouge.Game
+import com.almasb.fxgl.core.Updatable
 import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.cardView.CardView
@@ -8,6 +8,7 @@ import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
 import com.backinfile.cardRouge.cardView.ConstCardSize
 import com.backinfile.cardRouge.view.DescriptionArea
+import com.backinfile.support.Time
 import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.fxgl.setSize
 import javafx.geometry.Pos
@@ -18,9 +19,12 @@ import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 import javafx.scene.text.FontWeight
 import javafx.scene.text.TextAlignment
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.abs
 
 @CardViewModLayer(CardViewModLayer.Layer.Image)
 class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
+    private val glowView = ImageView()
     private val edgeView = ImageView()
     private val edgeDarkerView = Rectangle(ConstCardSize.inner_width, ConstCardSize.inner_height)
 
@@ -28,8 +32,26 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
 
     private val textGroup = Group()
 
+    private val updater = ConcurrentHashMap<String, Updatable>()
+
+    private val glowViewUpdater = Updatable {
+        val curMillis = Time.getCurMillis()
+        val pulseTime = 800
+        var opacity = abs(curMillis % pulseTime - pulseTime / 2) / (pulseTime / 2f)
+        opacity = minOf(0.5f, opacity) + 0.5f
+        glowView.opacity = opacity.toDouble()
+    }
+
     override fun onCreate(): Unit = with(ConstCardSize) {
         super.onCreate()
+
+        glowView.image = Res.loadImage(Res.IMG_GLOW_BLUE)
+        glowView.fitWidth = card_width + glow_edge_size * 2
+        glowView.fitHeight = card_height + glow_edge_size * 2
+        glowView.x = -card_width_half - glow_edge_size
+        glowView.y = -card_height_half - glow_edge_size
+        glowView.isVisible = false
+        cardView.controlGroup.children.add(glowView);
 
         edgeView.image = Res.loadImage(getEdgeByType())
         edgeView.fitWidth = card_width
@@ -102,6 +124,39 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
         subType.background = BACKGROUND_TITLE
     }
 
+    fun setGlow(glow: Boolean = true, color: Color? = null, pulse: Boolean = true) {
+        this.glowView.isVisible = glow
+        if (color != null) {
+            this.glowView.image
+        }
+
+        val animationKey = "setGlow"
+        if (glow) {
+            if (!pulse) {
+                this.glowView.opacity = 1.0
+            } else {
+                if (!existAnimationUpdater(animationKey)) {
+                    setAnimationUpdater(animationKey, this.glowViewUpdater)
+                }
+            }
+        } else {
+            setAnimationUpdater(animationKey, null)
+        }
+    }
+
+    fun setAnimationUpdater(key: String, updatable: Updatable?) {
+        if (updatable == null) {
+            updater.remove(key)
+        } else {
+            updater[key] = updatable
+        }
+    }
+
+    fun existAnimationUpdater(key: String): Boolean {
+        return updater.containsKey(key)
+    }
+
+
     override fun onShapeChange() {
         super.onShapeChange()
 
@@ -124,4 +179,11 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
             else -> Res.IMG_EDGE1
         }
     }
+
+    override fun update(delta: Double) {
+        super.update(delta)
+        updater.forEach { it.value.onUpdate(delta) }
+    }
+
+
 }

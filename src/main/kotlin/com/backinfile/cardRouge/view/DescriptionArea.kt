@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.scene.text.FontWeight
+import javafx.scene.text.TextFlow
 
 class DescriptionArea(val text: String) : Group() {
 
@@ -24,7 +25,7 @@ class DescriptionArea(val text: String) : Group() {
     }
 
     companion object {
-        val group_width = ConstCardSize.inner_width
+        val group_width = ConstCardSize.inner_width * 0.9
         val group_height = ConstCardSize.maskHeight - ConstCardSize.edge_size
 
     }
@@ -53,7 +54,7 @@ class DescriptionArea(val text: String) : Group() {
             val lineGroup = HBox()
             lineGroup.setSize(group_width, font_size * 1.5)
             lineGroup.alignment = Pos.CENTER
-            lineGroup.background = Background(BackgroundFill(opacityColor(0.3), CornerRadii(2.0), null))
+            lineGroup.background = Background(BackgroundFill(opacityColor(0.8), CornerRadii(2.0), null))
             totalGroup.children.add(lineGroup)
             for (symbol in symbolList) {
                 if (symbol.text != null) {

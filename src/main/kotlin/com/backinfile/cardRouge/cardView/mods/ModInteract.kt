@@ -114,18 +114,19 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         start: CardInteractCallback? = null,
         update: CardInteractCallback? = null,
         over: CardInteractCallback? = null,
-        cancel: CardInteractCallback? = over,
+        cancel: CardInteractCallback? = null,
+        triggerCancel: Boolean = true
     ): ModInteract {
         this.enableDrag = enableDrag
-        dragStartCallback = start
-        dragUpdateCallback = update
-        dragOverCallback = over
+        if (start != null) dragStartCallback = start
+        if (update != null) dragUpdateCallback = update
+        if (over != null) dragOverCallback = over
         if (!enableDrag && isDragging) {
             isDragging = false
-            dragCancelCallback?.invoke(cardView)
+            if (triggerCancel) dragCancelCallback?.invoke(cardView)
         }
 
-        dragCancelCallback = cancel
+        if (cancel != null) dragCancelCallback = cancel
         return this
     }
 
@@ -157,6 +158,8 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         fy = MathUtils.clamp(fy, cardHeightHalf, Config.SCREEN_HEIGHT - cardHeightHalf)
 
         cardView.modMove.move(Point2D(fx, fy), duration = Duration.millis(70.0))
+
+        dragUpdateCallback?.invoke(cardView)
     }
 
     private fun initMouseEvent(node: Node) {

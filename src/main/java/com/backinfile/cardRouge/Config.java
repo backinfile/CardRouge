@@ -38,7 +38,7 @@ public class Config {
 
     // 动画时间
     public static final long ANI_CARD_ROTATE_TIME = Time.SEC / 10;
-    public static final Duration ANI_CARD_MOVE_TIME = Duration.seconds(0.15);
+    public static final Duration ANI_CARD_MOVE_TIME = Duration.seconds(0.12);
     public static final Duration ANI_CARD_HOVER_TIME = Duration.seconds(0.05);
 
     public static final boolean ANI_HAND_CARD_PULSE = true;

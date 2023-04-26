@@ -4,6 +4,7 @@ import com.almasb.fxgl.core.Updatable
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.GameActionQueue
+import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.dungeon.Dungeon
 import com.backinfile.cardRouge.human.HumanBase
 import com.backinfile.cardRouge.human.Player
@@ -174,5 +175,9 @@ class Board : Updatable {
         }
         asyncLocks[closeable] = Unit
         return closeable
+    }
+
+    fun removeCard(card: Card) {
+        humans.forEach { it.removeCard(card) }
     }
 }

@@ -32,7 +32,7 @@ object OperationActions {
         for (card in cards) {
             val cardView = CardViewManager.getOrCreate(card)
             cardView.modInteract.disableAll()
-            cardView.modInteract.setDark(false)
+            cardView.modView.setGlow()
             cardView.modInteract.enableClick {
                 if (it.card in selected) {
                     selected.remove(it.card)
@@ -59,6 +59,7 @@ object OperationActions {
         for (card in cards) {
             val cardView = CardViewManager.getOrCreate(card)
             cardView.modInteract.disableAll()
+            cardView.modView.setGlow(false)
         }
 
         return selected

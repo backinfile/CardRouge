@@ -6,6 +6,8 @@ public enum ViewOrder {
     ICON_SETTING, // 设置按钮
     UI_GROUP_POP_OUT, // 弹出式UI
 
+    UI_ARROW, // 箭头UI
+
     ZERO,
 
     CARD_DRAG, // 拖拽中的牌

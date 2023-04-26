@@ -42,4 +42,9 @@ class CardView(val card: Card) : Group(), CardViewModulesInterface {
         modules.update(delta)
     }
 
+    fun shapeTo(shape: Shape) {
+        this.shape = shape
+        modules.onShapeChange()
+    }
+
 }
