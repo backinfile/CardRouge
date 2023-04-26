@@ -30,7 +30,7 @@ repositories {
 dependencies {
 
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    implementation 'com.github.almasb:fxgl:17.2'
+    implementation 'com.github.almasb:fxgl:17.3'
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")

@@ -42,6 +42,7 @@ object ViewActions {
             pos = cardSlot.position.toPoint2D(),
             scale = Config.SCALE_SLOT_CARD,
             rotate = 0.0,
+            viewOrder = ViewOrder.CARD_BOARD.viewOrder(),
             duration = Config.ANI_CARD_MOVE_TIME
         )
         board.waitTime(Config.ANI_CARD_MOVE_TIME)
