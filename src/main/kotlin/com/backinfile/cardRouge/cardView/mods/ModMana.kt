@@ -16,7 +16,6 @@ import javafx.scene.control.Label
 import javafx.scene.image.ImageView
 import javafx.scene.paint.Color
 import javafx.scene.text.FontWeight
-import java.lang.String
 import kotlin.with
 
 @CardViewModLayer(CardViewModLayer.Layer.MANA)
@@ -35,7 +34,7 @@ class ModMana(cardView: CardView) : CardViewBaseMod(cardView) {
             manaView.translateX = -mana_size / 2.0
             manaView.translateY = -mana_size / 2.0
 
-            val manaText = Label(String.valueOf(cardView.card.confCard.cost))
+            val manaText = Label(cardView.card.confCard.cost.toString())
             manaText.font = FXGLUtils.font(26, FontWeight.BLACK)
             manaText.alignment = Pos.CENTER
             manaText.setPrefSize(mana_size.d, mana_size.d)

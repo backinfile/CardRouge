@@ -1,12 +1,8 @@
 package com.backinfile.cardRouge.card
 
 import com.backinfile.cardRouge.GameConfig
-import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.buff.BuffContainer
 import com.backinfile.cardRouge.buffs.ModifyManaCostBuff
-import com.backinfile.cardRouge.gen.config.ConfCard
-import com.backinfile.support.kotlin.once
-import kotlin.properties.Delegates
 
 open class Card : BuffContainer() {
     open val confCard: CardConfig = CardConfig()

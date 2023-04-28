@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.cardView
 
 import com.almasb.fxgl.core.math.Vec2
+import com.backinfile.support.fxgl.map
 import com.backinfile.support.kotlin.d
 import javafx.scene.Group
 

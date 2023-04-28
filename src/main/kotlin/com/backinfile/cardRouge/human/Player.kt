@@ -1,21 +1,15 @@
 package com.backinfile.cardRouge.human
 
 import com.backinfile.cardRouge.GameConfig
-import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.Actions.drawCard
-import com.backinfile.cardRouge.action.OperationActions.selectCardFrom
 import com.backinfile.cardRouge.action.OperationActions.waitPressTurnEnd
 import com.backinfile.cardRouge.board.Board
-import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
 import com.backinfile.cardRouge.card.CardPlayLogic
-import com.backinfile.cardRouge.card.CardSlot
 import com.backinfile.cardRouge.card.action.CardAttack
 import com.backinfile.cardRouge.card.element.CardFire
-import com.backinfile.cardRouge.gen.config.ConfCard
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
-import com.backinfile.cardRouge.viewGroups.SlotViewUtils
 
 class Player : HumanBase() {
     var manaMax: Int = GameConfig.MANA_MAX_DEFAULT // 费用上限

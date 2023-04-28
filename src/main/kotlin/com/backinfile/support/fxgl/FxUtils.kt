@@ -29,6 +29,17 @@ fun Region.setByCenter(x: Double, y: Double, width: Double, height: Double) {
     translateY = y - height / 2.0
 }
 
+fun <T, R> ObservableValue<T>.map(block: (T) -> R): ObjectBinding<R> {
+    val observable = this
+    return object : ObjectBinding<R>() {
+        init {
+            bind(observable)
+        }
+
+        override fun computeValue() = block(observable.value)
+        override fun dispose() = unbind(observable)
+    }
+}
 
 fun <R> ObservableDoubleValue.doubleMap(block: (Double) -> R): ObservableValue<R> {
     val observable = this

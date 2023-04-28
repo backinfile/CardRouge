@@ -4,8 +4,6 @@ import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.texture.Texture
 import com.almasb.fxgl.texture.getDummyImage
 import com.backinfile.cardRouge.card.CardConfig
-import com.backinfile.cardRouge.gen.config.ConfCard
-import com.backinfile.cardRouge.gen.config.ConfigManager
 import javafx.scene.Cursor
 import javafx.scene.ImageCursor
 import javafx.scene.image.Image
@@ -68,21 +66,12 @@ object Res {
     fun loadAll() {
         Log.game.info("res load start")
 
-        // 加载配置文件
-        ConfigManager.setLogger(ConfigLogger())
-        ConfigManager.setConfigFileReader(Res::readConfigJsonFile)
-        ConfigManager.loadAll()
-
 
         // 加载图片文件
         for (field in Res::class.java.declaredFields) {
             if (Modifier.isStatic(field.modifiers) && field.name.startsWith("IMG_") && field.type == String::class.java) {
                 preloadTexture(field[null] as String)
             }
-        }
-        for (conf in ConfCard.getAll()) {
-            preloadTexture(conf.image)
-            preloadTexture(conf.backImage)
         }
         Log.game.info("res load finish")
     }
@@ -154,21 +143,4 @@ object Res {
     }
 
 
-    private class ConfigLogger : ConfigManager.Logger() {
-        override fun info(message: String) {
-            Log.config.info(message)
-        }
-
-        override fun error(message: String) {
-            Log.config.error(message)
-        }
-
-        override fun error(message: String, e: Exception) {
-            Log.config.error(message, e)
-        }
-
-        override fun logConfigMissing(configClassName: String, id: Any) {
-            Log.config.error("missing config id:$id of $configClassName", SysException())
-        }
-    }
 }

@@ -6,6 +6,7 @@ import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.MovingFieldDouble
 import com.backinfile.cardRouge.cardView.MovingFieldVec2
+import com.backinfile.support.fxgl.map
 import com.backinfile.support.kotlin.d
 import javafx.geometry.Point2D
 import javafx.util.Duration

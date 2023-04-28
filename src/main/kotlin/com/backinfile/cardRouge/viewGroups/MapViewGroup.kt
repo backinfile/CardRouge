@@ -9,6 +9,7 @@ import com.backinfile.cardRouge.view.MapNodeIcon
 import com.backinfile.cardRouge.view.MapNodeLine
 import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.fxgl.clamp
+import com.backinfile.support.fxgl.map
 import com.backinfile.support.kotlin.Action1
 import com.backinfile.support.kotlin.Random
 import com.backinfile.support.kotlin.d

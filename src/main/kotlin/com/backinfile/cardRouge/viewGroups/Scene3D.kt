@@ -1,10 +1,6 @@
 package com.backinfile.cardRouge.viewGroups
 
-import com.backinfile.cardRouge.GameConfig
-import com.backinfile.cardRouge.Res
-import com.backinfile.cardRouge.gen.config.ConfCard
 import javafx.scene.*
-import javafx.scene.image.ImageView
 
 
 class Scene3D(root: Parent?, width: Double, height: Double, depthBuffer: Boolean, antiAliasing: SceneAntialiasing?) :
