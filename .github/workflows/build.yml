@@ -25,7 +25,7 @@ jobs:
       name: Build distribution
       run: |
         gradle -v
-        gradle jpackage --stacktrace
+        jpackage --verbose "@jpackage.cfg" "@jpackage-windows.cfg"
 
 # SAVE INSTALLER
     - id: upload-installer
