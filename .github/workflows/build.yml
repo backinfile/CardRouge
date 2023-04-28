@@ -3,13 +3,6 @@ name: Build Installers
 on:
   workflow_dispatch
 
-inputs:
-  appName:
-    description: 'App Name'
-    required: false
-    default: 'knight'
-    
-    
 jobs:
   build-windows-installer:
     name: Build Installer on Windows
