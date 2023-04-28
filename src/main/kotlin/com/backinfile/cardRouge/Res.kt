@@ -64,6 +64,7 @@ object Res {
     val TEXT_CLOSE = "关闭"
 
     fun loadAll() {
+        println(System.getProperty("user.dir"))
         Log.game.info("res load start")
 
 

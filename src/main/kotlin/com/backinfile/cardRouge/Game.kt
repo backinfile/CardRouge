@@ -11,6 +11,7 @@ import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.human.Robot
 import com.backinfile.cardRouge.view.DescriptionArea
 import com.backinfile.cardRouge.viewGroups.BoardBackgroundGroup
+import javafx.scene.image.ImageView
 
 object Game {
     var curScene: SubScene? = null
@@ -29,6 +30,8 @@ object Game {
 //    }
 
     fun startUp() {
+        Res.loadAll()
+
 
 //            val card = Card(ConfCard.get(1201001))
 //            val cardView = CardViewManager.getOrCreate(card)
@@ -41,6 +44,7 @@ object Game {
 //            Log.game.info("onclick")
 //        }))
 
+//        getGameScene().addUINode(ImageView("/assets/textures/room/room_change.png"))
         startBoard()
     }
 

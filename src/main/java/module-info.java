@@ -1,4 +1,4 @@
-module com.backinfile.cardRouge {
+open module com.backinfile.cardRouge {
     requires com.almasb.fxgl.all;
     requires javafx.controls;
     requires javafx.fxml;
@@ -12,7 +12,6 @@ module com.backinfile.cardRouge {
     requires kotlinx.coroutines.jdk8;
     requires org.reflections;
 
-    opens com.backinfile.cardRouge to javafx.fxml;
     exports com.backinfile.cardRouge;
     exports com.backinfile.cardRouge.cardView;
 }
