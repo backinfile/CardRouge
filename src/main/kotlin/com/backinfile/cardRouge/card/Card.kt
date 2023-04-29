@@ -12,6 +12,7 @@ open class Card : BuffContainer() {
     var fromPlayer: Boolean = false
     var playTargetInfo: CardPlayTargetInfo? = null
 
+    val description: String = ""
 
     fun calcCost(): Int {
         var modify = 0

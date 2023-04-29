@@ -44,10 +44,10 @@ public class Config {
     public static final boolean ANI_SELECT_CRYSTAL_PULSE = true;
 
 
-    public static final double SCALE_HAND_CARD = 0.6;
-    public static final double SCALE_HOVER_CARD = 0.8;
-    public static final double SCALE_DRAG_CARD = 0.6;
-    public static final double SCALE_SLOT_CARD = 0.5;
-    public static final double SCALE_DISCOVER_CARD = 0.7;
+    public static final double SCALE_HAND_CARD = 0.7;
+    public static final double SCALE_HOVER_CARD = 0.9;
+    public static final double SCALE_DRAG_CARD = 0.7;
+    public static final double SCALE_SLOT_CARD = 0.6;
+    public static final double SCALE_DISCOVER_CARD = 0.8;
     public static final double SCALE_DETAIL_CARD = 1;
 }

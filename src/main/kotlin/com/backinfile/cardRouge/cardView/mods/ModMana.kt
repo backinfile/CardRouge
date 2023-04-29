@@ -57,6 +57,6 @@ class ModMana(cardView: CardView) : CardViewBaseMod(cardView) {
     }
 
     override fun onShapeChange() {
-        group.isVisible = !cardView.shape.turnBack
+        group.isVisible = !cardView.shape.turnBack && !cardView.shape.minion
     }
 }

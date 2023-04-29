@@ -63,7 +63,7 @@ class DescriptionArea(val text: String) : Group() {
                     label.textFill = Color.WHITE
                     lineGroup.children.add(label)
                 } else if (symbol.stickerType != null && symbol.stickerType.type == StickerType.Type.Number) {
-                    val label = Label(symbol.stickerType.context)
+                    val label = Label(symbol.stickerType.content)
                     label.font = FXGLUtils.font(font_size, FontWeight.BLACK)
                     label.textFill = Color.WHITE
                     label.background = Background(BackgroundFill(Color.GRAY, CornerRadii(5.0), null))

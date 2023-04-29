@@ -65,6 +65,8 @@ class App : GameApplication() {
 }
 
 fun main(args: Array<String>) {
+//    System.setProperty("log4j.configurationFile", "/log4j2.xml");
+
     if (Config.DEV) {
         GlobalCheck.check()
     }

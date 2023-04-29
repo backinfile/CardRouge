@@ -5,6 +5,7 @@ plugins {
     id 'org.javamodularity.moduleplugin' version '1.8.12'
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
+    id 'idea'
 }
 
 
@@ -20,9 +21,17 @@ repositories {
     maven { url 'https://maven.aliyun.com/repository/public' }
     maven { url "https://nexus.gluonhq.com/nexus/content/repositories/releases/" }
     maven { url 'https://jitpack.io' }
+    mavenLocal()
+}
+ext {
+    junitVersion = '5.9.1'
 }
 
 dependencies {
+
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.2'
@@ -34,7 +43,7 @@ dependencies {
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 
 //    implementation 'com.github.backinfile:support:v1.1.4'
 
@@ -44,7 +53,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.7'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.20.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j2-impl', version: '2.20.0'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.20.0'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
 }
@@ -93,8 +102,19 @@ jlink {
         additive = true
         excludeRequires("com.fasterxml.jackson.annotation")
     }
-    forceMerge('log4j-api')
+//    forceMerge('log4j-api')
+//    addExtraDependencies("kotlinx.coroutines")
 }
+
+//idea {
+//    module {
+//        // if you hate browsing Javadoc
+//        downloadJavadoc = true
+//
+//        // and love reading sources :)
+//        downloadSources = true
+//    }
+//}
 
 jlinkZip {
     group = 'distribution'

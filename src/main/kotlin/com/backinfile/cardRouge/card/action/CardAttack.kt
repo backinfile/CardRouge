@@ -14,7 +14,7 @@ class CardAttack : Card() {
             subType = "",
             rare = GameConfig.RARE_INIT,
             cost = 1,
-            description = "[弃置] [火] [1] => [攻击] [火] [1]",
+            description = "[攻击][火], 然后[抽取][1]",
             image = "card/lv1.png"
         )
 }

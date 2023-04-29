@@ -6,10 +6,10 @@ open module com.backinfile.cardRouge {
     requires javafx.media;
 
     requires kotlin.stdlib;
+    requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.core;
     requires org.slf4j;
     requires java.desktop;
-    requires kotlinx.coroutines.core.jvm;
-    requires kotlinx.coroutines.jdk8;
     requires org.reflections;
 
     exports com.backinfile.cardRouge;

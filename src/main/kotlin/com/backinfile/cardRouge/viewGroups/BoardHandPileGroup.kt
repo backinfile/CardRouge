@@ -19,7 +19,7 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
     private var hovered: Card? = null
     private var draged: Card? = null
 
-    var flow = false
+    var flow = true
         set(value) {
             field = value; reCalcHandCardInfo()
         }

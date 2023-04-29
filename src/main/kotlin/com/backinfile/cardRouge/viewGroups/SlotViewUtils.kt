@@ -9,7 +9,7 @@ import com.backinfile.support.kotlin.f
 
 object SlotViewUtils {
     private const val cardScale = Config.SCALE_SLOT_CARD
-    private const val moveHighOffset = 25.0;
+    private const val moveHighOffset = 90.0;
     private const val cardCenterDistance = 20.0;
     private const val cardGep = 20.0;
 

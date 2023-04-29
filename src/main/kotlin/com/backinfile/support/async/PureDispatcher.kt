@@ -1,7 +1,6 @@
 package com.backinfile.support.async
 
 import kotlinx.coroutines.*
-import kotlinx.coroutines.future.asCompletableFuture
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -12,7 +11,8 @@ import kotlin.coroutines.CoroutineContext
  */
 @OptIn(DelicateCoroutinesApi::class)
 fun runAsync(block: suspend CoroutineScope.() -> Unit) {
-    GlobalScope.async(PureDispatcher) { block() }.asCompletableFuture()
+    val deferred = GlobalScope.async(PureDispatcher) { block() }
+    deferred.start()
 }
 
 object PureDispatcher : CoroutineDispatcher() {

@@ -119,7 +119,7 @@ class Board : Updatable {
                 BoardHandPileGroup.show()
                 for (human in humans) {
                     SlotViewUtils.initSlotPosition(human.slots, human.isPlayer())
-                    SlotViewUtils.createSlotsView(human.slots, human.isPlayer())
+                    if (human.isPlayer()) SlotViewUtils.createSlotsView(human.slots, human.isPlayer())
                 }
                 for (human in humans) {
                     human.onBattleStart()

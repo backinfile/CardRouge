@@ -1,7 +1,7 @@
 package com.backinfile.cardRouge.sticker
 
 
-enum class StickerType(val type: Type, val context: String, val image: String = "") {
+enum class StickerType(val type: Type, val content: String, val image: String = "") {
     ActionAttack(Type.Action, "攻击", "sticker/attack.png"),
     ActionDiscard(Type.Action, "弃置", "sticker/card.png"),
 
@@ -23,7 +23,7 @@ enum class StickerType(val type: Type, val context: String, val image: String = 
 
     companion object {
         fun parse(text: String): StickerType? {
-            return StickerType.values().firstOrNull { text == it.context }
+            return StickerType.values().firstOrNull { text == it.content }
         }
     }
 
