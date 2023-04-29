@@ -25,8 +25,10 @@ class DescriptionArea(val text: String) : Group() {
     }
 
     companion object {
-        val group_width = ConstCardSize.inner_width * 0.9
-        val group_height = ConstCardSize.maskHeight - ConstCardSize.edge_size
+        private val group_width = ConstCardSize.inner_width * 0.9
+        private val group_height = ConstCardSize.maskHeight - ConstCardSize.edge_size
+
+        private val pattern = """\[(\S+?)]""".toRegex();
 
     }
 
@@ -95,16 +97,20 @@ class DescriptionArea(val text: String) : Group() {
     private fun parseSymbols(str: String): List<Symbol> {
         val result = ArrayList<Symbol>()
 
-        for (word in str.split(' ').map { it.trim() }) {
-            if (word.length > 2 && word.startsWith('[') && word.endsWith(']')) {
-                val content = word.substring(1, word.lastIndex)
-                val stickerType = StickerType.parse(content) ?: throw SysException("parse $word error")
-                result.add(Symbol(null, stickerType))
-            } else if (word.isBlank()) {
-                continue
-            } else {
-                result.add(Symbol(word, null))
+        var curIndex = 0
+        while (curIndex < str.length) {
+            val matchResult = pattern.matchAt(str, curIndex) ?: continue
+            val left = matchResult.range.first
+            curIndex = matchResult.range.last + 1
+            if (curIndex < left) {
+                result.add(Symbol(str.substring(curIndex, left).trim()))
             }
+            val marchStr = matchResult.groupValues[0]
+            val stickerType = StickerType.parse(marchStr) ?: throw SysException("parse $marchStr error")
+            result.add(Symbol(null, stickerType))
+        }
+        if (curIndex < str.length) {
+            result.add(Symbol(str.substring(curIndex, str.length).trim()))
         }
         return result
     }

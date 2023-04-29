@@ -1,5 +1,6 @@
 package com.backinfile.support.async
 
+import com.backinfile.cardRouge.Log
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -11,11 +12,15 @@ import kotlin.coroutines.CoroutineContext
  */
 @OptIn(DelicateCoroutinesApi::class)
 fun runAsync(block: suspend CoroutineScope.() -> Unit) {
-    val deferred = GlobalScope.async(PureDispatcher) { block() }
+//    val handler = CoroutineExceptionHandler { _, exception ->
+//        Log.game.error("error in run async", exception)
+//    }
+    val deferred = GlobalScope.launch(PureDispatcher) { block() }
     deferred.start()
 }
 
-object PureDispatcher : CoroutineDispatcher() {
+
+private object PureDispatcher : CoroutineDispatcher(), CoroutineExceptionHandler {
     @ExperimentalCoroutinesApi
     override fun limitedParallelism(parallelism: Int): CoroutineDispatcher {
         throw UnsupportedOperationException("limitedParallelism is not supported for Dispatchers.PureDispatcher")
@@ -25,6 +30,10 @@ object PureDispatcher : CoroutineDispatcher() {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         throw UnsupportedOperationException("Dispatchers.PureDispatcher not dispatched")
+    }
+
+    override fun handleException(context: CoroutineContext, exception: Throwable) {
+        Log.game.error("error in run async", exception)
     }
 
     override fun toString(): String = "Dispatchers.PureDispatcher"

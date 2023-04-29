@@ -1,10 +1,12 @@
 package com.backinfile.cardRouge.action
 
+import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.board.Board
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableBooleanValue
 import javafx.beans.value.ObservableValue
 import javafx.util.Duration
+import kotlinx.coroutines.async
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -30,7 +32,12 @@ suspend fun Board.waitCondition(condition: () -> Boolean) = suspendCoroutine {
             if (condition.invoke()) {
                 destroy()
                 lock.close()
-                it.resume(Unit)
+
+                try {
+                    it.resume(Unit)
+                } catch (e: RuntimeException) {
+                    Log.game.error("error in run async", e)
+                }
             }
         }
     })
@@ -47,7 +54,13 @@ suspend fun Board.waitCondition(observableValue: ObservableBooleanValue) = suspe
             if (newValue) {
                 observable.removeListener(this)
                 lock.close()
-                it.resume(Unit)
+
+
+                try {
+                    it.resume(Unit)
+                } catch (e: RuntimeException) {
+                    Log.game.error("error in run async", e)
+                }
             }
         }
     })
@@ -63,7 +76,13 @@ suspend fun <T> Board.waitCondition(observableValue: ObservableValue<T>, conditi
             if (condition.invoke(newValue)) {
                 observable.removeListener(this)
                 lock.close()
-                it.resume(Unit)
+
+                try {
+                    it.resume(Unit)
+                } catch (e: RuntimeException) {
+                    Log.game.error("error in run async", e)
+                }
+
             }
         }
     })

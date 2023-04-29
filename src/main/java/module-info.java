@@ -11,6 +11,7 @@ open module com.backinfile.cardRouge {
     requires org.slf4j;
     requires java.desktop;
     requires org.reflections;
+    requires kotlinx.coroutines.core.jvm;
 
     exports com.backinfile.cardRouge;
     exports com.backinfile.cardRouge.cardView;
