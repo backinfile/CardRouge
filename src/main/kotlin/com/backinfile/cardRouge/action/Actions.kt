@@ -14,6 +14,13 @@ object Actions {
         enterState(state)
     }
 
+    suspend fun Context.resetMana() {
+        if (human is Player) {
+            human.mana = human.manaMax
+            // TODO view
+        }
+    }
+
     suspend fun Context.summonTo(slotIndex: Int, card: Card) {
         board.removeCard(card)
         val slot = human.slots[slotIndex]!!

@@ -2,7 +2,9 @@ package com.backinfile.cardRouge.board
 
 import com.almasb.fxgl.core.Updatable
 import com.backinfile.cardRouge.Log
+import com.backinfile.cardRouge.SysException
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
+import com.backinfile.cardRouge.action.Actions.resetMana
 import com.backinfile.cardRouge.action.GameActionQueue
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.dungeon.Dungeon
@@ -44,7 +46,7 @@ class Board : Updatable {
     private val updaterContainer = ConcurrentHashMap<Updatable, Unit>()
 
     // 正在执行异步函数，暂停除特效外的全部操作
-    private val asyncLocks = ConcurrentHashMap<Closeable, Unit>()
+    private val asyncLocks = ConcurrentHashMap<Closeable, Exception>()
 
     enum class State {
         None,
@@ -128,6 +130,7 @@ class Board : Updatable {
             }
 
             State.TurnBefore -> {
+                turnCurHuman.context.resetMana()
                 changeBoardStateTo(State.Turn)
             }
 
@@ -173,7 +176,7 @@ class Board : Updatable {
                 asyncLocks.remove(this)
             }
         }
-        asyncLocks[closeable] = Unit
+        asyncLocks[closeable] = SysException("")
         return closeable
     }
 

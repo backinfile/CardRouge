@@ -1,6 +1,8 @@
 package com.backinfile.cardRouge.action
 
 import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
+import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.cardRouge.viewGroups.BoardButtonsUIGroup
@@ -17,7 +19,8 @@ object OperationActions {
 
         board.waitCondition(confirmProperty) { it }
 
-        BoardButtonsUIGroup.hide()
+        // 回合结束
+        board.changeBoardStateTo(Board.State.TurnAfter)
     }
 
 

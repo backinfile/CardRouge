@@ -32,11 +32,10 @@ class DescriptionArea(val text: String) : Group() {
 
     }
 
-    // [弃置] [火] [1] => [攻击] [火] [1] ;
     private fun initArea() {
         this.children.clear()
 
-        val allParts = text.split(';').map { parseLine(it) }
+        val allParts = text.split("<br>").map { parseLine(it) }
 
 
         val centerX = group_width / 2
@@ -50,31 +49,38 @@ class DescriptionArea(val text: String) : Group() {
         totalGroup.translateX = -group_width / 2.0
         totalGroup.translateY = -group_height / 2.0
         totalGroup.alignment = Pos.CENTER
+        totalGroup.background = Background(BackgroundFill(opacityColor(0.12), CornerRadii(2.0), null))
 
         for (line in allParts) {
             val symbolList = if (line.condition.isNotEmpty()) line.condition + Symbol() + line.effect else line.effect
             val lineGroup = HBox()
             lineGroup.setSize(group_width, font_size * 1.5)
             lineGroup.alignment = Pos.CENTER
-            lineGroup.background = Background(BackgroundFill(opacityColor(0.8), CornerRadii(2.0), null))
             totalGroup.children.add(lineGroup)
             for (symbol in symbolList) {
                 if (symbol.text != null) {
                     val label = Label(symbol.text)
-                    label.font = FXGLUtils.font(font_size, FontWeight.BLACK)
+                    label.font = FXGLUtils.font(font_size, FontWeight.NORMAL)
                     label.textFill = Color.WHITE
                     lineGroup.children.add(label)
                 } else if (symbol.stickerType != null && symbol.stickerType.type == StickerType.Type.Number) {
                     val label = Label(symbol.stickerType.content)
                     label.font = FXGLUtils.font(font_size, FontWeight.BLACK)
                     label.textFill = Color.WHITE
-                    label.background = Background(BackgroundFill(Color.GRAY, CornerRadii(5.0), null))
+//                    label.background = Background(BackgroundFill(Color.GRAY, CornerRadii(5.0), null))
                     lineGroup.children.add(label)
-                } else if (symbol.stickerType != null) {
+                } else if (symbol.stickerType != null && symbol.stickerType.type == StickerType.Type.Element) {
                     val image = ImageView(Res.loadImage(symbol.stickerType.image))
                     image.fitWidth = font_size.d * 1.5
                     image.fitHeight = font_size.d * 1.5
                     lineGroup.children.add(image)
+                } else if (symbol.stickerType != null) {
+                    val label = Label(symbol.stickerType.content)
+                    label.font = FXGLUtils.font(font_size, FontWeight.MEDIUM)
+                    label.textFill =
+                        if (symbol.stickerType.effect == StickerType.Effect.Negative) Color.INDIANRED else Color.LIGHTGREEN
+//                    label.background = Background(BackgroundFill(Color.GRAY, CornerRadii(5.0), null))
+                    lineGroup.children.add(label)
                 } else {
                     val image = ImageView(Res.loadImage("sticker/rightArrow.png"))
                     image.fitWidth = font_size.d * 1.5
@@ -99,15 +105,19 @@ class DescriptionArea(val text: String) : Group() {
 
         var curIndex = 0
         while (curIndex < str.length) {
-            val matchResult = pattern.matchAt(str, curIndex) ?: continue
-            val left = matchResult.range.first
-            curIndex = matchResult.range.last + 1
+            val left = str.indexOf('[', startIndex = curIndex)
+            if (left < 0) break
+            val right = str.indexOf(']', left)
+            if (right < 0) break
+
             if (curIndex < left) {
                 result.add(Symbol(str.substring(curIndex, left).trim()))
             }
-            val marchStr = matchResult.groupValues[0]
+            val marchStr = str.substring(left + 1, right + 1 - 1)
             val stickerType = StickerType.parse(marchStr) ?: throw SysException("parse $marchStr error")
             result.add(Symbol(null, stickerType))
+
+            curIndex = right + 1
         }
         if (curIndex < str.length) {
             result.add(Symbol(str.substring(curIndex, str.length).trim()))

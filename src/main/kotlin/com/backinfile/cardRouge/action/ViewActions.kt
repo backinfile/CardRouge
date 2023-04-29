@@ -92,6 +92,7 @@ object ViewActions {
 
         board.waitCondition(selectOverProperty)
 
+        BoardButtonsUIGroup.hide()
         // 清理
         for (slot in human.slots.values) {
             val slotView = CardViewManager.getOrCreate(slot.crystal)

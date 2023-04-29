@@ -87,7 +87,7 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
             title.alignment = Pos.CENTER
             title.setSize(inner_width, title_font_size * 1.5)
             title.translateX = -card_width_half + edge_size
-            title.translateY = card_height_half - maskHeight - title_font_size * 1.5
+            title.translateY = card_height_half - maskBottomOffset - maskHeight - title_font_size * 1.5
             title.textFill = Color.WHITE
             title.font = FXGLUtils.font(title_font_size, FontWeight.BOLD)
             title.textAlignment = TextAlignment.CENTER
@@ -95,7 +95,7 @@ class ModView(cardView: CardView) : CardViewBaseMod(cardView) {
 
             val description = DescriptionArea(cardView.card.confCard.description)
             description.translateX = 0.0
-            description.translateY = card_height_half - maskHeight / 2
+            description.translateY = card_height_half - maskHeight / 2  - maskBottomOffset
 
             textGroup.children.addAll(mask, description, title)
             cardView.controlGroup.children.add(textGroup)

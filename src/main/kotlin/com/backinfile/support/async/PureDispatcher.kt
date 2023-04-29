@@ -9,6 +9,7 @@ import kotlin.coroutines.CoroutineContext
  * 当代码流程中出现suspendCoroutine时，控制权暂时转移，等待玩家操作完成执行resume，回到代码流程
  *
  * 如果block中有多个代码块，可能会有问题
+ * 如果debug有问题，开启idea设置"Disable coroutine agent"
  */
 @OptIn(DelicateCoroutinesApi::class)
 fun runAsync(block: suspend CoroutineScope.() -> Unit) {

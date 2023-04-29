@@ -3,6 +3,7 @@ package com.backinfile.cardRouge.human
 import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.Actions.drawCard
+import com.backinfile.cardRouge.action.Actions.resetMana
 import com.backinfile.cardRouge.action.OperationActions.waitPressTurnEnd
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.CardPile
@@ -49,12 +50,10 @@ class Player : HumanBase() {
     override suspend fun playInTurn() = with(context) {
 //        val selected = selectCardFrom(handPile.toList(), 1, false).first()
 //        Log.game.info("已选择 {}", selected.confCard.title)
-        handPile.forEach { it.calcCost() }
-        handPile.forEach { CardPlayLogic.calcCardPlayableState(context, it) }
-        BoardHandPileGroup.enablePlay(true, context)
-        waitPressTurnEnd()
-        BoardHandPileGroup.enablePlay(false)
-        board.changeBoardStateTo(Board.State.TurnAfter)
+
+
+        // 打牌
+        CardPlayLogic.enablePlayCardInHand(context)
     }
 
     override suspend fun onBattleStart() = with(context) {

@@ -1,21 +1,62 @@
 package com.backinfile.cardRouge.card
 
 import com.backinfile.cardRouge.GameConfig
+import com.backinfile.cardRouge.Log
+import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.Actions.moveCardToDiscardPile
 import com.backinfile.cardRouge.action.Actions.summonTo
 import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.action.ViewActions.refreshHandPileView
 import com.backinfile.cardRouge.action.ViewActions.selectCardTarget
+import com.backinfile.cardRouge.action.waitCondition
+import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.human.Player
+import com.backinfile.cardRouge.viewGroups.BoardButtonsUIGroup
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
+import com.backinfile.cardRouge.viewGroups.ButtonInfo
+import com.backinfile.cardRouge.viewGroups.ButtonsParam
 import com.backinfile.support.async.runAsync
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleIntegerProperty
 
 
 object CardPlayLogic {
 
+    private fun disablePlayerCardInHand() {
+        Log.game.info("disablePlayerCardInHand")
+        BoardHandPileGroup.enablePlay(false, null)
+        BoardButtonsUIGroup.hide()
+    }
 
-    fun calcCardPlayableState(context: Context, card: Card): CardPlayTargetInfo? {
+    suspend fun enablePlayCardInHand(context: Context) {
+        Log.game.info("enablePlayCardInHand")
+        if (context.human !is Player) return
+        context.human.handPile.forEach { calcCardPlayableState(context, it) }
+        BoardHandPileGroup.enablePlay(true, context)
+
+        val turnOverProperty = SimpleBooleanProperty(false)
+        BoardButtonsUIGroup.show(ButtonsParam(ButtonInfo(Res.TEXT_TURN_END) {
+            turnOverProperty.set(true)
+            playerOperationFinish()
+        }))
+
+        // 等待玩家操作
+        context.board.waitCondition(playerOperation) { true }
+
+        if (turnOverProperty.get()) {
+            context.board.changeBoardStateTo(Board.State.TurnAfter)
+        }
+    }
+
+
+    private fun calcCardPlayableState(context: Context, card: Card): CardPlayTargetInfo? {
         card.playTargetInfo = null
+        card.calcCost()
+        if (context.human is Player) {
+            if (context.human.mana < card.manaCost) return null
+        }
+
 
         if (card.confCard.cardType == GameConfig.CARD_TYPE_UNIT) {
             return CardPlayTargetInfo(selectSlotAsMinion = true).also { card.playTargetInfo = it }
@@ -29,13 +70,17 @@ object CardPlayLogic {
     fun handleDragPlayEnd(context: Context, card: Card): Boolean {
         if (card.playTargetInfo?.selectSlotAsMinion == true) { // 打出随从
             runAsync {
+                disablePlayerCardInHand()
                 val selectResult = context.selectCardTarget(card)
                 if (selectResult == null) {
-                    BoardHandPileGroup.enablePlay(true, context)
+                    context.refreshHandPileView()
+                    enablePlayCardInHand(context)
                 } else {
                     // 成功打出
                     playCard(context, card, selectResult)
-                    BoardHandPileGroup.enablePlay(true, context)
+
+                    // 一个操作完成
+                    playerOperationFinish()
                 }
             }
             return true
@@ -62,5 +107,11 @@ object CardPlayLogic {
             moveCardToDiscardPile(card)
         }
         refreshHandPileView()
+    }
+
+
+    private val playerOperation = SimpleIntegerProperty(0)
+    private fun playerOperationFinish() {
+        playerOperation.set(playerOperation.get() + 1)
     }
 }

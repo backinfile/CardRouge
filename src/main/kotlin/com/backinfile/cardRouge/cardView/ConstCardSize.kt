@@ -18,8 +18,9 @@ object ConstCardSize {
     const val glow_edge_size = 5
     val inner_width = card_width - edge_size * 2
     val inner_height = card_height - edge_size * 2
-    val maskHeight: Double = card_width * 7 / 14
-    val maskHeightOffset: Double = card_height * 2 / 14
+    val maskBottomOffset: Double = card_width * 0.5 / 14
+    val maskHeight: Double = card_width * 7.0 / 14
+    val maskHeightOffset: Double = card_height * 3.0 / 14
     const val mana_offset = edge_size * 2
     const val mana_size = 46
     const val title_font_size = 24
@@ -39,8 +40,8 @@ object ConstCardSize {
     val GRADIENT_MASK = LinearGradient(
         0.0, 0.0, 0.0, 1.0, true, CycleMethod.NO_CYCLE,
         listOf(
-            Stop(0.0, opacityColor(0.1)),
-            Stop(1.0, opacityColor(0.9))
+            Stop(0.0, opacityColor(0.0)),
+            Stop(1.0, opacityColor(0.8))
         )
     )
 }

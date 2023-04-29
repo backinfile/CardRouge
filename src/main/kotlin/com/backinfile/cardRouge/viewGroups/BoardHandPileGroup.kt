@@ -36,7 +36,7 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
         if (!enable) {
             for (card in cardsInOrder) {
                 val cardView = CardViewManager.getOrCreate(card)
-                cardView.modInteract.enableDrag(false)
+                cardView.modInteract.disableAll()
                 cardView.modView.setGlow(false)
             }
             return
@@ -72,9 +72,9 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
                     over = {
                         if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
                             if (CardPlayLogic.handleDragPlayEnd(context!!, card)) { // 成功打出
-                                cardView.modInteract.enableDrag(false, triggerCancel = false)
-                                cardView.modInteract.enableMouseOver(false)
-                                enablePlay(false)
+//                                cardView.modInteract.enableDrag(false, triggerCancel = false)
+//                                cardView.modInteract.enableMouseOver(false)
+//                                CardPlayLogic.disablePlayerCardInHand()
                                 return@enableDrag
                             }
                         }
