@@ -15,6 +15,7 @@ abstract class HumanBase : BuffContainer() {
     protected open val allCardPiles: List<CardPile> = listOf(powerPile)
 
     val context: Context by lazy { Context(dungeon, board, this) }
+    val opponent: HumanBase by lazy { board.humans.first { it != this } }
 
     abstract fun isPlayer(): Boolean
 
@@ -47,8 +48,8 @@ abstract class HumanBase : BuffContainer() {
             if (slot.minion == card) {
                 slot.minion = null
             }
-            if (slot.seal == card) {
-                slot.seal = null
+            if (slot.seal) {
+                slot.seal = false
             }
         }
     }
@@ -68,7 +69,7 @@ abstract class HumanBase : BuffContainer() {
 
     fun getSlotIndex(card: Card): Int {
         for ((index, slot) in slots.entries) {
-            if (slot.minion == card || slot.seal == card) {
+            if (slot.minion == card || slot.seal) {
                 return index
             }
         }

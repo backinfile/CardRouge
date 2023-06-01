@@ -1,11 +1,13 @@
 package com.backinfile.cardRouge.action
 
 import com.backinfile.cardRouge.Log
+import com.backinfile.cardRouge.action.ViewActions.attackView
 import com.backinfile.cardRouge.action.ViewActions.moveCardToSlot
 import com.backinfile.cardRouge.action.ViewActions.refreshHandPileView
 import com.backinfile.cardRouge.action.ViewActions.updatePileNumber
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
+import com.backinfile.cardRouge.human.HumanBase
 import com.backinfile.cardRouge.human.Player
 
 object Actions {
@@ -13,6 +15,23 @@ object Actions {
     suspend fun Board.changeBoardStateTo(state: Board.State) {
         enterState(state)
     }
+
+    suspend fun Context.attack(card: Card, targetSlotIndex: Int) {
+
+        // 先移除卡牌
+        board.removeCard(card)
+
+        // 播放动画
+        attackView(card, targetSlotIndex)
+
+        val targetSlot = human.opponent.slots[targetSlotIndex]!!
+
+        // 槽位没有单位，直接击破
+        if (targetSlot.minion == null) {
+            targetSlot.seal = true
+        }
+    }
+
 
     suspend fun Context.resetMana() {
         if (human is Player) {

@@ -7,6 +7,7 @@ import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewManager
+import com.backinfile.cardRouge.human.HumanBase
 import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.viewGroups.*
 import javafx.beans.property.SimpleBooleanProperty
@@ -21,6 +22,10 @@ object ViewActions {
 
     suspend fun Context.updatePileNumber() {
 
+    }
+
+
+    suspend fun Context.attackView(card: Card, targetSlotIndex: Int) {
     }
 
     suspend fun Context.createCardViewAtDrawPile(card: Card): CardView {

@@ -23,12 +23,6 @@ import javafx.beans.property.SimpleIntegerProperty
 
 object CardPlayLogic {
 
-    private fun disablePlayerCardInHand() {
-        Log.game.info("disablePlayerCardInHand")
-        BoardHandPileGroup.enablePlay(false, null)
-        BoardButtonsUIGroup.hide()
-    }
-
     suspend fun enablePlayCardInHand(context: Context) {
         Log.game.info("enablePlayCardInHand")
         if (context.human !is Player) return
@@ -49,23 +43,8 @@ object CardPlayLogic {
         }
     }
 
-
-    private fun calcCardPlayableState(context: Context, card: Card): CardPlayTargetInfo? {
-        card.playTargetInfo = null
-        card.calcCost()
-        if (context.human is Player) {
-            if (context.human.mana < card.manaCost) return null
-        }
-
-
-        if (card.confCard.cardType == GameConfig.CARD_TYPE_UNIT) {
-            return CardPlayTargetInfo(selectSlotAsMinion = true).also { card.playTargetInfo = it }
-        }
-        return null
-    }
-
     /**
-     * @return played
+     * @return true if played
      */
     fun handleDragPlayEnd(context: Context, card: Card): Boolean {
         if (card.playTargetInfo?.selectSlotAsMinion == true) { // 打出随从
@@ -88,8 +67,29 @@ object CardPlayLogic {
         return false
     }
 
+    private fun disablePlayerCardInHand() {
+        Log.game.info("disablePlayerCardInHand")
+        BoardHandPileGroup.enablePlay(false, null)
+        BoardButtonsUIGroup.hide()
+    }
 
-    suspend fun playCard(context: Context, card: Card, target: List<Card>) = with(context) {
+
+    private fun calcCardPlayableState(context: Context, card: Card): CardPlayTargetInfo? {
+        card.playTargetInfo = null
+        card.calcCost()
+        if (context.human is Player) {
+            if (context.human.mana < card.manaCost) return null
+        }
+
+
+        if (card.confCard.cardType == GameConfig.CARD_TYPE_UNIT) {
+            return CardPlayTargetInfo(selectSlotAsMinion = true).also { card.playTargetInfo = it }
+        }
+        return null
+    }
+
+
+    private suspend fun playCard(context: Context, card: Card, target: List<Card>) = with(context) {
         if (human !is Player) return
         human.handPile.remove(card)
 
@@ -110,6 +110,9 @@ object CardPlayLogic {
     }
 
 
+    /**
+     * 等待玩家执行操作， 打出卡牌，或回合结束
+     */
     private val playerOperation = SimpleIntegerProperty(0)
     private fun playerOperationFinish() {
         playerOperation.set(playerOperation.get() + 1)
