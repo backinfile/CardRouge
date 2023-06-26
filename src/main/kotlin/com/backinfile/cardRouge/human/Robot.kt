@@ -3,6 +3,7 @@ package com.backinfile.cardRouge.human
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
+import com.backinfile.cardRouge.human.HumanBase
 
 class Robot : HumanBase() {
 

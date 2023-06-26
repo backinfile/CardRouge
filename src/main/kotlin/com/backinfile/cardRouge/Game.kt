@@ -4,14 +4,11 @@ import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.dsl.getGameScene
 import com.almasb.fxgl.scene.SubScene
 import com.backinfile.cardRouge.board.Board
-import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.cardRouge.dungeon.Dungeon
 import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.human.Robot
-import com.backinfile.cardRouge.view.DescriptionArea
 import com.backinfile.cardRouge.viewGroups.BoardBackgroundGroup
-import javafx.scene.image.ImageView
 
 object Game {
     var curScene: SubScene? = null

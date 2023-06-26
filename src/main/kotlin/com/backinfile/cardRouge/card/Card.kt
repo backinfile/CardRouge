@@ -5,7 +5,7 @@ import com.backinfile.cardRouge.buff.BuffContainer
 import com.backinfile.cardRouge.buffs.ModifyManaCostBuff
 
 open class Card : BuffContainer() {
-    open val confCard: CardConfig = CardConfig()
+    open val confCard: CardConfig get() = CardConfig.EMPTY
 
     var manaCost: Int = 0
         private set
@@ -26,7 +26,8 @@ open class Card : BuffContainer() {
     }
 }
 
-data class CardConfig(
+
+open class CardConfig(
     val id: String = "[ID]",
     val title: String = "[TITLE]",
     val family: Int = GameConfig.FAMILY_COMMON,
@@ -38,4 +39,9 @@ data class CardConfig(
     val description: String = "",
     val image: String = "",
     val backImage: String = "",
-)
+) {
+    companion object {
+        val EMPTY: CardConfig = CardConfig()
+    }
+
+}
