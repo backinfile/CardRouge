@@ -53,6 +53,10 @@ object ViewActions {
         board.waitTime(Config.ANI_CARD_MOVE_TIME)
     }
 
+    suspend fun Context.moveCardToDiscardPile(card: Card) {
+        TODO()
+    }
+
     suspend fun Context.selectCardTarget(card: Card): List<Card>? {
         if (human !is Player) throw SysException("")
         val playTargetInfo = card.playTargetInfo ?: return listOf()

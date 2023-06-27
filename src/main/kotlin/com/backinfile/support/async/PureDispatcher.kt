@@ -30,7 +30,7 @@ private object PureDispatcher : CoroutineDispatcher(), CoroutineExceptionHandler
     override fun isDispatchNeeded(context: CoroutineContext): Boolean = false
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        throw UnsupportedOperationException("Dispatchers.PureDispatcher not dispatched")
+        throw UnsupportedOperationException("PureDispatcher not dispatched")
     }
 
     override fun handleException(context: CoroutineContext, exception: Throwable) {

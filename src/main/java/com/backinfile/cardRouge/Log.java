@@ -16,4 +16,5 @@ public class Log {
     public static final Logger debug = LoggerFactory.getLogger("debug");
     public static final Logger viewGroup = LoggerFactory.getLogger("viewGroup");
     public static final Logger gen = LoggerFactory.getLogger("gen");
+    public static final Logger action = LoggerFactory.getLogger("action");
 }
