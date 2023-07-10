@@ -7,6 +7,7 @@ import com.backinfile.cardRouge.action.Actions.drawCard
 import com.backinfile.cardRouge.action.Actions.resetMana
 import com.backinfile.cardRouge.action.OperationActions.waitPressTurnEnd
 import com.backinfile.cardRouge.board.Board
+import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPile
 import com.backinfile.cardRouge.card.CardPlayLogic
 import com.backinfile.cardRouge.card.action.CardAttack
@@ -46,6 +47,10 @@ class Player : HumanBase() {
 //        for (id in dungeonData.powers) {
 //            powerPile.addCard(CardFactory.createCardInstance(id, isPlayer()))
 //        }
+    }
+
+    override fun getAllVisibleCards(): List<Card> {
+        return super.getAllVisibleCards() + handPile;
     }
 
     override suspend fun playInTurn() = with(context) {

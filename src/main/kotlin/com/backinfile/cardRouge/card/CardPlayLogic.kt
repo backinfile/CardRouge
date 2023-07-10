@@ -7,6 +7,7 @@ import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.Actions.moveCardToDiscardPile
 import com.backinfile.cardRouge.action.Actions.summonTo
 import com.backinfile.cardRouge.action.Context
+import com.backinfile.cardRouge.action.ViewActions
 import com.backinfile.cardRouge.action.ViewActions.refreshHandPileView
 import com.backinfile.cardRouge.action.ViewActions.selectCardTarget
 import com.backinfile.cardRouge.action.waitCondition
@@ -16,8 +17,6 @@ import com.backinfile.cardRouge.viewGroups.BoardButtonsUIGroup
 import com.backinfile.cardRouge.viewGroups.BoardHandPileGroup
 import com.backinfile.cardRouge.viewGroups.ButtonInfo
 import com.backinfile.cardRouge.viewGroups.ButtonsParam
-import com.backinfile.support.async.runAsync
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 
 
@@ -47,30 +46,26 @@ object CardPlayLogic {
     /**
      * @return true if played
      */
-    fun handleDragPlayEnd(context: Context, card: Card): Boolean {
-        if (card.playTargetInfo?.selectSlotAsMinion == true) { // 打出随从
-            runAsync {
-                disablePlayerCardInHand()
-                val selectResult = context.selectCardTarget(card)
-                if (selectResult == null) {
-                    context.refreshHandPileView()
-                    enablePlayCardInHand(context)
-                } else {
-                    // 成功打出
-                    playCard(context, card, selectResult)
+    suspend fun handleDragPlayEnd(context: Context, card: Card, curSlotIndex: Int = -1): Boolean {
+        disablePlayerCardInHand(context)
+        val selectResult = context.selectCardTarget(card, curSlotIndex)
+        if (!selectResult.ok) {
+            context.refreshHandPileView()
+            enablePlayCardInHand(context)
+            return false
 
-                    // 一个操作完成
-                    playerOperationFinish()
-                }
-            }
-            return true
         }
-        return false
+        // 成功打出
+        playCard(context, card, selectResult)
+
+        // 一个操作完成
+        playerOperationFinish()
+        return true
     }
 
-    private fun disablePlayerCardInHand() {
+    private fun disablePlayerCardInHand(context: Context) {
         Log.game.info("disablePlayerCardInHand")
-        BoardHandPileGroup.enablePlay(false, null)
+        BoardHandPileGroup.enablePlay(false, context)
         BoardButtonsUIGroup.hide()
     }
 
@@ -84,29 +79,41 @@ object CardPlayLogic {
 
 
         if (card.confCard.cardType == GameConfig.CARD_TYPE_UNIT) {
-            return CardPlayTargetInfo(selectSlotAsMinion = true).also { card.playTargetInfo = it }
+            return CardPlayTargetInfo(playMinion = true).also { card.playTargetInfo = it }
         }
         return null
     }
 
 
-    private suspend fun playCard(context: Context, card: Card, target: List<Card>) = with(context) {
+    private suspend fun playCard(context: Context, card: Card, target: ViewActions.SelectTargetResult) = with(context) {
         if (human !is Player) return
         human.handPile.remove(card)
 
         // cost mana
         human.mana = maxOf(0, human.mana - card.manaCost)
 
+
+
+
         // card effect
-        if (card.confCard.cardType == GameConfig.CARD_TYPE_UNIT) {
-            assert(target.size == 1)
-            val targetSlotIndex = human.getCrystalSlotIndex(target.first())
-            summonTo(targetSlotIndex, card)
+        when (card.confCard.cardType) {
+            GameConfig.CARD_TYPE_UNIT -> {
+                val targetSlotIndex = target.targetSlotIndex;
+                summonTo(targetSlotIndex, card)
+                // 触发打出效果 TODO
+            }
+
+            GameConfig.CARD_TYPE_ACTION -> {
+                // 触发打出效果 TODO
+                moveCardToDiscardPile(card)
+            }
+
+            else -> {
+                TODO()
+            }
         }
 
-        if (card.confCard.cardType == GameConfig.CARD_TYPE_ACTION) {
-            moveCardToDiscardPile(card)
-        }
+
         refreshHandPileView()
     }
 

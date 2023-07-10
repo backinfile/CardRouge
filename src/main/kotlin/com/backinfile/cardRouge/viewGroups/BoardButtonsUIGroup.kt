@@ -12,6 +12,10 @@ import javafx.scene.layout.VBox
 import javafx.scene.text.Font
 
 class ButtonInfo(val type: String, val onClick: Runnable? = null)
+
+fun ButtonInfo(type: String, onClick: Runnable, clickable: Boolean) =
+    if (clickable) ButtonInfo(type, onClick) else ButtonInfo(type, null)
+
 class ButtonsParam() : Param() {
     val buttons: ArrayList<ButtonInfo> = ArrayList()
 

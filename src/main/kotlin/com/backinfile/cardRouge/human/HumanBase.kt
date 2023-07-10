@@ -82,6 +82,10 @@ abstract class HumanBase : BuffContainer() {
         return slots.values.mapNotNull { it.minion }.filter { predicate(it) }
     }
 
+    open fun getAllVisibleCards(): List<Card> {
+        return slots.values.mapNotNull { it.minion }
+    }
+
     fun getAllCards(): List<Card> {
         return allCardPiles.flatten() + slots.values.flatMap { it.getAllCards() }
     }

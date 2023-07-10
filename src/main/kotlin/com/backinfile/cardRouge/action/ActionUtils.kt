@@ -45,7 +45,7 @@ suspend fun Board.waitCondition(condition: () -> Boolean) = suspendCoroutine {
 
 
 /**
- * 等待条件完成(基于ObservableValue)
+ * 等待条件完成(基于ObservableValue)  observableValue.get() == true
  */
 suspend fun Board.waitCondition(observableValue: ObservableBooleanValue) = suspendCoroutine {
     val lock = getAsyncLock()

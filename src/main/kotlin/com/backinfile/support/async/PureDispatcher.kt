@@ -12,7 +12,7 @@ import kotlin.coroutines.CoroutineContext
  * 如果debug有问题，开启idea设置"Disable coroutine agent"
  */
 @OptIn(DelicateCoroutinesApi::class)
-fun runAsync(block: suspend CoroutineScope.() -> Unit) {
+inline fun runAsync(crossinline block: suspend CoroutineScope.() -> Unit) {
 //    val handler = CoroutineExceptionHandler { _, exception ->
 //        Log.game.error("error in run async", exception)
 //    }
@@ -21,7 +21,7 @@ fun runAsync(block: suspend CoroutineScope.() -> Unit) {
 }
 
 
-private object PureDispatcher : CoroutineDispatcher(), CoroutineExceptionHandler {
+object PureDispatcher : CoroutineDispatcher(), CoroutineExceptionHandler {
     @ExperimentalCoroutinesApi
     override fun limitedParallelism(parallelism: Int): CoroutineDispatcher {
         throw UnsupportedOperationException("limitedParallelism is not supported for Dispatchers.PureDispatcher")

@@ -1,5 +1,6 @@
 package com.backinfile.cardRouge.viewGroups
 
+import com.almasb.fxgl.core.math.Vec2
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.card.CardSlot
@@ -42,5 +43,20 @@ object SlotViewUtils {
                 viewOrder = ViewOrder.CARD_BOARD_BACK.viewOrder()
             )
         }
+    }
+
+    fun findNearestSlot(slots: Map<Int, CardSlot>, curPos: Vec2, distanceLimit: Double): Int {
+        var minIndex = -1;
+        var minDistance = 0.0;
+        for ((index, slot) in slots) {
+            if (slot.seal) continue
+            val distance = slot.position.distance(curPos)
+            if (distance > distanceLimit) continue
+            if (minIndex < 0 || distance > minDistance) {
+                minIndex = index
+                minDistance = distance
+            }
+        }
+        return minIndex
     }
 }
