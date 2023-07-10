@@ -27,6 +27,8 @@ abstract class HumanBase : BuffContainer() {
 
     }
 
+    open suspend fun preBattleStart() {
+    }
     open suspend fun onBattleStart() {
     }
 

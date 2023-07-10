@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.human
 
 import com.backinfile.cardRouge.GameConfig
+import com.backinfile.cardRouge.SysException
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
 import com.backinfile.cardRouge.action.Actions.drawCard
 import com.backinfile.cardRouge.action.Actions.resetMana

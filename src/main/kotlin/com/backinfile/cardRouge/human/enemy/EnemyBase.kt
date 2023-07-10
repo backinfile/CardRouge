@@ -4,16 +4,25 @@ import com.backinfile.cardRouge.action.Actions.damage
 import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.card.Card
 
-abstract class EnemyBase(var healthMax: Int = 1) : Card() {
+abstract class EnemyBase(var healthMax: Int = 1, val leader: Boolean = false) : Card() {
     var health = healthMax
 
-    abstract suspend fun actionPreview(context: Context): EnemyActionPreview
+    protected var curActionPreview: EnemyActionPreview? = null;
 
-    open suspend fun doAction(context: Context, actionPreview: EnemyActionPreview) {
+    open suspend fun nextActionPreview(context: Context) {
+        this.curActionPreview = nextAction(context)
+    }
+
+    open suspend fun doAction(context: Context) {
+        val actionPreview = curActionPreview ?: return
         commonDoTips(context, actionPreview)
         commonDoAttack(context, actionPreview)
     }
 
+
+    protected open suspend fun nextAction(context: Context): EnemyActionPreview {
+        return EnemyActionPreview(description = "IDLE", tip = "IDLE")
+    }
 
     protected suspend fun commonDoAttack(context: Context, actionPreview: EnemyActionPreview): Boolean {
         val attackInfo = actionPreview.attack ?: return false

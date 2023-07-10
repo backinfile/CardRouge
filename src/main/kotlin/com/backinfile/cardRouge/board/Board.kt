@@ -23,24 +23,25 @@ import kotlin.properties.Delegates
 
 class Board : Updatable {
     var dungeon: Dungeon by Delegates.once()
-    private var startHuman: HumanBase by Delegates.once() // 本次对战先手玩家
+    var boardData: BoardData by Delegates.once();
 
+
+    private var startHuman: HumanBase by Delegates.once() // 本次对战先手玩家
     val humans = ArrayList<HumanBase>() // 对战双方
     private lateinit var turnCurHuman: HumanBase // 当前玩家
 
-    private var bigTurnCount = 1 // 大回合数
 
     private var state = State.None
+    private var bigTurnCount = 1 // 大回合数
     private var winner: HumanBase? = null // 获胜者
-
     private var gameOverListener: Action1<HumanBase>? = null
+
 
     // 逻辑action队列，基于现实时间依次执行
     private val actionQueue: GameActionQueue = GameActionQueue()
 
     // 特效action队列，基于现实时间同时执行
     private val effectActionQueue: GameActionQueue = GameActionQueue(true)
-
     private var curTime = 0.0
     val timerQueue = TimerQueue { curTime }
     private val updaterContainer = ConcurrentHashMap<Updatable, Unit>()
@@ -58,7 +59,11 @@ class Board : Updatable {
         OVER_CLEAR
     }
 
-    fun init(player: Player, robot: Robot) {
+    fun init(boardData: BoardData) {
+        this.boardData = boardData;
+
+        val player = Player()
+        val robot = boardData.createRobot();
         humans.add(player)
         humans.add(robot)
         for (human in humans) {

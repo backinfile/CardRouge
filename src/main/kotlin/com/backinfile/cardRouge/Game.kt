@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.dsl.getGameScene
 import com.almasb.fxgl.scene.SubScene
 import com.backinfile.cardRouge.board.Board
+import com.backinfile.cardRouge.board.BoardData
 import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.cardRouge.dungeon.Dungeon
 import com.backinfile.cardRouge.human.Player
@@ -49,11 +50,10 @@ object Game {
         val dungeon = Dungeon()
         val board = Board()
 
-        val player = Player()
-        val robot = Robot()
+        val boardData = BoardData()
 
         board.dungeon = dungeon
-        board.init(player, robot)
+        board.init(boardData)
 
         getGameScene().addListener(board)
     }

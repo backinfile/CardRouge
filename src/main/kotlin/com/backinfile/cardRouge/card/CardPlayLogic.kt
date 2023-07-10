@@ -22,6 +22,7 @@ import javafx.beans.property.SimpleIntegerProperty
 
 
 object CardPlayLogic {
+    private var requestTurnOver: Boolean = false
 
     suspend fun enablePlayCardInHand(context: Context) {
         Log.game.info("enablePlayCardInHand")
@@ -29,16 +30,16 @@ object CardPlayLogic {
         context.human.handPile.forEach { calcCardPlayableState(context, it) }
         BoardHandPileGroup.enablePlay(true, context)
 
-        val turnOverProperty = SimpleBooleanProperty(false)
+        requestTurnOver = false
         BoardButtonsUIGroup.show(ButtonsParam(ButtonInfo(Res.TEXT_TURN_END) {
-            turnOverProperty.set(true)
+            requestTurnOver = true
             playerOperationFinish()
         }))
 
         // 等待玩家操作
         context.board.waitCondition(playerOperation) { true }
 
-        if (turnOverProperty.get()) {
+        if (requestTurnOver) {
             context.board.changeBoardStateTo(Board.State.TurnAfter)
         }
     }
