@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.dsl.getGameScene
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.room.RoomSimple
 import com.backinfile.cardRouge.view.MapNodeIcon
 import com.backinfile.cardRouge.view.MapNodeLine
@@ -30,7 +31,7 @@ class MapViewGroup internal constructor() : Group() {
 
     init {
         val mask = Rectangle(Config.SCREEN_WIDTH.d, Config.SCREEN_HEIGHT.d)
-        mask.fill = Config.BACKGROUND_COLOR
+        mask.fill = ViewConfig.BACKGROUND_COLOR
         children.add(mask)
         mapNodeGroup.translateX = 0.0
         mapNodeGroup.translateY = (Config.SCREEN_HEIGHT - totalY) / 2f

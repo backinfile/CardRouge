@@ -1,5 +1,6 @@
 package com.backinfile.cardRouge
 
+import com.almasb.fxgl.core.collection.Array
 import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.texture.Texture
 import com.almasb.fxgl.texture.getDummyImage
@@ -7,11 +8,16 @@ import com.backinfile.cardRouge.card.CardConfig
 import javafx.scene.Cursor
 import javafx.scene.ImageCursor
 import javafx.scene.image.Image
+import javafx.scene.image.PixelFormat
+import javafx.scene.image.WritableImage
+import javafx.scene.paint.Color
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
 import java.lang.reflect.Modifier
 import java.nio.charset.StandardCharsets
+import java.util.*
+
 
 object Res {
     // IMG_开头的变量会自动加载
@@ -34,7 +40,7 @@ object Res {
     const val IMG_ICON_SETTING = "icon_setting.png"
     const val IMG_ICON_MAP = "icon_map.png"
     const val IMG_ICON_SLOW = "icon_cost.png"
-    const val IMG_ICON_FAST =  "icon_fast.png"
+    const val IMG_ICON_FAST = "icon_fast.png"
     const val IMG_ROOM_ICON_START = "room/room_start.png"
     const val IMG_ROOM_ICON_BATTLE = "room/room_battle.png"
     const val IMG_ROOM_ICON_BATTLE_ELITE = "room/room_battle_elite.png"
@@ -56,12 +62,16 @@ object Res {
     const val IMG_DEFAULT_CARD_IMG_BACK = "default_back.jpg"
 
 
-    val TEXT_BATTLE_START = "战斗开始"
-    val TEXT_TURN_END = "回合结束"
-    val TEXT_OPPONENT_TURN = "对手回合"
-    val TEXT_CONFIRM = "确认"
-    val TEXT_CANCEL = "取消"
-    val TEXT_CLOSE = "关闭"
+    const val TEXT_BATTLE_START = "战斗开始"
+    const val TEXT_TURN_END = "回合结束"
+    const val TEXT_OPPONENT_TURN = "对手回合"
+    const val TEXT_CONFIRM = "确认"
+    const val TEXT_CANCEL = "取消"
+    const val TEXT_CLOSE = "关闭"
+
+    val IMAGE_TRANSPARENT = createImage(Color.TRANSPARENT)
+    val IMAGE_TRANSPARENT_RED = createImage(Color(1.0, 0.0, 0.0, 0.1))
+
 
     fun loadAll() {
 //        println(System.getProperty("user.dir"))
@@ -75,6 +85,8 @@ object Res {
             }
         }
         Log.game.info("res load finish")
+
+
     }
 
     fun loadImage(path: String): Image {
@@ -93,7 +105,8 @@ object Res {
                     return image
                 }
             }
-            loadImage(IMG_DEFAULT_CARD_IMG) // 找不到卡图，返回一个默认的
+//            loadImage(IMG_DEFAULT_CARD_IMG) // 找不到卡图，返回一个默认的
+            IMAGE_TRANSPARENT_RED
         } else {
             if (confCard.backImage.isNotEmpty()) {
                 val image = FXGL.getAssetLoader().loadImage(confCard.backImage)
@@ -101,7 +114,8 @@ object Res {
                     return image
                 }
             }
-            loadImage(IMG_DEFAULT_CARD_IMG_BACK) // 找不到卡图，返回一个默认的
+//            loadImage(IMG_DEFAULT_CARD_IMG_BACK) // 找不到卡图，返回一个默认的
+            IMAGE_TRANSPARENT_RED
         }
     }
 
@@ -141,6 +155,30 @@ object Res {
             Log.config.error("error in read file:" + file.absolutePath, e)
         }
         return sb.toString()
+    }
+
+
+    private fun createImage(color: Color = Color.TRANSPARENT, width: Int = 1, height: Int = 1): Image {
+        val image = WritableImage(width, height);
+
+        val pixelColors = IntArray(width * height)
+        pixelColors.fill(color.toPixelColor())
+        image.pixelWriter.setPixels(0, 0, width, height, PixelFormat.getIntArgbInstance(), pixelColors, 0, width)
+//        for (x in 0 until width) {
+//            for (y in 0 until height) {
+//                image.pixelWriter.setColor(x, y, color);
+//            }
+//        }
+        return image
+    }
+
+    private fun Color.toPixelColor(): Int {
+        val alpha = (opacity * 255).toInt();
+        val r = (red * 255).toInt();
+        val g = (green * 255).toInt();
+        val b = (blue * 255).toInt();
+
+        return (alpha shl 24) or (r shl 16) or (g shl 8) or b
     }
 
 

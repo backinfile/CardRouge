@@ -1,7 +1,7 @@
 package com.backinfile.cardRouge.view
 
-import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.support.fxgl.FXGLUtils
 import com.backinfile.support.kotlin.d
 import javafx.geometry.Pos
@@ -15,7 +15,7 @@ class PileIcon(img: String, showBorder: Boolean = true, x: Double = 0.0, y: Doub
     private val pileNumber: Label = Label()
 
     companion object {
-        val pileSize: Double = Config.PILE_SIZE.d
+        val pileSize: Double = ViewConfig.PILE_SIZE.d
         const val numberFontSize = 14
     }
 

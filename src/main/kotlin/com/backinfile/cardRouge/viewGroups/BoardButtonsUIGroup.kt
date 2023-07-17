@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.viewGroups
 
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.viewGroup.Param
 import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
@@ -108,7 +109,7 @@ object BoardButtonsUIGroup : BaseSingleViewGroup<ButtonsParam>() {
         val width = button_width
         val height = (button_height + space) * numberOfButton
         val offsetX = width / 4.0
-        val offsetY = Config.CARD_HEIGHT * Config.SCALE_HAND_CARD
+        val offsetY = ViewConfig.CARD_HEIGHT * ViewConfig.SCALE_HAND_CARD
         val x = Config.SCREEN_WIDTH - width - offsetX
         val y = Config.SCREEN_HEIGHT - offsetY
         val buttonsContainer = VBox()

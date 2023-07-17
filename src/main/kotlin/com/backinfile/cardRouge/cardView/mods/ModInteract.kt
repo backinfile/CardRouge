@@ -1,9 +1,9 @@
 package com.backinfile.cardRouge.cardView.mods
 
-import com.almasb.fxgl.core.math.FXGLMath
 import com.backinfile.cardRouge.Config
 import com.backinfile.cardRouge.Game
 import com.backinfile.cardRouge.Res
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
 import com.backinfile.cardRouge.cardView.CardViewModLayer
@@ -151,8 +151,8 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         if (!isDragging) return
 
         val scale = cardView.modMove.scale.value
-        val cardWidthHalf = Config.CARD_WIDTH * scale / 2.0
-        val cardHeightHalf = Config.CARD_HEIGHT * scale / 2.0
+        val cardWidthHalf = ViewConfig.CARD_WIDTH * scale / 2.0
+        val cardHeightHalf = ViewConfig.CARD_HEIGHT * scale / 2.0
         var fx = Game.getInput().mouseXUI
         var fy = Game.getInput().mouseYUI - cardHeightHalf / 3
 

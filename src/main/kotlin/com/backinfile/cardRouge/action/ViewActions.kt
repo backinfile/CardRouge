@@ -41,12 +41,12 @@ object ViewActions {
         val cardView = CardViewManager.getOrCreate(card)
         cardView.modMove.move(
             pos = cardSlot.position.toPoint2D(),
-            scale = Config.SCALE_SLOT_CARD,
+            scale = ViewConfig.SCALE_SLOT_CARD,
             rotate = 0.0,
             viewOrder = ViewOrder.CARD_BOARD.viewOrder(),
-            duration = Config.ANI_CARD_MOVE_TIME
+            duration = ViewConfig.ANI_CARD_MOVE_TIME
         )
-        board.waitTime(Config.ANI_CARD_MOVE_TIME)
+        board.waitTime(ViewConfig.ANI_CARD_MOVE_TIME)
     }
 
     suspend fun Context.moveCardToDiscardPile(card: Card) {
@@ -73,16 +73,16 @@ object ViewActions {
             val cardView = CardViewManager.getOrCreate(card)
             val duration = cardView.modMove.move(
                 pos = human.slots[curSlotIndex]!!.position.toPoint2D(),
-                scale = Config.SCALE_SLOT_CARD,
-                duration = Config.ANI_CARD_MOVE_TIME
+                scale = ViewConfig.SCALE_SLOT_CARD,
+                duration = ViewConfig.ANI_CARD_MOVE_TIME
             )
             board.waitTime(duration)
         } else { // 行动卡移动到屏幕一角
             val cardView = CardViewManager.getOrCreate(card)
             val duration = cardView.modMove.move(
                 pos = Point2D(Config.SCREEN_WIDTH * 0.1, Config.SCREEN_HEIGHT * 0.9),
-                scale = Config.SCALE_SLOT_CARD,
-                duration = Config.ANI_CARD_MOVE_TIME
+                scale = ViewConfig.SCALE_SLOT_CARD,
+                duration = ViewConfig.ANI_CARD_MOVE_TIME
             )
             cardView.shapeTo(cardView.shape.copy(minion = true))
             board.waitTime(duration)

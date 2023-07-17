@@ -1,6 +1,6 @@
 package com.backinfile.cardRouge.cardView
 
-import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.support.fxgl.opacityColor
 import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
@@ -10,10 +10,10 @@ import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.Stop
 
 object ConstCardSize {
-    val card_width: Double = Config.CARD_WIDTH
-    val card_height: Double = Config.CARD_HEIGHT
-    val card_width_half: Double = Config.CARD_WIDTH / 2f
-    val card_height_half: Double = Config.CARD_HEIGHT / 2f
+    val card_width: Double = ViewConfig.CARD_WIDTH
+    val card_height: Double = ViewConfig.CARD_HEIGHT
+    val card_width_half: Double = card_width / 2f
+    val card_height_half: Double = card_height / 2f
     const val edge_size = 10
     const val glow_edge_size = 5
     val inner_width = card_width - edge_size * 2

@@ -2,6 +2,7 @@ package com.backinfile.cardRouge.viewGroups
 
 import com.almasb.fxgl.core.math.Vec2
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.ViewOrder
 import com.backinfile.cardRouge.card.CardSlot
 import com.backinfile.cardRouge.card.support.CardCrystal
@@ -9,7 +10,7 @@ import com.backinfile.cardRouge.cardView.CardViewManager
 import com.backinfile.support.kotlin.f
 
 object SlotViewUtils {
-    private const val cardScale = Config.SCALE_SLOT_CARD
+    private const val cardScale = ViewConfig.SCALE_SLOT_CARD
     private const val moveHighOffset = 90.0;
     private const val cardCenterDistance = 20.0;
     private const val cardGep = 20.0;
@@ -22,9 +23,9 @@ object SlotViewUtils {
         for (index in 0 until slots.size) {
             val indexOffset = index - slots.size / 2.0 + 0.5
 
-            val targetX: Double = screenXCenter + indexOffset * (Config.CARD_WIDTH * cardScale + cardGep)
-            val targetY: Double = if (isPlayer) screenYCenter + cardCenterDistance + Config.CARD_HEIGHT * cardScale / 2f
-            else screenYCenter - cardCenterDistance - Config.CARD_HEIGHT * cardScale / 2f
+            val targetX: Double = screenXCenter + indexOffset * (ViewConfig.CARD_WIDTH * cardScale + cardGep)
+            val targetY: Double = if (isPlayer) screenYCenter + cardCenterDistance + ViewConfig.CARD_HEIGHT * cardScale / 2f
+            else screenYCenter - cardCenterDistance - ViewConfig.CARD_HEIGHT * cardScale / 2f
 
             slots[index]!!.position.set(targetX.f, targetY.f)
         }

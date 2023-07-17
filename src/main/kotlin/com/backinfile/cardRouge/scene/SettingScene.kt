@@ -3,7 +3,7 @@ package com.backinfile.cardRouge.scene
 import com.almasb.fxgl.dsl.FXGL
 import com.almasb.fxgl.scene.Scene
 import com.almasb.fxgl.scene.SubScene
-import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.support.fxgl.FXGLUtils
 import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
@@ -16,7 +16,7 @@ class SettingScene : SubScene() {
         contentRoot.setPrefSize(width.toDouble(), height.toDouble())
         contentRoot.background = Background(
             BackgroundFill(
-                Config.BACKGROUND_COLOR,
+                ViewConfig.BACKGROUND_COLOR,
                 null,
                 null
             )

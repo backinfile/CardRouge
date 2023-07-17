@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.viewGroups
 
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPlayLogic
@@ -63,17 +64,26 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
                         true,
                         start = {
                             draged = card
+                            cardView.shapeTo(cardView.shape.copy(minion = true))
                             reCalcHandCardState(card)
                         },
                         update = {
                             val nearestSlot =
-                                SlotViewUtils.findNearestSlot(player.slots, cardView.modMove.position.value, 10.0)
+                                SlotViewUtils.findNearestSlot(
+                                    player.slots,
+                                    cardView.modMove.position.value,
+                                    ViewConfig.CARD_WIDTH * ViewConfig.SCALE_DRAG_CARD / 2
+                                )
                             if (nearestSlot != selectSlotIndex) {
                                 if (selectSlotIndex >= 0) {
-                                    CardViewManager.getOrCreate(player.slots[selectSlotIndex]!!.crystal).modView.setGlow(false)
+                                    CardViewManager.getOrCreate(player.slots[selectSlotIndex]!!.crystal).modView.setGlow(
+                                        false
+                                    )
                                 }
                                 if (nearestSlot >= 0) {
-                                    CardViewManager.getOrCreate(player.slots[nearestSlot]!!.crystal).modView.setGlow(true)
+                                    CardViewManager.getOrCreate(player.slots[nearestSlot]!!.crystal).modView.setGlow(
+                                        true
+                                    )
                                 }
                                 selectSlotIndex = nearestSlot
                             }
@@ -81,7 +91,9 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
                         over = {
                             runAsync {
                                 if (selectSlotIndex >= 0) {
-                                    CardViewManager.getOrCreate(player.slots[selectSlotIndex]!!.crystal).modView.setGlow(false)
+                                    CardViewManager.getOrCreate(player.slots[selectSlotIndex]!!.crystal).modView.setGlow(
+                                        false
+                                    )
                                     if (CardPlayLogic.handleDragPlayEnd(context, card, selectSlotIndex)) { // 成功打出
                                         return@runAsync
                                     }
@@ -89,12 +101,14 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
                                 // 没有打出
                                 hovered = null
                                 draged = null
+                                cardView.shapeTo(cardView.shape.copy(minion = false))
                                 reCalcHandCardState(card)
                             }
                         },
                         cancel = {
                             hovered = null
                             draged = null
+                            cardView.shapeTo(cardView.shape.copy(minion = false))
                             reCalcHandCardState(card)
                         },
                     )

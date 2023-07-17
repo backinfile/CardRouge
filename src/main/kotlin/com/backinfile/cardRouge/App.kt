@@ -24,8 +24,8 @@ class App : GameApplication() {
             val scale = ((origW * 1f / Config.SCREEN_WIDTH + origH * 1f / Config.SCREEN_HEIGHT) / 2).toDouble()
             Config.SCREEN_WIDTH = origW
             Config.SCREEN_HEIGHT = origH
-            Config.CARD_WIDTH *= scale
-            Config.CARD_HEIGHT *= scale
+            ViewConfig.CARD_WIDTH *= scale
+            ViewConfig.CARD_HEIGHT *= scale
         } else {
             settings.width = Config.SCREEN_WIDTH
             settings.height = Config.SCREEN_HEIGHT

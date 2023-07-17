@@ -9,7 +9,7 @@ class CardCrystal : Card() {
         get() = CardConfig(
             id = this::class.simpleName!!,
             cardType = GameConfig.CARD_TYPE_SUPPORT,
-            image = "crystal.png",
+            image = "", // crystal.png
             backImage = "crystal_broken.png"
         )
 }

@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.cardView.mods
 
 import com.backinfile.cardRouge.GameConfig
+import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewBaseMod
@@ -58,5 +59,6 @@ class ModMana(cardView: CardView) : CardViewBaseMod(cardView) {
 
     override fun onShapeChange() {
         group.isVisible = !cardView.shape.turnBack && !cardView.shape.minion
+        Log.game.info("visible = ${group.isVisible}")
     }
 }
