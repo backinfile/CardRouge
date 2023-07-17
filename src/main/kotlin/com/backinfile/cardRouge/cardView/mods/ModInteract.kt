@@ -32,10 +32,7 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
 
     private var enableDrag = false
     private var isDragging = false
-    private var dragStartCallback: CardInteractCallback? = null
-    private var dragUpdateCallback: CardInteractCallback? = null
-    private var dragOverCallback: CardInteractCallback? = null
-    private var dragCancelCallback: CardInteractCallback? = null
+    private var dragCallback: CardDragCallback? = null
 
     private var enableClick = false
     private var clickCallback: CardInteractCallback? = null
@@ -114,22 +111,16 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
 
     fun enableDrag(
         enableDrag: Boolean,
-        start: CardInteractCallback? = null,
-        update: CardInteractCallback? = null,
-        over: CardInteractCallback? = null,
-        cancel: CardInteractCallback? = null,
-        triggerCancel: Boolean = true
+        callback: CardDragCallback? = null,
     ): ModInteract {
         this.enableDrag = enableDrag
-        if (start != null) dragStartCallback = start
-        if (update != null) dragUpdateCallback = update
-        if (over != null) dragOverCallback = over
         if (!enableDrag && isDragging) {
             isDragging = false
-            if (triggerCancel) dragCancelCallback?.invoke(cardView)
+            if (callback?.triggerCancel == true) {
+                dragCallback?.cancel(cardView) // 触发正在拖拽中的cancel事件
+            }
         }
-
-        if (cancel != null) dragCancelCallback = cancel
+        this.dragCallback = callback
         return this
     }
 
@@ -162,20 +153,20 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
 
         cardView.modMove.move(Point2D(fx, fy), duration = Duration.millis(70.0))
 
-        dragUpdateCallback?.invoke(cardView)
+        dragCallback?.update(cardView)
     }
 
     private fun initMouseEvent(node: Node) {
         node.addEventHandler(MouseDragEvent.MOUSE_PRESSED) {
             if (it.isPrimaryButtonDown && enableDrag && !isDragging) {
                 isDragging = true
-                dragStartCallback?.invoke(cardView)
+                dragCallback?.start(cardView)
             }
         }
         node.addEventHandler(MouseDragEvent.MOUSE_RELEASED) {
             if (isDragging) {
                 isDragging = false
-                dragOverCallback?.invoke(cardView)
+                dragCallback?.over(cardView)
             }
         }
         node.addEventHandler(MouseEvent.MOUSE_ENTERED) {

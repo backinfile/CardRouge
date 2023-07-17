@@ -5,7 +5,11 @@ import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.card.CardPlayLogic
+import com.backinfile.cardRouge.cardView.CardView
 import com.backinfile.cardRouge.cardView.CardViewManager
+import com.backinfile.cardRouge.cardView.mods.CardDragCallback
+import com.backinfile.cardRouge.human.HumanBase
+import com.backinfile.cardRouge.human.Player
 import com.backinfile.cardRouge.viewGroup.BaseSingleViewGroup
 import com.backinfile.cardRouge.viewGroup.Param
 import com.backinfile.support.async.runAsync
@@ -58,120 +62,15 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
                 })
 
                 if (playTargetInfo.playMinion) { // 拖拽打出随从
-                    val player = context.human
-                    var selectSlotIndex = -1;
-                    cardView.modInteract.enableDrag(
-                        true,
-                        start = {
-                            draged = card
-                            cardView.shapeTo(cardView.shape.copy(minion = true))
-                            reCalcHandCardState(card)
-                        },
-                        update = {
-                            val nearestSlot =
-                                SlotViewUtils.findNearestSlot(
-                                    player.slots,
-                                    cardView.modMove.position.value,
-                                    ViewConfig.CARD_WIDTH * ViewConfig.SCALE_DRAG_CARD / 2
-                                )
-                            if (nearestSlot != selectSlotIndex) {
-                                if (selectSlotIndex >= 0) {
-                                    CardViewManager.getOrCreate(player.slots[selectSlotIndex]!!.crystal).modView.setGlow(
-                                        false
-                                    )
-                                }
-                                if (nearestSlot >= 0) {
-                                    CardViewManager.getOrCreate(player.slots[nearestSlot]!!.crystal).modView.setGlow(
-                                        true
-                                    )
-                                }
-                                selectSlotIndex = nearestSlot
-                            }
-                        },
-                        over = {
-                            runAsync {
-                                if (selectSlotIndex >= 0) {
-                                    CardViewManager.getOrCreate(player.slots[selectSlotIndex]!!.crystal).modView.setGlow(
-                                        false
-                                    )
-                                    if (CardPlayLogic.handleDragPlayEnd(context, card, selectSlotIndex)) { // 成功打出
-                                        return@runAsync
-                                    }
-                                }
-                                // 没有打出
-                                hovered = null
-                                draged = null
-                                cardView.shapeTo(cardView.shape.copy(minion = false))
-                                reCalcHandCardState(card)
-                            }
-                        },
-                        cancel = {
-                            hovered = null
-                            draged = null
-                            cardView.shapeTo(cardView.shape.copy(minion = false))
-                            reCalcHandCardState(card)
-                        },
-                    )
+                    cardView.modInteract.enableDrag(true, DragPlayMinionCallback(context.human as Player, context))
                 } else { // 拖拽打出行动
-                    cardView.modInteract.enableDrag(
-                        true,
-                        start = {
-                            draged = card
-                            reCalcHandCardState(card)
-                        },
-                        update = {
-                        },
-                        over = {
-                            runAsync {
-                                if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
-                                    if (CardPlayLogic.handleDragPlayEnd(context, card)) { // 成功打出
-                                        return@runAsync
-                                    }
-                                }
-                                // 没有打出
-                                hovered = null
-                                draged = null
-                                reCalcHandCardState(card)
-                            }
-                        },
-                        cancel = {
-                            hovered = null
-                            draged = null
-                            reCalcHandCardState(card)
-                        },
-                    )
+                    cardView.modInteract.enableDrag(true, DragPlayActionCallback(context.human as Player, context))
                 }
             } else {
                 // 只允许一点拖拽，超出后复原
-                cardView.modInteract.enableDrag(
-                    true,
-                    start = {
-                        draged = card
-                        reCalcHandCardState(card)
-                    },
-                    update = {
-                        if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
-                            cardView.modInteract.enableDrag(false)
-                            cardView.modInteract.enableDrag(true)
-                        }
-                    },
-                    over = {
-                        hovered = null
-                        draged = null
-                        reCalcHandCardState(card)
-                    },
-                    cancel = {
-                        hovered = null
-                        draged = null
-                        reCalcHandCardState(card)
-                    },
-                )
+                cardView.modInteract.enableDrag(true, DragFakeCallback())
             }
         }
-    }
-
-    fun updateCardViewOperationState() {
-
     }
 
     private fun reCalcHandCardState(): Duration {
@@ -209,5 +108,132 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
         }
         val info = HandPositionUtils.CardInfo(cardState, index, cardsInOrder.size)
         return HandPositionUtils.setCardState(cardView, info)
+    }
+
+    private class DragPlayMinionCallback(private val player: Player, private val context: Context) : CardDragCallback {
+
+        private var selectSlotIndex = -1
+
+        override fun start(cardView: CardView) {
+            super.start(cardView)
+            draged = cardView.card
+            cardView.shapeTo(cardView.shape.copy(minion = true))
+            reCalcHandCardState(cardView.card)
+        }
+
+        override fun update(cardView: CardView) {
+            super.update(cardView)
+
+            val nearestSlot =
+                SlotViewUtils.findNearestSlot(
+                    player.slots,
+                    cardView.modMove.position.value,
+                    ViewConfig.CARD_WIDTH * ViewConfig.SCALE_DRAG_CARD / 2,
+                )
+            if (nearestSlot != selectSlotIndex) {
+                if (selectSlotIndex >= 0) {
+                    val crystal = player.slots[selectSlotIndex]!!.crystal
+                    CardViewManager.getOrCreate(crystal).modView.setGlow(false)
+                }
+                if (nearestSlot >= 0) {
+                    val crystal = player.slots[nearestSlot]!!.crystal
+                    CardViewManager.getOrCreate(crystal).modView.setGlow(true)
+                }
+                selectSlotIndex = nearestSlot
+            }
+        }
+
+        override fun over(cardView: CardView) {
+            super.over(cardView)
+            runAsync {
+                if (selectSlotIndex >= 0) {
+                    CardViewManager.getOrCreate(player.slots[selectSlotIndex]!!.crystal).modView.setGlow(false)
+                    if (CardPlayLogic.handleDragPlayEnd(context, cardView.card, selectSlotIndex)) { // 成功打出
+                        return@runAsync
+                    }
+                }
+                // 没有打出
+                hovered = null
+                draged = null
+                cardView.shapeTo(cardView.shape.copy(minion = false))
+                reCalcHandCardState(cardView.card)
+            }
+        }
+
+        override fun cancel(cardView: CardView) {
+            super.cancel(cardView)
+            hovered = null
+            draged = null
+            cardView.shapeTo(cardView.shape.copy(minion = false))
+            reCalcHandCardState(cardView.card)
+        }
+    }
+
+    private class DragPlayActionCallback(private val player: Player, private val context: Context) : CardDragCallback {
+
+        override fun start(cardView: CardView) {
+            super.start(cardView)
+            val card = cardView.card
+            draged = card
+            reCalcHandCardState(card)
+        }
+
+        override fun update(cardView: CardView) {
+            super.update(cardView)
+        }
+
+        override fun over(cardView: CardView) {
+            super.over(cardView)
+            runAsync {
+                if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
+                    if (CardPlayLogic.handleDragPlayEnd(context, cardView.card)) { // 成功打出
+                        return@runAsync
+                    }
+                }
+                // 没有打出
+                hovered = null
+                draged = null
+                reCalcHandCardState(cardView.card)
+            }
+        }
+
+        override fun cancel(cardView: CardView) {
+            super.cancel(cardView)
+            hovered = null
+            draged = null
+            reCalcHandCardState(cardView.card)
+        }
+
+    }
+
+    private class DragFakeCallback() : CardDragCallback {
+        override fun start(cardView: CardView) {
+            super.start(cardView)
+            val card = cardView.card
+            draged = card
+            reCalcHandCardState(card)
+        }
+
+        override fun update(cardView: CardView) {
+            super.update(cardView)
+            if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
+                cardView.modInteract.enableDrag(false)
+                cardView.modInteract.enableDrag(true)
+            }
+        }
+
+        override fun over(cardView: CardView) {
+            super.over(cardView)
+            hovered = null
+            draged = null
+            reCalcHandCardState(cardView.card)
+        }
+
+        override fun cancel(cardView: CardView) {
+            super.cancel(cardView)
+            hovered = null
+            draged = null
+            reCalcHandCardState(cardView.card)
+        }
     }
 }

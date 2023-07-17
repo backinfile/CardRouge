@@ -59,6 +59,5 @@ class ModMana(cardView: CardView) : CardViewBaseMod(cardView) {
 
     override fun onShapeChange() {
         group.isVisible = !cardView.shape.turnBack && !cardView.shape.minion
-        Log.game.info("visible = ${group.isVisible}")
     }
 }
