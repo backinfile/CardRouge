@@ -4,12 +4,12 @@ import com.backinfile.cardRouge.GameConfig
 import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.Res
 import com.backinfile.cardRouge.action.Actions.changeBoardStateTo
-import com.backinfile.cardRouge.action.Actions.moveCardToDiscardPile
+import com.backinfile.cardRouge.action.Actions.discard
 import com.backinfile.cardRouge.action.Actions.summonTo
 import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.action.ViewActions
-import com.backinfile.cardRouge.action.ViewActions.refreshHandPileView
-import com.backinfile.cardRouge.action.ViewActions.selectCardTarget
+import com.backinfile.cardRouge.action.ViewActions.viewRefreshHandPileView
+import com.backinfile.cardRouge.action.ViewActions.viewSelectCardTarget
 import com.backinfile.cardRouge.action.waitCondition
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.human.Player
@@ -48,9 +48,9 @@ object CardPlayLogic {
      */
     suspend fun handleDragPlayEnd(context: Context, card: Card, curSlotIndex: Int = -1): Boolean {
         disablePlayerCardInHand(context)
-        val selectResult = context.selectCardTarget(card, curSlotIndex)
+        val selectResult = context.viewSelectCardTarget(card, curSlotIndex)
         if (!selectResult.ok) {
-            context.refreshHandPileView()
+            context.viewRefreshHandPileView()
             enablePlayCardInHand(context)
             return false
 
@@ -93,8 +93,6 @@ object CardPlayLogic {
         human.mana = maxOf(0, human.mana - card.manaCost)
 
 
-
-
         // card effect
         when (card.confCard.cardType) {
             GameConfig.CARD_TYPE_UNIT -> {
@@ -105,7 +103,7 @@ object CardPlayLogic {
 
             GameConfig.CARD_TYPE_ACTION -> {
                 // 触发打出效果 TODO
-                moveCardToDiscardPile(card)
+                discard(card, triggerDiscardEvent = false)
             }
 
             else -> {
@@ -114,7 +112,7 @@ object CardPlayLogic {
         }
 
 
-        refreshHandPileView()
+        viewRefreshHandPileView()
     }
 
 

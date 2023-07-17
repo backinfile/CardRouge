@@ -1,12 +1,11 @@
 package com.backinfile.cardRouge.action
 
 import com.backinfile.cardRouge.Log
-import com.backinfile.cardRouge.action.ViewActions.attackView
-import com.backinfile.cardRouge.action.Actions.discard
-import com.backinfile.cardRouge.action.ViewActions.moveCardToDiscardPile
-import com.backinfile.cardRouge.action.ViewActions.moveCardToSlot
-import com.backinfile.cardRouge.action.ViewActions.refreshHandPileView
-import com.backinfile.cardRouge.action.ViewActions.updatePileNumber
+import com.backinfile.cardRouge.action.ViewActions.viewAttack
+import com.backinfile.cardRouge.action.ViewActions.viewMoveCardToDiscardPile
+import com.backinfile.cardRouge.action.ViewActions.viewMoveCardToSlot
+import com.backinfile.cardRouge.action.ViewActions.viewRefreshHandPileView
+import com.backinfile.cardRouge.action.ViewActions.viewUpdatePileNumber
 import com.backinfile.cardRouge.board.Board
 import com.backinfile.cardRouge.card.Card
 import com.backinfile.cardRouge.human.HumanBase
@@ -25,7 +24,7 @@ object Actions {
         board.removeCard(card)
 
         // 播放动画
-        attackView(card, targetSlotIndex)
+        viewAttack(card, targetSlotIndex)
 
         val targetSlot = human.opponent.slots[targetSlotIndex]!!
 
@@ -53,8 +52,8 @@ object Actions {
             slot.minion = card
         }
 
-        moveCardToSlot(slotIndex, card)
-        refreshHandPileView()
+        viewMoveCardToSlot(slotIndex, card)
+        viewRefreshHandPileView()
     }
 
     suspend fun Context.replace(slotIndex: Int, card: Card) {
@@ -68,13 +67,6 @@ object Actions {
         human.drawPile.shuffle(dungeon.cardRandom)
     }
 
-    suspend fun Context.moveCardToDiscardPile(card: Card) {
-        board.removeCard(card)
-        if (human is Player) {
-            human.discardPile.addCard(card)
-        }
-        updatePileNumber()
-    }
 
     suspend fun Context.drawCard(number: Int = 1) {
         for (i in 0 until number) drawOneCard()
@@ -95,7 +87,7 @@ object Actions {
         human.handPile.addCard(card)
         Log.game.info("player draw 1 card {}", card.confCard.title)
 
-        refreshHandPileView()
+        viewRefreshHandPileView()
     }
 
     suspend fun Context.attack(attackCard: Card, targetSlotIndex: Int, heavyAttack: Boolean = true) {
@@ -128,12 +120,13 @@ object Actions {
         }
     }
 
-    suspend fun Context.discard(card: Card) {
+    suspend fun Context.discard(card: Card, triggerDiscardEvent: Boolean = true) {
         board.removeCard(card)
         if (human is Player) {
             human.discardPile.addCard(card)
-            moveCardToDiscardPile(card)
+            viewMoveCardToDiscardPile(card)
         }
+        viewUpdatePileNumber()
     }
 
     suspend fun Context.seal(targetHuman: HumanBase, index: Int) {

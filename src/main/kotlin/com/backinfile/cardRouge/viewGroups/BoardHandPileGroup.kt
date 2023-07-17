@@ -1,6 +1,7 @@
 package com.backinfile.cardRouge.viewGroups
 
 import com.backinfile.cardRouge.Config
+import com.backinfile.cardRouge.Log
 import com.backinfile.cardRouge.ViewConfig
 import com.backinfile.cardRouge.action.Context
 import com.backinfile.cardRouge.card.Card
@@ -180,6 +181,11 @@ object BoardHandPileGroup : BaseSingleViewGroup<Param>() {
 
         override fun update(cardView: CardView) {
             super.update(cardView)
+            if (cardView.modMove.position.value.y < Config.SCREEN_HEIGHT * 0.7) {
+                cardView.modView.setGlow(true)
+            } else {
+                cardView.modView.setGlow(false)
+            }
         }
 
         override fun over(cardView: CardView) {

@@ -9,22 +9,23 @@ import com.backinfile.cardRouge.viewGroups.*
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.geometry.Point2D
 
+// 动画动作，没有数据改变
 object ViewActions {
-    suspend fun Context.refreshHandPileView() {
+    suspend fun Context.viewRefreshHandPileView() {
         if (human !is Player) return
         val duration = BoardHandPileGroup.refreshHandCardAction(human.handPile.toList())
         board.waitTime(duration)
     }
 
-    suspend fun Context.updatePileNumber() {
+    suspend fun Context.viewUpdatePileNumber() {
 
     }
 
 
-    suspend fun Context.attackView(card: Card, targetSlotIndex: Int) {
+    suspend fun Context.viewAttack(card: Card, targetSlotIndex: Int) {
     }
 
-    suspend fun Context.createCardViewAtDrawPile(card: Card): CardView {
+    suspend fun Context.viewCreateCardViewAtDrawPile(card: Card): CardView {
         val cardView = CardViewManager.getOrCreate(card)
         cardView.modMove.move(
             pos = Point2D(Config.SCREEN_WIDTH * 0.9, Config.SCREEN_HEIGHT * 0.9),
@@ -35,7 +36,8 @@ object ViewActions {
         return cardView
     }
 
-    suspend fun Context.moveCardToSlot(slotIndex: Int, card: Card) {
+
+    suspend fun Context.viewMoveCardToSlot(slotIndex: Int, card: Card) {
         val cardSlot = human.slots[slotIndex]!!
 
         val cardView = CardViewManager.getOrCreate(card)
@@ -49,8 +51,16 @@ object ViewActions {
         board.waitTime(ViewConfig.ANI_CARD_MOVE_TIME)
     }
 
-    suspend fun Context.moveCardToDiscardPile(card: Card) {
-        TODO()
+    suspend fun Context.viewMoveCardToDiscardPile(card: Card) {
+        val cardView = CardViewManager.getOrCreate(card)
+        cardView.modMove.move(
+            pos = Point2D(0.0, 0.0),
+            scale = 0.0,
+            viewOrder = ViewOrder.PILE_ICON.viewOrder(),
+            duration = ViewConfig.ANI_CARD_MOVE_TIME
+        )
+        board.waitTime(ViewConfig.ANI_CARD_MOVE_TIME)
+        CardViewManager.remove(card)
     }
 
 
@@ -60,7 +70,7 @@ object ViewActions {
         val ok: Boolean = true
     )
 
-    suspend fun Context.selectCardTarget(card: Card, curSlotIndex: Int): SelectTargetResult {
+    suspend fun Context.viewSelectCardTarget(card: Card, curSlotIndex: Int): SelectTargetResult {
         if (human !is Player) throw SysException("")
         val playTargetInfo = card.playTargetInfo ?: return SelectTargetResult(ok = false)
 

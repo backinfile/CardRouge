@@ -116,11 +116,13 @@ class ModInteract(cardView: CardView) : CardViewBaseMod(cardView) {
         this.enableDrag = enableDrag
         if (!enableDrag && isDragging) {
             isDragging = false
-            if (callback?.triggerCancel == true) {
+            if (callback?.triggerCancel != false) {
                 dragCallback?.cancel(cardView) // 触发正在拖拽中的cancel事件
             }
         }
-        this.dragCallback = callback
+        if (callback != null) {
+            this.dragCallback = callback
+        }
         return this
     }
 
